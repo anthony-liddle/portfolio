@@ -5,11 +5,11 @@ import { projects } from '@/content/projects';
 export const metadata: Metadata = {
   title: 'Work',
   description:
-    "A selection of things I've built, both at work and on my own time.",
+    "Selected projects and case studies from Anthony Liddle, Staff / Lead Frontend Engineer. From Mozilla's Pocket to side projects in audio, games, and civic tech.",
   openGraph: {
     title: 'Work — Anthony Liddle',
     description:
-      "A selection of things I've built, both at work and on my own time.",
+      "Selected projects and case studies from Anthony Liddle, Staff / Lead Frontend Engineer. From Mozilla's Pocket to side projects in audio, games, and civic tech.",
   },
 };
 
