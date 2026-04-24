@@ -25,13 +25,6 @@ export const metadata: Metadata = {
   },
   description:
     'Staff / Lead Frontend Engineer in Portland, OR. Building data-intensive web and mobile products at BreakAway Data. Previously at Microsoft and Mozilla.',
-  icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: '32x32' },
-    ],
-    apple: '/apple-touch-icon.png',
-  },
   openGraph: {
     title: 'Anthony Liddle',
     description:
