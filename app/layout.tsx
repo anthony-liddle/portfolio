@@ -18,12 +18,12 @@ const libreBaskerville = Libre_Baskerville({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://anthonyliddle.dev'),
   title: {
     default: 'Anthony Liddle',
     template: '%s — Anthony Liddle',
   },
   description: 'Staff / Lead Frontend Engineer in Portland, OR',
-  metadataBase: new URL('https://anthonyliddle.dev'),
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
@@ -37,20 +37,11 @@ export const metadata: Metadata = {
     url: 'https://anthonyliddle.dev',
     siteName: 'Anthony Liddle',
     type: 'website',
-    images: [
-      {
-        url: '/og-default.png',
-        width: 1200,
-        height: 630,
-        alt: 'Anthony Liddle — Staff / Lead Frontend Engineer',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Anthony Liddle',
     description: 'Staff / Lead Frontend Engineer in Portland, OR',
-    images: ['/og-default.png'],
   },
 };
 

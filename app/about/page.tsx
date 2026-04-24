@@ -2,7 +2,13 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'Staff / Lead Frontend Engineer in Portland, OR.',
+  description:
+    'A bit about Anthony Liddle — Staff / Lead Frontend Engineer in Portland, OR.',
+  openGraph: {
+    title: 'About — Anthony Liddle',
+    description:
+      'A bit about Anthony Liddle — Staff / Lead Frontend Engineer in Portland, OR.',
+  },
 };
 
 export default function AboutPage() {

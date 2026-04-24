@@ -4,7 +4,13 @@ import { projects } from '@/content/projects';
 
 export const metadata: Metadata = {
   title: 'Work',
-  description: 'Selected projects and case studies by Anthony Liddle.',
+  description:
+    "A selection of things I've built, both at work and on my own time.",
+  openGraph: {
+    title: 'Work — Anthony Liddle',
+    description:
+      "A selection of things I've built, both at work and on my own time.",
+  },
 };
 
 export default function WorkPage() {
