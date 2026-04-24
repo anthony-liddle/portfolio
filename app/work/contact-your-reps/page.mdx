@@ -1,0 +1,88 @@
+export const metadata = {
+  title: 'Contact Your Reps',
+  description: 'A free, open-source tool for contacting US federal representatives.',
+};
+
+# Contact Your Reps
+
+**A free, open-source tool for contacting your US federal representatives, with a visualization of each House member's voting record alongside the issues users care about.**
+
+Active · [Live site](https://contact-your-reps.org) · [Source](https://github.com/anthony-liddle/contact-your-reps)
+
+## The Pitch
+
+You type your ZIP code. The site shows you your two senators and your House representative, with phone numbers, field offices, photos, and for House members a link to their voting record. You pick any number of 19 curated issues you want to write about. The site generates a message. You can edit it, copy it to your clipboard, and paste it into your rep's official contact form.
+
+The site never emails anyone. It never posts a message to a backend. It doesn't know your name or your address. When you close the tab, it forgets your ZIP code. Analytics is one aggregate page-view counter, no behavioral tracking. The whole contact mechanism is deliberately manual, because a personalized message is more likely to be read than a form letter, and because a tool that cannot send messages on your behalf is structurally unable to misrepresent you.
+
+I built this because I wanted something between "find my rep's phone number" and "a signup funnel for a campaign." And because I wanted to put the rep's actual voting record on the issue you care about in front of you, at the moment you decide whether to write to them.
+
+## The Interesting Problem
+
+The obvious technical surface of this tool is small: a form, a lookup, a message template, a clipboard call. The actual work is upstream and downstream of that.
+
+Upstream is the question of where the rep data comes from and whether it's fresh. An incorrect representative is worse than no representative. The site delegates district resolution to the 5calls API, which is purpose-built for civic contact and returns a natural-language justification explaining why a ZIP resolves to a given rep. This justification is rhetorically useful in its own right; it's printed on the rep card so the user can see the lookup's reasoning, not just its result.
+
+Downstream is the voting record. Most civic tools stop at "here are your reps and how to reach them." I wanted a user about to write a rep about climate to see, in one glance, how that rep has voted on climate. That required building a feature called Voteprint: a custom donut-ring canvas chart where wedges correspond to issue categories, spokes correspond to individual roll call votes, and spoke direction and length encode whether the rep's vote aligned with or opposed a progressive stance on that issue.
+
+That surfaced the hardest problem in the project: how do you assign a "progressive stance" to every roll call vote in an entire Congress without either (a) hiring a policy analyst or (b) just making it up? The answer I built is an AI pipeline with a mandatory human review step. Claude Haiku reads each enriched vote (bill title, policy area, official summary) in batches of 20 and outputs a category, a stance (does a yea vote advance the position associated with this issue), a confidence score, and a one-sentence note. High-confidence entries land in a suggestions file; I review them manually; `pnpm run apply-mappings` merges the ones I approve into the canonical dataset. There is a commit in the repo titled "correct vote-mappings hallucinations and stance errors," which is the honest reason the review step isn't optional.
+
+This is a case where trust is a system property: the user should be able to verify the claim by inspecting what the system cannot do.
+
+## Key Decisions and Tradeoffs
+
+**Copy-paste contact, not mailto or backend submission.** The site generates a message and puts it on the clipboard. The user then clicks through to the rep's website and pastes it into the official contact form themselves. This looks like a UX compromise, but it’s the core design decision. Two reasons: congressional offices machine-filter form letters, so a message the user has personalized or lightly edited is more likely to be read; and a site that has no code path for sending messages is structurally unable to misrepresent a user. The privacy claim becomes a statement about what the code cannot do, not a promise about what it won’t. Every other decision in the project is downstream of this one.
+
+**sessionStorage over localStorage, with a comment saying so.** The user's ZIP lives in `sessionStorage` so that within one tab session, switching between the home page and a rep's voting-record page doesn't require re-entering it. The choice of `sessionStorage` over `localStorage` is explicitly documented in a comment in `app/page.tsx` as being consistent with the app's "We do not store your data" stance. Tab close clears it. There are no cookies, no accounts, no per-user history.
+
+**A server-side proxy to hide the 5calls token, and nothing else on the server.** The Next.js app has exactly two API routes: one that proxies a ZIP lookup to 5calls (to keep the 5calls token out of the browser) and one that warms the voting-record cache in Vercel Blob. Neither receives any user data beyond a ZIP code. The rest of the app is client-rendered. The backend exists only where necessary.
+
+**Voteprint as a custom canvas, not a charting library.** The donut-ring visualization is ~320 lines of raw Canvas API in a single component. Wedges are proportional to vote count per category. Spokes represent individual votes, with four encodings: outward long spoke for aligned, inward short spoke for opposed, outward medium stub for a yea with no stance known, outward short stub for a nay with no stance known, absent votes not drawn at all. It's keyboard-navigable (left/right cycles categories, enter toggles, escape clears), includes a live `aria-label` that updates with the current filter and includes keyboard instructions, has a visually hidden text summary for screen readers ("X yea out of Y, Z categorized, filter: Climate Justice"), and redraws on `prefers-color-scheme` change. No Recharts, no D3, no charting library in the bundle at all. The tradeoff is that I wrote and tested the drawing code myself; the payoff is full control over the visual language and a genuinely distinctive artifact.
+
+**AI-suggested vote categorization with mandatory human review.** `pnpm run map-votes` fetches votes from Congress.gov, sends batches of 20 to Claude Haiku with a system prompt describing all 19 issue categories and asking for a category, a stance, a confidence score, and a one-sentence note. Suggestions land in `vote-mappings-suggestions.json`. I review them by hand. `pnpm run apply-mappings` merges only the high-confidence entries I've approved. The pipeline is the thing that makes Voteprint possible at all; the review step is the thing that makes its output trustworthy. This is the appropriate shape for any AI-assisted pipeline operating on public-facing data: the model drafts, a human approves, the canonical dataset never contains an unreviewed entry.
+
+**A curated set of 19 issues, editorially voiced, not neutral.** The issues are intentionally curated: universal healthcare, climate justice, police violence, trans rights, immigration and ICE, workers' rights, housing, student debt, voting rights, foreign policy, corporate power, reproductive justice, LGBTQ+ rights, disability rights, racial justice, indigenous sovereignty, surveillance and digital rights, drug decriminalization, food sovereignty. The message paragraphs are written with strong language: "I demand," "your silence is complicity," "represent us, or we will find someone who will." The landing page copy is neutral; the messages are not. This is a deliberate editorial stance. A politically neutral civic template is less effective. If the project doesn't take a position, it competes with every pre-filled form letter a reader has learned to discard, and loses.
+
+**Proactive background cache warming, low-priority and silent.** After a ZIP lookup returns reps, the home page waits two seconds and fires low-priority `fetch()` calls to the voting-record API endpoint for each House rep. Those calls populate Vercel Blob cache so the first visit to a rep's voting-record page finds cached data. Errors are swallowed with `.catch(() => {})` intentionally; the warming is a best-effort optimization, not a contract. It’s a minimal piece of engineering to make the next click in the user's likely flow feel instant.
+
+## On the AI Pipeline
+
+This is worth calling out separately: "I used an AI in the build pipeline" is becoming a claim people make without evidence. The evidence here:
+
+The prompt constrains the output to a fixed schema (category, stance, confidence, note) and includes all 19 issue categories with descriptions. Haiku returns structured JSON. Results are split into high-confidence and review buckets based on confidence threshold. Only high entries are eligible for merging, and even those are written to a separate suggestions file I review manually before `apply-mappings` touches the canonical data.
+
+The canonical dataset has 143 vote mappings across 18 of the 19 categories, covering roll calls from the 118th and 119th Congress. The one uncovered category (queer-rights) has zero mappings because no votes met the confidence threshold.
+
+I use AI because manually reading the bill summary for every roll call in a Congress is the kind of work that makes a side project impossible. I use a review step because Haiku is fast and wrong sometimes, and a public-facing civic dataset is not the place for "sometimes."
+
+## Stack
+
+Next.js 16 with the App Router, React 19, TypeScript 6 (strict mode enabled). Five production dependencies: `next`, `react`, `react-dom`, `@vercel/analytics`, `@vercel/blob`. Jest with jsdom for tests, 243 test cases across 21 files. Pre-commit hook runs lint-staged; CI runs lint, test, and build on every push. Deployed on Vercel. Voteprint data caches in Vercel Blob with a 24-hour TTL. Development uses a filesystem cache in `.cache/voteprint`. MIT license, code of conduct, contribution guidelines, issue and PR templates.
+
+## Numbers
+
+- 8,282 lines of source across 62 files. 21 test files, ~243 assertions.
+- 5 production dependencies. 2 serverless API routes. No database.
+- 19 curated issues. 143 Congressional roll call mappings across 18 of them.
+- Voteprint canvas: ~320 lines, no charting library, four visual spoke encodings, keyboard-navigable, responsive to `prefers-color-scheme`.
+- Cache warming: 2-second delay after ZIP lookup, `priority: 'low'`, errors intentionally ignored as best-effort behavior.
+- Congress.gov fetches: up to 100 roll calls × 2 endpoints per member on first load, hence the 60-second timeout on the voting-record page.
+- AI pipeline: `claude-haiku-4-5-20251001`, batches of 20, stance + confidence required, results always gated by a human review step.
+
+## What I'd Do Differently
+
+The `lowAccuracy` flag returned by the 5calls API for split ZIP codes and low-confidence matches is currently ignored. I should surface it. A user whose ZIP spans two districts deserves to be told, and a "we're not sure about this lookup" badge is a small, high-trust addition.
+
+Voteprint currently supports only the House of Representatives because the Congress.gov API doesn't expose Senate roll call detail in the same way. The code has a TODO to add Senate support when the endpoint goes live. Right now senators get a static rep card and House members get a card plus a voting-record link, and that asymmetry is a visible gap.
+
+There's an unused module, `lib/legislators-data.ts`, from an earlier iteration that fetched `unitedstates/congress-legislators` data to supplement a prior data source. After the switch to 5calls the supplementary data wasn't needed, but the module is still in the tree. Dead code is a small issue, I should delete it.
+
+No automated accessibility testing in CI. I've been careful manually (ARIA landmarks, role attributes on the canvas, keyboard navigation on the chart, live aria-labels, `sr-only` summaries) but a `jest-axe` pass on every build would establish a baseline rather than relying on vigilance. It's on the list.
+
+And focus management on route transitions is whatever Next.js App Router does by default, which is not much. For a tool that real people navigate with screen readers, focus handling is another place where a reliable baseline matters more than perfection.
+
+## What's Next?
+
+Senate voting records once Congress.gov exposes them. Surfacing the lowAccuracy signal from 5calls. A proper accessibility audit with tooling in CI. And periodic runs of the AI pipeline as new Congresses begin; the canonical dataset is accurate for the 118th and 119th but will need new roll call mappings for the 120th.
+
+The next major area is campaign finance transparency. Who's funding this rep? Which industries, which PACs, which individual donors? The OpenSecrets and FEC datasets are public, the shape of the data is workable, and the design question is the interesting one: how do you surface "who might be influencing this person" in a way that's informative without being insinuating. Voteprint shows you how a rep votes on the issues you care about. The next layer shows you where the pressure on their vote is coming from. Put the two next to each other and a user walks away knowing something real before they pick up the phone.

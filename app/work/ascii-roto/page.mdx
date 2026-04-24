@@ -1,0 +1,69 @@
+export const metadata = {
+  title: 'ascii-roto',
+  description: 'A CLI that converts video files into ASCII animations.',
+};
+
+# ascii-roto
+
+**A command-line tool that converts video files into ASCII animations. Originally built to generate the hand gestures in RO-SHAM-BO.EXE, later extended to support color for a future project.**
+
+Active · [Source](https://github.com/anthony-liddle/ascii-roto)
+
+## The Pitch
+
+You give ascii-roto a video file. It shells out to `ffmpeg` to extract the frames, runs each frame through Jimp to downsample and convert to ASCII characters using a luminance ramp, and emits one of three outputs: an MP4 of the ASCII animation, an ES module you can import into a web project, or a self-contained HTML player. The defaults produce the MP4 and the JS module in one run.
+
+ASCII rotoscoping has been an idea I've carried around for more than a decade. I never sat down to build it because I was waiting for the right project, the one where the aesthetic would genuinely matter rather than just be a stylistic choice. RO-SHAM-BO.EXE was that project. The game's terminal aesthetic needed to feel lived-in, and nothing makes a terminal feel grounded like filmed human movement rendered in characters. I started with the facial animations because that's where the visual impact would land hardest; the rock-paper-scissors hand gestures came after. The tool started as a one-off script where I would hardcode filenames and paths, and now it's a proper CLI.
+
+## The Interesting Problem
+
+There wasn't a single hard technical problem. The challenge was a *shape problem*: defining a boundary between two messy domains (video codecs and JavaScript) while keeping the output simple and predictable. The decision was whether to make that output genuinely minimal or to compromise.
+
+Simple meant: a consumer should be able to `import animation from './<filename>.js'` and have a plain array of frame strings, each one a single string with `\n` separating rows, nothing more. No classes, no factory function, no setup step, no runtime decoding. If I got that boundary right, the game code could treat ASCII animations as almost indistinguishable from any other static asset.
+
+That constraint shaped everything upstream. It meant the CLI couldn't output a binary format or a compressed variant; the file on disk had to be human-readable and diff-able. It meant the frames had to be trimmed of leading blank rows conservatively (minimum across all frames, not per-frame) so that the top of the animation stayed aligned. It meant aspect ratio had to be preserved on the way in, even though the output would look stretched in a terminal because monospace characters are about twice as tall as they are wide.
+
+This constraint, treating generated output as a static asset, kept the tool easy to adopt and eliminated an entire class of runtime complexity for consumers.
+
+Color was the second problem, and it came later. Color wasn't needed for RO-SHAM-BO.EXE; the game's aesthetic is monochrome-on-green terminal. But I wanted to extend the tool for a future project. Adding color required reshaping the output format enough that it was a small rewrite rather than a toggle. The color JS module emits `{ text, colors }` per frame instead of a bare string, with a 2D array of `{r, g, b}` objects. This preserves backward compatibility: consumers that don’t care about color can ignore the colors field, while those that do get full fidelity.
+
+## Key Decisions and Tradeoffs
+
+**ffmpeg as a system binary, not a bundled one.** Frames are extracted by shelling out to the user's installed `ffmpeg` via `fluent-ffmpeg`. The alternative was bundling `ffmpeg.wasm` (or a smaller WASM decoder) so the tool would work anywhere without prerequisites. I kept the system binary because ascii-roto is a local authoring tool, not a library people are embedding; adding 40MB of WASM to avoid a one-line install felt like the wrong tradeoff.
+
+**Jimp for image decoding, no native dependencies I had to build.** Pure JavaScript, slow enough that it's visibly a bottleneck on long videos, fast enough for a target use case on the animations I actually need. The tool was never going to ship as a library and frame-processing speed was never the constraint that mattered.
+
+**Luminance via BT.601, no perceptual tuning.** The standard `0.299 R + 0.587 G + 0.114 B` formula, no gamma correction, no contrast controls. I considered exposing a gamma flag and cut it. Anyone who wants different tonal mapping can pre-process their video in the app they're already comfortable with (DaVinci, Premiere, whatever). Baking a second color grading surface into this tool was out of scope.
+
+**The JS module format was inherited from the prototype rather than redesigned.** The original prototype emitted an ES module with template-literal variables named `file1`, `file2`, and so on, exported as a default array. I built the RPS game to consume whatever the prototype produced. When I later rewrote the prototype as the CLI's JS output format, I kept the exact naming convention (including the slightly weird `file1` / `file2` variable names) because changing it would have broken the game. It isn't what I'd design if I were starting today. It's what worked on the first try, and there’s real value in preserving a working contract once it has a consumer.
+
+**Aspect ratio is preserved on the input, not corrected for character cells.** A 1:1 source pixel becomes a single character, but a character in a monospace font is roughly 0.5 wide for every 1 tall. The output is visually stretched vertically unless the consumer compensates in their rendering (via font size or letter spacing). The MP4 output does compensate because it renders to canvas. The raw JS module does not. I thought about baking in a width/height correction and decided against it: the output stays "one pixel in, one character out," which is conceptually simple, and the consumer owns the final visual presentation. This is one of two decisions in the tool I'm still not sure about.
+
+**Color support added after the first project shipped.** Color is a separate code path: the JS module output switches from emitting a string per frame to emitting `{ text, colors }`, HTML output pre-renders `<span style="color:rgb(...)">` per character, MP4 output uses measured text width to position each character at the correct x-coordinate. Adding this later, with the B&W path already working, was a good constraint: it forced the color path to match the B&W path's output shape at every stage rather than diverging. A consumer can check the shape of the first frame and branch cleanly. The tradeoff is that the color JS modules are roughly 20-30x larger on disk than the B&W ones. Acceptable for a local authoring tool; a real problem if you were shipping them over the wire.
+
+## Stack
+
+Node.js CLI built with TypeScript, compiled by `tsc`, no bundler. Commander for argument parsing, `fluent-ffmpeg` for video decoding, Jimp for image processing, ora for progress spinners, chalk for terminal color, `canvas` for rendering the ASCII-to-image step. Vitest with a unit/integration split; the integration test generates a 1-second test video via `ffmpeg`'s `lavfi` and runs the full pipeline end to end. Pre-commit hook runs typecheck, lint, and the unit tests. A GitHub Action runs the same checks on push.
+
+## Numbers
+
+- 823 lines of TypeScript across 14 source files. Largest file is `src/output/html.ts` at 166 lines.
+- 6 runtime dependencies. No native modules I have to build myself; the `canvas` package ships prebuilt binaries.
+- Default character ramp is 10 characters: `' .:-=+*#%@'`, space through at-sign. Configurable via `--chars`.
+- Default width is 80 characters, default FPS is 12, default output is MP4 and JS module together.
+- Three output formats: MP4, JS (ES module), and HTML (self-contained player).
+- 491 lines of tests across 7 files. The pipeline integration test generates its own input video at runtime.
+
+## What I'd Do Differently
+
+The largest two files, `src/pipeline/convert.ts` and `src/output/render.ts`, have no unit tests. They're covered by the integration test, but the pixel loop and the canvas rendering are exactly the places I'd want unit tests if this tool ever grew. The reason they don't have them is that mocking Jimp and canvas cleanly is annoying enough that I kept putting it off. I should stop putting it off.
+
+The frame-processing loop is single-threaded. Jimp decodes each PNG, does the resize, and runs the pixel loop sequentially. On a long video the bottleneck is visible and frustrating. Moving the conversion stage to worker threads, even naively one worker per N frames, would be a real speedup for a fairly small code change.
+
+The MP4 render path and the HTML player use slightly different letter spacing (a node-canvas quirk versus a CSS value), which means an animation looks very slightly different in the two outputs. Nobody has ever complained, probably because the two outputs aren't usually viewed side by side, but it's a paper-cut I notice when I do side-by-side QA.
+
+And the root `README.md` says nothing about where the tool came from or how the JS module format ended up shaped the way it is. The git history tells a clear story (prototype → generalization → color extension) that the README completely omits.
+
+## What's Next?
+
+Probably worker threads for the conversion stage, the missing unit tests, and the README. The color path is fresh and hasn't been pressure-tested by a real consumer yet, so whatever the next project is will probably surface the shape problems the abstract design couldn't. That's expected; the first version evolved the same way. The tool gets better when it's forced through real use.

@@ -1,0 +1,84 @@
+export const metadata = {
+  title: 'The Forgetting Machine',
+  description: 'Write a secret. Watch it decay for 60 seconds. Nothing is saved.',
+};
+
+# The Forgetting Machine
+
+**A small web experience where someone writes a secret, watches it decay for 60 seconds with music, and then it's gone. Nothing is saved, by design, not policy.**
+
+Active · [Live site](https://forgetting-machine.com) · [Source](https://github.com/anthony-liddle/forgetting-machine)
+
+## The Pitch
+
+You open the site, you type something you want to let go of, and you click "Let go." Your text sits there intact for the first third of a minute. Then it slowly loses color. Then it dissolves. Then it's a faint shape. Then it's gone, and a piece of music I wrote plays through to its end. The word "Gone." appears for a few seconds, then the whole thing resets.
+
+No accounts, no database, no server. Nothing you type is saved anywhere, and the code is structured so that's mechanically true, not just claimed.
+
+I built it because I wanted to make something that treated a small, private moment with reverence, and because I wanted a project with exactly one idea in it.
+
+## The Interesting Problem
+
+The premise of the site is a promise: nothing is saved. The technical work is making that structurally true. If you believe the premise, the site works. If you don't, it's broken, and no amount of polish anywhere else matters.
+
+That sounds trivial, since "don't store things" is the default, but the interesting part is that the secret has to live somewhere long enough to be displayed and animated. Once it's in the DOM, it's accessible to extensions, screenshot tools, and accessibility layers. The question becomes: where does the text live, for how long, and who can see it?
+
+The second problem is designing for an experience that's supposed to disappear. Most UI craft is about making things visible and stable. Here the whole craft is the opposite: a readable phase, a drifting phase, a dissolving phase, a vanishing phase, and then silence. Figuring out what each of those four phases actually *means* visually, at what pace, with what kind of easing, took more iteration than building any of the technical machinery.
+
+The third problem is making an intentionally ephemeral thing work with a screen reader. A visual decay that's announced verbatim, over and over, as it fades would be both broken and actively hostile. Getting that right meant deciding that the visual layer and the accessible layer tell different versions of the same story.
+
+Privacy isn't a feature here; it's a constraint that shapes every implementation decision.
+
+## Key Decisions and Tradeoffs
+
+**The secret is never stored anywhere it doesn't have to be.** The text flows as a function argument from the invitation phase's `onLetGo` callback into the broadcast phase's `renderBroadcast(root, secret, onComplete)` and nowhere else. It's never assigned to a module-level variable, never stored in any singleton, never serialized. Before the DOM is cleared at the end of the broadcast phase, the aria-live region's textContent is explicitly set to an empty string, so the accessibility tree doesn't retain it either. The order matters: clear the live region, then clear the spans, then tear down the DOM. This is intentionally paranoid and that's the point.
+
+**Vanilla TypeScript, no framework.** React's reconciler would add meaningful overhead to a per-character animation that mutates styles on potentially thousands of spans every frame. More importantly, the code is small enough that a framework would obscure it rather than organize it. Every DOM operation is `document.createElement`, `classList.add`, `style.opacity = String(...)`. The entire codebase is 812 lines of TypeScript across 10 source files. The invitation, broadcast, and silence phases each own their own DOM and their own teardown. Phase orchestration is a closure in `main.ts`, not a state library.
+
+**Content Security Policy enforces the privacy claim at the HTTP layer.** The CSP in `index.html` is `default-src 'self'` with explicit allowances only for Google Fonts and Vercel Analytics. No `unsafe-inline`, no `unsafe-eval`, no permissive wildcards. The privacy story is "the browser itself won't allow this page to exfiltrate your text even if someone found a way to try." This is the kind of thing that isn't the user-facing story but is the foundation that makes the user-facing story believable.
+
+**Two aria-live regions, one polite, one assertive.** During broadcast, a visually hidden `aria-live="polite"` region holds the full secret, announced once. The visual character spans are not individually labelled, so a screen reader gets the whole text once at the start and isn't subjected to a repetitive announcement loop as characters decay. In silence, `aria-live="assertive"` announces "Gone." because that's the conclusion and it should interrupt. The visual layer does the decay; the accessible layer tells a cleaner version of the same story.
+
+**Reduced motion isn't a switch, it's a different experience.** When `prefers-reduced-motion: reduce` is set (or when the mobile frame-time monitor detects ten consecutive frames slower than 33ms), the per-character effect path is bypassed entirely. The entire text container fades as one unit over the same 60 seconds. Same arc, same timing, no per-span transform work. The performance fallback and the accessibility fallback use identical code paths, which is useful because it means I can't ship a regression in one and miss the other.
+
+**One clock per system, not a shared clock.** The decay loop and the music fade both use `performance.now()` but they're started independently: the decay loop at the start of broadcast, the fade at the start of silence. They are not unified, by design. This is the right call for this experience because the music fade is meant to begin exactly when the text is gone, not in parallel with the decay. The downside is that if the tab is backgrounded during silence, the fade's RAF pauses while the music keeps playing, so the two can drift. In a longer experience I'd handle this, but in a 60-second piece I decided it wasn't worth the complexity.
+
+**Glitchy static was built and removed.** An earlier version of the decay effect replaced characters with Unicode block characters (`░▒▓`) as they decayed, giving a radio-static aesthetic. That implementation existed for about a week before I deleted it with a commit message noting that character replacement is no longer part of the effect. The final version is pure optical fade. "Radio static" is a cooler concept; "signal loss through stillness" is the one that actually fits the premise. The piece is about letting go, not about chaos.
+
+## Stack
+
+Vanilla TypeScript, Vite, plain CSS using custom properties. Two production dependencies: `@vercel/analytics` for page views only, and `soundscape-engine` (a package I maintain on npm) for the music. Vitest with jsdom for tests. Hosted on Vercel, deployed automatically on push to main. TypeScript configured with `strict`, `noUnusedLocals`, `noUncheckedIndexedAccess`, and the newer `verbatimModuleSyntax` and `erasableSyntaxOnly` flags. A pre-commit hook runs lint, typecheck, and commitlint.
+
+## On the Music
+
+The soundtrack is a 70 BPM piece I composed in my own tool. It's three tracks (strings, bell, piano), 46 notes, 4/4 time, a 70-beat phrase that plays only once. The file (`music.json`) is 7,799 bytes of pure composition data, loaded at runtime and handed to the engine along with the engine's built-in instrument presets. When the broadcast phase ends, the silence phase triggers `musicManager.fadeOut()`, which steps the engine's master volume to zero over 7 seconds using `requestAnimationFrame` and `engine.updateMixer()`. The fade is implemented in the consumer rather than the engine because the engine is deliberately unopinionated about automation: it doesn't have a built-in tween system, and I didn't want it to.
+
+## Numbers
+
+- 812 lines of TypeScript across 10 source files. 249 lines of CSS. 2 production dependencies.
+- 60 seconds of decay across four named phases: clear (0-19.8s), drift (19.8-40.2s), dissolve (40.2-55.2s), vanish (55.2-60s).
+- Each character has its own randomized phase thresholds, so no two characters decay on quite the same schedule.
+- Mobile performance fallback kicks in after 10 consecutive frames slower than 33ms.
+- 7-second music fade out, 5-second silence hold, then the site resets.
+- Audio context is only created inside the "Let go" click handler, so the browser's autoplay policy is respected.
+- Test suite covers the phase renders, decay math, threshold distribution, effect application, and the progress bar. 511 lines of tests for 812 lines of source.
+
+## Try It
+
+[https://forgetting-machine.com/](https://forgetting-machine.com/)
+
+Type something. Click Let go. Wait.
+
+## What I'd Do Differently
+
+The RAF loop in the broadcast phase returns a `stopLoop` function for cancellation, but the current orchestration doesn't store it. If a rapid phase transition were triggered during broadcast (it can't be via the UI, but it's structurally possible within the current design), the loop wouldn't be cancelled. It's a latent correctness bug and I should either wire it up or remove the affordance.
+
+The visual fade loop and the audio fade loop are independent timers with no shared clock. In a longer experience the drift between them during tab backgrounding would be noticeable. It isn't noticeable here, but if I revisited this I'd run both off a single RAF source and pass elapsed time to each subsystem.
+
+`isMobile()` uses user-agent sniffing, which is inherently fragile. Pointer and hover media queries would be more robust and don't lie when someone's on a tablet with a keyboard.
+
+And the README still lists `src/decay/characters.ts` in the project structure diagram, months after I deleted it. It's a small issue, but it's the kind of drift I'd normally catch.
+
+## What's Next?
+
+Probably nothing structural at this point. The piece is what it is. I'll tighten the small things above, and at some point I want to write about the decision to remove the glitch aesthetic, because it's the design decision I'm proudest of on this project and it's invisible from the final product.

@@ -1,0 +1,79 @@
+export const metadata = {
+  title: 'Soundscape',
+  description: 'Browser-native generative art driven by microphone input and audio analysis.',
+};
+
+# Soundscape
+
+**A browser-native music sequencer and synthesizer, shipped as a zero-dependency npm package with a web-based composer.**
+
+Active · [npm](https://www.npmjs.com/package/soundscape-engine) · [Composer](https://soundscape-editor.vercel.app/) · [Source](https://github.com/anthony-liddle/soundscape)
+
+## The Pitch
+
+Soundscape is two systems in one repo. `soundscape-engine` is a small audio library (22KB, zero runtime dependencies) that does Web Audio scheduling, synthesis, and effects. The editor is a React app that uses the engine to let you compose multi-track pieces in a piano roll and export them as JSON.
+
+I built it because I wanted to make music for my other projects, and most existing tools were either simplistic or full-blown DAW clones in the browser. I also wanted the engine to be reusable, not welded to a UI. It now serves as the audio layer in two other projects (RO-SHAM-BO.EXE and The Forgetting Machine), both using music I composed in the editor.
+
+## The Interesting Problem
+
+Browsers are not designed for precise audio timing. If you schedule a kick drum on every beat with `setTimeout`, it drifts, and a drift is immediately perceptible. The standard Web Audio workaround is a lookahead scheduler: every N milliseconds, look ahead M milliseconds, and schedule any events due to fire in that window against the audio context's own high-resolution clock.
+
+That works. The issue is that `setInterval` is throttled to roughly one tick per second when the tab loses focus, which means the scheduler stops filling the lookahead window, resulting in gaps or silence when the user returns.
+
+Soundscape solves this by running the scheduler tick on an `AudioWorkletProcessor`. The `process()` method fires every 128 samples (~2.9ms at 44.1kHz) on the audio rendering thread, which is not throttled by the browser, even in background tabs. The worklet posts a `tick` message back to the main thread, which runs `scheduleNotes()` against a 100ms lookahead. If the worklet can't be loaded (old browsers, non-secure contexts, test environments), it falls back to `setInterval` at 25ms with guarded initialization via try/catch.
+
+This is ultimately a scheduling problem: aligning user intent with a clock the browser does not reliably expose.
+
+The second problem was defining the scope of the library. The engine could have been a React-first audio library with hooks and a provider. I made it deliberately framework-free: pure TypeScript plus the Web Audio API, no React, no event emitter, no observable state. Consumers push state in via `updateState()` and subscribe to a single output (`onBeatUpdate`) with a callback. That meant writing more glue in each consumer, but it also meant I could use the same engine from a React editor and from vanilla TypeScript in The Forgetting Machine, which has no framework at all.
+
+## Key Decisions and Tradeoffs
+
+**Zero runtime dependencies.** The package.json for `soundscape-engine` has no `dependencies` field at all. Tone.js is the obvious alternative and it's genuinely great, but pulling it in would have added ~500KB for features I mostly didn't need. The engine ships at 22KB on disk (57.6KB unpacked on npm including type declarations). The cost was writing the scheduler, voice pool, ADSR, filter, LFO, and effects chain from scratch. The benefit is a library I understand end to end and can reuse without imposing external dependencies.
+
+**AudioWorklet scheduler loaded as an inline blob.** The worklet processor is a template literal string, loaded via `URL.createObjectURL(new Blob([...]))` and revoked immediately after registration. This avoids every bundler path issue that typically makes shipping worklets difficult. The tradeoff: the worklet code is isolated in a string, which means no module imports, no syntax highlighting, and harder testing. Since the worklet does exactly one thing (post a tick message), I prioritized the guarantee that it works across bundlers.
+
+**Normalized 0-1 range for every continuous synth parameter.** Attack, filter cutoff, LFO depth, reverb mix: all exposed to consumers as 0-1. Internal mapping functions convert to actual Hz, seconds, decibels using perceptually meaningful curves (filter cutoff is exponential over 20Hz-20kHz, attack is quadratic over 1ms-2s). The mapping functions are also exported, so a UI builder can call them for display labels without reimplementing the curves. This means consumers don't need audio engineering knowledge to wire up a slider. It also allows internal mappings to evolve without breaking the API. Precision at extremes is limited and consumers who do know audio can't pass exact Hz values, but for a library aimed at making it easy to build UIs on top, I think it's the right call.
+
+**Framework-free library, React-only consumer.** The engine has zero framework code. All React integration lives in the editor's `SoundscapeProvider`. This was a deliberate constraint, and it paid off. The Forgetting Machine uses the engine from pure TypeScript without React, instantiating `AudioEngine` in a `MusicManager` class and driving a custom volume fade with `requestAnimationFrame` calling `engine.updateMixer()` on each frame. That's not a pattern I would have bothered to support if React had been baked in. The downside is that every consumer writes their own integration layer, but the integration is small (~100 lines for the editor's provider).
+
+**Monorepo with workspace alias to TS source in dev.** The editor's Vite config resolves `soundscape-engine` to the engine's TypeScript source (`../../packages/engine/src/index.ts`) in development and to the built output in production. This means a refactor in the engine is visible in the editor without a rebuild, and type changes propagate immediately. The tradeoff is that dev and prod behavior can diverge if you rely on compilation side-effects; I don't, so I haven't been bitten.
+
+**Composition state lives in the consumer, not the engine.** The engine holds only transient playback state (which notes are currently scheduled, which voices are playing). The full composition (`SoundscapeState`) is an ordinary serializable object owned by the consumer. The editor manages it with `useReducer` and a 50-step undo/redo stack, all hand-rolled, no external state library. This keeps the engine simple and portable. The editor's 17-variant discriminated union of actions is proof the reducer earned its keep.
+
+## Stack
+
+TypeScript, Web Audio API, AudioWorklet. React 19 and Vite 8 (editor only). Vitest for tests. Zero runtime dependencies in the engine; React + React DOM in the editor. No audio libraries, no state management libraries, no event emitters.
+
+## Numbers
+
+- Engine: 1,989 LOC across 18 source files. `AudioEngine.ts` is 709 of those lines.
+- Editor: 2,280 LOC across 25 files.
+- Published engine bundle: 22KB on disk, 57.6KB unpacked on npm.
+- Scheduler: 100ms lookahead, 25ms fallback tick interval, ~2.9ms effective tick interval with AudioWorklet.
+- Voice pool: 8 per track, using oldest-first voice stealing when exhausted.
+- 11 built-in presets. Piano roll spans MIDI 24-96 (C1-C7, 73 pitches).
+- 110 engine test cases, 135 editor test cases. The editor's reducer test alone has 89 cases.
+- 5 published versions on npm.
+
+## Try It
+
+[https://soundscape-editor.vercel.app/](https://soundscape-editor.vercel.app/)
+
+Create a pattern, export the JSON, producing a file the engine can play anywhere. The music in The Forgetting Machine is one of those files.
+
+## What I'd Do Differently
+
+The note grid in the piano roll renders every cell as a DOM element. At 1/16 resolution over 16 beats with 73 pitches, that's 4,672 divs. It's fine at the current loop length but will degrade with longer arrangements. Virtualizing the grid is overdue.
+
+You also can't drag to move a note in the editor. Right now a note can only be deleted and redrawn, which is two gestures where there should be one. It was easy to justify in v1, but now noticeably limits usability.
+
+The reverb IR is regenerated per `EffectsChain` instance, meaning two tracks have subtly different reverb characters. This is undesirable. Sharing a single IR buffer would fix it.
+
+And `setLoop` doesn't persist in exported JSON. It lives on the engine but not in `SoundscapeState`, which creates a minor but real inconsistency as everything else that affects playback survives export/import.
+
+## What's Next?
+
+There's an active feature branch (.worktrees/features-11-14) that restructures `SoundscapeState` around a `Pattern` abstraction and an arrangement view, replacing the current flat `Track.notes` model. It's a breaking change to the data shape, so it will land with v0.3.
+
+Shorter-term: grid virtualization in the editor, drag-to-move notes, and a `SoundscapeRuntimeAPI` that already exists in the editor's code but isn't wired up yet. The Runtime API is meant for embedding the engine as the audio layer for a game or interactive experience, with imperative methods like `applyMixerState`, `muteTrack`, `setMasterVolume`. It exists to support upcoming use cases.

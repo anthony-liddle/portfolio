@@ -1,65 +1,144 @@
-import Image from "next/image";
+import type { Metadata } from 'next';
+import WorkTile from '@/components/WorkTile';
+import ExperienceItem from '@/components/ExperienceItem';
+import { projects, featuredSlugs } from '@/content/projects';
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: 'Anthony Liddle',
+  description: 'Staff / Lead Frontend Engineer in Portland, OR',
+};
+
+const featuredProjects = featuredSlugs.map(
+  (slug) => projects.find((p) => p.slug === slug)!,
+);
+
+const experience = [
+  {
+    company: 'BreakAway Data',
+    role: 'Lead Frontend Engineer',
+    period: '2025–present',
+    description:
+      "Leading frontend across web, mobile, and enterprise surfaces of BreakAway's Compete platform. Built the live stat capture system for play-by-play game tracking, the athlete home feed with a composable 18-blueprint card system, a nine-page coach analytics platform, the Parent Portal and Coach Dashboard (both greenfield), and the sharing infrastructure that powers viral user acquisition. Led the single-day migration of the entire monorepo from Apollo v3 to v4 and Tailwind v3 to v4. Modernized the frontend CI pipeline with parallel test sharding and Docker BuildKit caching.",
+  },
+  {
+    company: 'Microsoft',
+    role: 'UI Engineer',
+    period: '2024–2025',
+    description:
+      "Developed and maintained a React component library used by engineers across Microsoft. Built and enhanced documentation portals and demo sites in React and Next.js to Microsoft's internal accessibility standards. Led implementation of Microsoft authentication and full-text search on the docs site.",
+  },
+  {
+    company: 'Mozilla / Pocket',
+    role: 'Staff Software Engineer',
+    period: '2017–2024',
+    description:
+      "Employee 24 at Pocket, stayed through the Mozilla acquisition. Co-architected both generations of Pocket's web client across six years, serving 2M+ daily page views at peak. Architected the cross-platform analytics instrumentation layer that reduced errors by 70% and cut experiments' time-to-significance. Co-founded Pocket's accessibility working group.",
+  },
+  {
+    company: 'McAfee / Intel Security',
+    role: 'UI Cloud Developer',
+    period: '2015–2017',
+    description:
+      'Designed and developed frontend architecture for enterprise cloud security applications using AngularJS, React, D3, KeyLines, and Highcharts. Architected an enterprise application for corporate malware researchers whose design decisions influenced frontend standards across McAfee.',
+  },
+  {
+    company: 'Level Studios',
+    role: 'Senior Creative Engineer',
+    period: '2012–2015',
+    description:
+      'Architectural recommendations and technical leadership across multiple offices. Early adopter of browser APIs including the Web Audio API and early mobile ad platform integrations. Mentored associate and senior developers.',
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="page-container">
+      {/* Hero */}
+      <section aria-labelledby="hero-heading">
+        <h1 id="hero-heading" className="sr-only">
+          Anthony Liddle
+        </h1>
+        <p className="home-hero__paragraph">
+          I&rsquo;m Anthony Liddle, a Staff / Lead Frontend Engineer in
+          Portland, OR. Currently leading frontend at BreakAway Data, a sports
+          performance platform. Fifteen years building data-intensive web and
+          mobile products, most recently at Microsoft and Mozilla, where I
+          co-architected two generations of Pocket&rsquo;s web client across six
+          years.
+        </p>
+        <p className="home-hero__paragraph">
+          On my own time I build small tools and ephemeral experiments, often
+          stitched together from libraries I wrote for the project before. The
+          audio in one is composed in another. The animations in a third were
+          generated by a fourth. The whole thing is a loop.
+        </p>
+      </section>
+
+      {/* Featured Work */}
+      <section aria-labelledby="work-heading" style={{ marginTop: '5rem' }}>
+        <hr className="section-rule" />
+        <h2 id="work-heading" className="home-section-heading">
+          Featured Work
+        </h2>
+        <div className="work-grid" role="list">
+          {featuredProjects.map((project) => (
+            <div key={project.slug} role="listitem">
+              <WorkTile project={project} />
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+      </section>
+
+      {/* Experience */}
+      <section
+        aria-labelledby="experience-heading"
+        style={{ marginTop: '5rem' }}
+      >
+        <hr className="section-rule" />
+        <h2 id="experience-heading" className="home-section-heading">
+          Experience
+        </h2>
+        <div className="experience-list">
+          {experience.map((item) => (
+            <ExperienceItem key={item.company} {...item} />
+          ))}
+        </div>
+      </section>
+
+      {/* About footer */}
+      <footer style={{ marginTop: '5rem' }}>
+        <hr className="section-rule" />
+        <p className="home-prose">
+          Outside work I cook, sing karaoke badly, play piano slightly better,
+          and sew. I&rsquo;m a parent. I care about software that respects the
+          people using it.
+        </p>
+        <p className="home-prose" style={{ marginTop: '1rem' }}>
+          <a href="mailto:anthonyliddle@gmail.com" className="home-link">
+            anthonyliddle@gmail.com
+          </a>
+          {' · '}
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://github.com/anthony-liddle"
+            className="home-link"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="GitHub profile (opens in new tab)"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
+            GitHub
           </a>
+          {' · '}
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://linkedin.com/in/anthony-liddle"
+            className="home-link"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="LinkedIn profile (opens in new tab)"
           >
-            Documentation
+            LinkedIn
           </a>
-        </div>
-      </main>
+        </p>
+      </footer>
     </div>
   );
 }
