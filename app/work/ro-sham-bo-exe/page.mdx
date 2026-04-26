@@ -11,8 +11,139 @@ export const metadata = {
 
 # RO-SHAM-BO.EXE
 
-**A retro-terminal rock-paper-scissors game that watches your patterns, learns your strategy, and remembers everything. None of that is true. The game is playing fair, the rest is performance.**
+**A retro-terminal rock-paper-scissors game that watches your patterns, learns your strategy, and remembers everything. None of that is true. The game is playing fair; everything else is performance.**
 
 Active · [Live on the web](https://anthony-liddle.github.io/rock-paper-scissors/) · [On itch.io](https://sparklebeard.itch.io/ro-sham-bo-exe) · [Source](https://github.com/anthony-liddle/rock-paper-scissors)
 
-## Coming Soon
+## The Pitch
+
+You land on a green-on-black terminal. You play a round of rock-paper-scissors. The robot says something unsettling. You play another round. Partway through, the robot asks for permission to send you notifications. A few rounds later it wants your location. Then your camera. Then your microphone. Then your fullscreen.
+
+You can decline every permission. You can mute the music. You can leave the tab. The robot notices, and the game keeps going until someone reaches five wins, at which point one of two endings plays out, and the robot remembers you next time.
+
+Underneath all of this, the opponent's move is generated via `crypto.getRandomValues`, a truly random selection. The game is provably fair. The adversarial feeling comes from a tension system that reshapes music, visuals, and dialogue in response to player behavior, not from any manipulation of the match.
+
+## Where It Came From
+
+I'd just been laid off from Mozilla. I loved the work, I'd been there six and a half years, I expected to be there for many more years, and then... I wasn't. I started job hunting in a market that has become brutal. Anyone who's been through it recently, or is currently going through it, knows what I mean. I needed something to keep my brain working in between applications. I needed a project.
+
+I'd been playing a lot of Balatro at the time. If you haven't played it, Balatro is poker rebuilt from the ground up. The rules of poker are still in there, but the framework around them is so different that the game becomes almost unrecognizable as the thing it started from. That structural move is what stayed with me. A familiar form, made strange enough that the player has to encounter it fresh.
+
+So I asked myself: what's the simplest game I could make, inside a framework that makes it unrecognizable?
+
+The first answer I tried was a coin flip. Heads or tails, but framed as horror. I spent some time on it. I built CSS animations for the coin. I tried to find a way to make calling heads or tails feel adversarial. It doesn't. There's no opponent in a coin flip, just physics and chance. Nothing to dread, no one to lose to. It's the wrong shape for horror.
+
+I sat with that for a bit. Rock-paper-scissors was the next simple game I could think of, and it had something the coin flip didn't: a real opponent. And once I had an opponent, the question became: what if the opponent got progressively more unhinged as the game went on?
+
+That was the moment everything came together. I've always loved games with multiple endings, with systems that reshape themselves based on prior outcomes and player choices. The escalating tension, the multiple lines of dialogue per game state, the fact that two different sessions could feel like two different games entirely. The skeleton of RO-SHAM-BO.EXE clicked into place around that idea.
+
+## On Privacy
+
+I want to talk about privacy here, because it's the foundational belief that shaped the whole game.
+
+A few years ago I took over a programming class for teenagers. The previous teacher had left and I was given a chance to redesign the format. My plan had been to keep the classroom's existing structure: a short discussion at the top, then independent work the rest of the period. After the first class I taught, it was obvious that wasn't what these kids wanted. They wanted a space for active discussion.
+
+So I started bringing in topics. UX dark patterns. RFID biohacking. Bitcoin and the blockchain. Net neutrality. The Mirai botnet using compromised devices to take down Minecraft servers. They were curious about all of it. But what really took hold was internet privacy and surveillance. I showed them the Google Maps timeline. They were shocked and kind of horrified. I showed them their own marketing buckets. I walked them through how Facebook tracks people across the web with the Facebook Pixel (now called the Meta Pixel) on sites that have nothing to do with Facebook. We talked about fingerprinting. We talked about the difference between data a company asks for and data a company collects without asking. The kids were furious in a way that adults often aren't, because they hadn't yet acclimated to it being normal.
+
+The next semester they asked me to teach another class. I designed one called "Open Source Software and Ethics in Programming." Half of every class was discussion. The kids wanted to keep talking.
+
+That experience is the foundation under RO-SHAM-BO.EXE. Privacy in tech isn't a thing I picked up to make a thematic game. It's something I've been thinking about, teaching, and arguing for in every place I've worked, for years. I care about it specifically because of what those teenagers' faces looked like when they realized what their browsers had been doing on their behalf.
+
+That's why this game treats permissions the way it does. It's not just a horror dressing. It's a deliberate piece of design about a thing I believe people don't think about enough.
+
+There's one specific decision worth surfacing here. Early in the design, I considered using server-side IP geolocation for the location reveal. Every browser request leaks an IP address by default, and there are services that can turn an IP into a rough city. It would have been the easier path: no permission prompt, no user friction, the effect of the robot "knowing where you are" lands without the player ever having to opt in.
+
+I rejected it. The whole point of the game is to make the player conscious of what they're agreeing to. Using IP geolocation would have meant pulling location data without the player's awareness, which is exactly the practice the game is critiquing. The geolocation reveal in the final version goes through the browser's permission API. The player sees the prompt. They choose to grant or deny. If they grant, the coordinates the browser provides get sent to a third-party service to translate into a city name. The data path is real, but the player knowingly consents to it. That distinction is the entire thesis.
+
+I should be honest about one trade-off. The game uses PostHog for aggregate analytics: page views, broad usage patterns, no personally identifiable information. PostHog respects Do Not Track, so any browser sending that signal sees no analytics calls at all. I included it because I wanted to know whether anyone played. That's a creator's curiosity, not a business need, and it's the one place where the game makes a deliberate concession to the kind of tracking it's otherwise critiquing. If you'd rather opt out, your browser already has the switch.
+
+## The Interesting Problem
+
+The central design problem is simple to state and difficult to execute: make the player feel watched without actually watching them.
+
+Every violation the robot performs has to be a performance, not a real intrusion. The camera stream has to be live enough to trigger the indicator light. The pixels cannot be read. The pseudo-fingerprint the robot taunts you with has to sound specific, but it has to be computed locally and never leave the browser. The geolocation city injected into the ending dialogue has to land as "it really does know," but only after the player has consented, and only the city name comes back. Everything else has to stay on the device.
+
+If any of those lines are crossed, the project becomes the thing it's pretending to be.
+
+The second problem is making five tension tiers feel like a single coherent escalation rather than a collection of unrelated feature flags. The tension score is a number between 0 and 100. Everything downstream reads from it: music BPM, which audio layers are active, idle animation frame rate, dialogue pool selection, the page title, the favicon, whether the ASCII frames are being actively corrupted. The hard part wasn’t any individual connection; it was calibration. The hard part was making each subsystem escalate at a pace that matched the others, so moving from UNEASY to IRRITATED feels like one shift, not seven.
+
+The third problem is that a player who refuses every permission, mutes the music, and closes the tab halfway through has to still feel like they lost. The robot's response to refusal is not to give up. It's to get angrier.
+
+## Key Decisions and Tradeoffs
+
+**The opponent is cryptographically fair.** Move selection is: 
+```
+crypto.getRandomValues(new Uint32Array(1))[0] % 3
+``` 
+
+This yields a uniform distribution across the three moves. Not `Math.random`, not a weighted distribution, not reactive to sensor data. Everywhere else, `Math.random` is used for visual effects, dialogue selection, and frame corruption. The asymmetry is deliberate and it matters: the game is architecturally honest about the one thing the player would care most about, whether the match is rigged, and theatrical about everything else. If a player reverse-engineers the source, they find a fair RNG and a completely performative everything else. That's the joke.
+
+**Permission streams are acquired and held, not read.** When tension hits 60, the game requests camera access. The returned `MediaStream` is stored in a module-level reference so it doesn't get garbage-collected, which keeps the browser's camera indicator light active. No `<video>` element, no canvas sampling, no frame analysis. Same for the microphone at tension 70. The indicator light is the payload. This was the central design decision of the whole project: the unease has to come from the player's awareness that they've granted access, not from anything the access is being used for.
+
+**Refusal is fuel.** Every permission denial adds +3 to the tension spike. A player who clicks "Block" on all five permissions accelerates their own escalation. Combined with the tab-leave detector, the mute detector, the DevTools detector, and the abandonment count stored in `localStorage`, there is no defensive way to play this game. Every form of opting out is visible to the system and becomes part of the system's response. I considered making denial neutral, as a "we respect your choice" signal. The game works better when it doesn't.
+
+**The fingerprint is real, the surveillance is fake.** The illusion engine computes a SHA-256 hash of `userAgent | screen dimensions | timezone | language | hardwareConcurrency` using `crypto.subtle.digest`. It reads the Battery Status API on browsers that still support it, `navigator.deviceMemory`, and the user's timezone. It uses all of this to select dialogue that name-drops the player's specific machine details. The probability of that dialogue firing scales from 0% at CALM to 50% at MELTDOWN. Everything stays on the device. The surveillance is the illusion of surveillance, built from real data the browser was already willing to share with any page that asks. That distinction is the core thesis of the game.
+
+**The console is a second screen.** The console narrator treats DevTools as a game surface. It prints styled, color-coded messages synchronized to game events. At MELTDOWN it floods the console at intervals of one and a half to three and a half seconds. If a player opens DevTools, detected via a threshold difference (~160px) between `window.outerWidth` and `window.innerWidth`, polled every two seconds, the narrator reacts specifically. Most players will never see any of this. The players who do get a different, more personalized version of the game. I considered whether building for an audience most players will never encounter was worth it. For this specific project, yes. The kind of player who opens DevTools on a game titled RO-SHAM-BO.EXE is exactly who the game is written for.
+
+**Tension is a single number, state is distributed.** The tension score lives in a hand-rolled subscription store consumed via React's `useSyncExternalStore` hook. Every subsystem reads it independently: the music manager changes BPM and the mixer state, the animation system changes frame rate and turns on corruption, the browser chrome hook updates the title and favicon, the dialogue selector reshuffles the pool. No reducer, no Redux, no Zustand, no context. The game runs on one number and several independent consumers of that number. The fact that it works without cross-coupling is intentional and lets each subsystem evolve on its own schedule.
+
+**Memory persists across sessions, but only on the player's device.** Player memory writes to `localStorage`, the browser's built-in per-device storage. No account, no server, no sync. The data lives on the player's device and stays there. If you clear your browser's data, the robot forgets you. Privacy isn't just the theme of the game; it's the storage architecture.
+
+What gets stored: play count, last ending, granted and denied permission arrays, the geolocated city if it was ever captured, last played date, abandonment count. On the next session, initial tension is seeded higher for returning players. A previous ESCAPED ending adds 40 to the starting tension, a previous BROKEN adds 20, each abandonment adds 5 up to a cap of 20. Returning players skip the polite early dialogue entirely, and the robot injects lines that reference their previous outcome. This is the decision that shifts the game from a toy into a piece. The game knows you've been here before. It opens differently the second time.
+
+**The music does the heavy lifting on tone.** Six audio layers driven by tension, plus per-event SFX. The composition is a 16-beat loop with seven precomposed tracks plus one procedurally generated `glitch-random` track generated fresh each session. As tension rises, tempo steps from 60 BPM at CALM to 150 at MELTDOWN, and the mixer progressively unmutes layers: bass at UNEASY, pad at IRRITATED, lead at UNSTABLE, both glitch tracks at MELTDOWN. On top of the loop, event-triggered one-shots fire: a win stinger, a low dissonant lose cluster, a permission-request delay tone, harsh disruption bursts, and two distinct ending stingers (a descending rumble for BROKEN, ascending ominous tones for ESCAPED).
+
+This is where most of the dread comes from. A friend who playtested it told me she was scared, even though she was winning. She wasn't reading the dialogue closely. She was reacting to the music. The audio carries the emotional shape of the game; the visuals and dialogue color it. The same library that plays a single 60-second piece in The Forgetting Machine runs a live dynamic mixer here, and the difference between those two uses is the difference between a piece and a system.
+
+## How It Lands
+
+This is where I want to talk about what playing it actually feels like, because the answer is that it depends entirely on who's playing.
+
+One friend was giggling through her whole session. The robot was ranting at her, escalating, taunting her with the city it had geolocated, and she was laughing. She lost. The robot escaped at the end. She still loved it. The dialogue, in the right reading, is genuinely funny. There's a dark humor in a malevolent computer trying very hard to seem threatening, and some players catch that frequency.
+
+Another friend played and got the BROKEN ending. He told me the game made him feel terrible. He took it personally. The robot's collapse, the ending stinger, the post-ending visual effects all hit him as legitimately upsetting. Same game, same code, same audio, completely different emotional outcome.
+
+Both of those readings are right. The horror reading is real, partly because of the music, partly because the mechanics genuinely do what they claim to do (the camera light is on, the geolocation is correct, the fingerprint dialogue references your actual hardware). The comedy reading is real because the dialogue is, on its face, ridiculous if you let yourself notice. A computer cannot actually escape a browser. The robot's panic is funny if you're in the right mood, and devastating if you aren't.
+
+This is partly by design and partly an emergent property of the system. I built RO-SHAM-BO.EXE wanting it to be different across sessions, across players, across choices. I wanted players to send it to a friend, and for the friend to come back with a different experience, and for them to talk and realize they hadn't played the same game. The persistent memory contributes to that. The tension-driven escalation contributes. The fact that most players will never see the console narration, will never trigger the DevTools-specific dialogue, will never reach MELTDOWN, contributes too. There are surfaces in this game that almost no one encounters.
+
+That's not a flaw. That's the goal. The game holds horror, comedy, paranoia, defiance, and resignation, and which one you experience depends on choices you make and parts of yourself you bring to it. Were we even playing the same game? No. That's the point.
+
+## The Pipeline
+
+This project sits downstream of two others. `soundscape-engine` provides the audio library; all of the music in RO-SHAM-BO.EXE is a composition I wrote in my own composer.
+
+The ASCII animations came from a different tool: `ascii-roto`, a CLI I built for converting video to ASCII. Every animation in the game started as filmed source video, processed through `ascii-roto`, and committed as a per-animation JSON file. The tool began as a prototype I ran over and over against whatever file I was working on at the moment. When I decided it was useful enough to be a real project, I promoted it to a proper CLI and pointed RO-SHAM-BO.EXE at it. The downstream use shaped the tool, not the other way around.
+
+The game is the payoff of a chain of three tools: the ASCII converter, the audio engine, and this game on top. Most portfolios show projects in isolation. This one lets earlier work earn its keep.
+
+## Stack
+
+React 19 with TypeScript, Vite, Vitest. Four production dependencies: `react`, `react-dom`, `soundscape-engine`, and `posthog-js` for the aggregate analytics described above. Hand-rolled state store via `useSyncExternalStore`, no state library. A pre-commit hook runs full TypeScript build, ESLint, and the Vitest suite before allowing a commit. TypeScript configured strict, with `noUncheckedIndexedAccess`, `erasableSyntaxOnly`, and `verbatimModuleSyntax`. Deployed to two surfaces: as a web build on GitHub Pages, and as an HTML5 build on itch.io under the handle `sparklebeard`.
+
+## What I'd Do Differently
+
+The behavior-heavy subsystems are largely untested. The pure-logic files have proper coverage but the illusion engine, the console narrator, and the music manager are all held together by manual play-testing. The premise of the game is that the system reacts to the player in legible ways. The absence of tests for that reaction layer is the weakest part of the repo.
+
+The permission prompts are keyboard-addressable (Y or Enter to accept, N or Escape to decline) but have no explicit ARIA roles or focus management. Accessibility shouldn't fall away because the game has a hostile tone. That would be the first thing I'd fix.
+
+The opponent doesn't think. It picks a fair, cryptographically random move every round, regardless of what the player is doing. That choice was deliberate, and for the central thesis of the game (provably fair underneath the theatrical surveillance) it's the right one. But it creates a mismatch with how rock-paper-scissors actually works.
+
+When two humans play, the game isn't random. It's a contest of pattern reading. You watch what your opponent threw last. You read their tells. You think about whether they're the kind of person who'd repeat a winning move or change it up. The strategy is the game.
+
+A fair RNG can't do any of that. It picks moves with no idea what the player is doing. My daughter played the game and threw scissors every single round, never wavering. Against a thoughtful human opponent, that strategy would fail immediately; the second round of scissors would lose to a rock thrown specifically because the opponent noticed. Against my opponent, she won and lost at random. The robot never noticed. The game couldn't see her pattern even when the pattern was as obvious as a kid sticking with what she liked.
+
+I want to revisit that. Not by making the opponent cheat, which would break the thesis, but by building real pattern recognition into the move selection. That's a genuine engineering problem: how do you design an opponent that plays strategically (reads tendencies, adapts) without playing unfairly (rigging outcomes, biasing the dice). The line between "smart" and "cheating" in a competitive game is thinner than it looks, and finding it cleanly would be interesting work. I haven't solved it. But the next version of this game, if there is one, has to.
+
+## What's Next?
+
+Probably nothing major. The game is complete. There are two small TODOs in the code, some confirmation copy and a scoreboard spacing tweak, and that's the remaining work. Polish, not features.
+
+The project I'd most want to revisit isn't RO-SHAM-BO.EXE itself but the `ascii-roto` pipeline that fed it. Right now it works but it's manual: I film, I run the tool, I export, I commit. A tighter loop would make future projects using ASCII animation faster to bootstrap.
+
+But the game itself is what it is. I made it during a hard stretch, between jobs, when the work I'd built my career around had just ended and I needed something to keep my brain alive. The fact that it became a piece I'm proud of, that two friends played it and had completely different experiences, that there are surfaces in it most players will never encounter and that's fine, that the music and the dialogue and the tension system all do what I wanted them to do, is more than I expected from a project I started because I was hurting and needed to make something.
+
+The game is honest about the one thing the player would care most about: it isn't rigged. Everything else is performance. That's the joke. It's also the thesis. If a player walks away from it more aware of what their browser will do for a stranger who asks nicely, the game did the work I wanted it to do.
+
+And if they laughed while it happened, even better.

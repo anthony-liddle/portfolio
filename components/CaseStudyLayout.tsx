@@ -17,6 +17,8 @@ export default function CaseStudyLayout({ children }: CaseStudyLayoutProps) {
       <article>
         <Prose className="prose--case-study">{children}</Prose>
       </article>
+
+      <p className="case-study__signature">-A</p>
     </div>
   );
 }
