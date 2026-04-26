@@ -11,80 +11,133 @@ export const metadata = {
 
 # The Forgetting Machine
 
-**A small web experience where someone writes a secret, watches it decay for 60 seconds with music, and then it's gone. Nothing is saved, by design, not policy.**
+**A small web experience where you write a secret, watch it decay over sixty seconds with music, and then it's gone. Built as performance art, not as a tool. Closer to a poem than to software.**
 
 Active · [Live site](https://forgetting-machine.com) · [Source](https://github.com/anthony-liddle/forgetting-machine)
 
 ## The Pitch
 
-You open the site, you type something you want to let go of, and you click "Let go." Your text sits there intact for the first third of a minute. Then it slowly loses color. Then it dissolves. Then it's a faint shape. Then it's gone, and a piece of music I wrote plays through to its end. The word "Gone." appears for a few seconds, then the whole thing resets.
+You open the site, type something you want to let go of, and click "Let go." The text sits intact for the first third of the minute. Then it slowly loses color. Then it dissolves. Then it's a faint shape. Then it's gone, and the music I wrote for it plays through to its end. The word "Gone." appears for a few seconds. The whole thing resets.
 
-No accounts, no database, no server. Nothing you type is saved anywhere, and the code is structured so that's mechanically true, not just claimed.
+No accounts, no database, no server-side storage. Nothing you type is saved anywhere, and the code is structured so that's mechanically true, not just claimed.
 
-I built it because I wanted to make something that treated a small, private moment with reverence, and because I wanted a project with exactly one idea in it.
+## Where It Came From
 
-## The Interesting Problem
+About twenty years ago, I was in the middle of moving cities. I was young and didn't have much money. Every trip from the old place to the new one was two and a half hours up Highway 101, and I was moving everything in my car, one load at a time. I was still working in my hometown, so the runs happened late. Get off the closing shift at midnight, load the car, drive north through the arid stretches in the dark.
 
-The premise of the site is a promise: nothing is saved. The technical work is making that structurally true. If you believe the premise, the site works. If you don't, it's broken, and no amount of polish anywhere else matters.
+One of those nights I caught a song on the radio. I was tired and lonely, and just for a second I thought I recognized it. The recognition gave me something to hold onto in the middle of a long, mostly empty drive. Then I listened a little longer and realized I didn't actually know it. And then the signal started to fade. The song got quieter. It broke up. Eventually it was gone.
 
-That sounds trivial, since "don't store things" is the default, but the interesting part is that the secret has to live somewhere long enough to be displayed and animated. Once it's in the DOM, it's accessible to extensions, screenshot tools, and accessibility layers. The question becomes: where does the text live, for how long, and who can see it?
+That moment stayed with me for two decades. Not because it was sad, exactly, but because of how it felt to have something brief and warm appear and then disappear without me getting to keep it. I was losing my hometown. I was driving toward something new and exciting. Both of those feelings were real, and they were happening at the same time. The song fading wasn't only about loss. It was about how things end while other things start, and how those two motions are sometimes the same motion.
 
-The second problem is designing for an experience that's supposed to disappear. Most UI craft is about making things visible and stable. Here the whole craft is the opposite: a readable phase, a drifting phase, a dissolving phase, a vanishing phase, and then silence. Figuring out what each of those four phases actually *means* visually, at what pace, with what kind of easing, took more iteration than building any of the technical machinery.
+The Forgetting Machine is an attempt to make that feeling structural. You sit with something for a moment. Then it's gone, and the music goes with it. I made it as an art piece. I knew I was making art. It's closer to a poem than to software, and I wanted it to evoke something specific in whoever uses it.
 
-The third problem is making an intentionally ephemeral thing work with a screen reader. A visual decay that's announced verbatim, over and over, as it fades would be both broken and actively hostile. Getting that right meant deciding that the visual layer and the accessible layer tell different versions of the same story.
+People have told me different things about how it feels. Some say it makes them sad, or makes them think about loss. Others say it's calm, or peaceful. Both are right. Art is allowed to do different things to different people.
 
-Privacy isn't a feature here; it's a constraint that shapes every implementation decision.
+## On Accessibility
 
-## Key Decisions and Tradeoffs
+Before I get into the technical decisions, there's something I want to say about accessibility, because it shaped a lot of what came after.
 
-**The secret is never stored anywhere it doesn't have to be.** The text flows as a function argument from the invitation phase's `onLetGo` callback into the broadcast phase's `renderBroadcast(root, secret, onComplete)` and nowhere else. It's never assigned to a module-level variable, never stored in any singleton, never serialized. Before the DOM is cleared at the end of the broadcast phase, the aria-live region's textContent is explicitly set to an empty string, so the accessibility tree doesn't retain it either. The order matters: clear the live region, then clear the spans, then tear down the DOM. This is intentionally paranoid and that's the point.
+Accessibility isn't something I add at the end of a project. It's a foundational belief I hold. Building things that are available to everyone, regardless of how they encounter the web, is part of what makes the work matter. Barriers in software are often invisible to the people building the software, and they're real for the people running into them.
 
-**Vanilla TypeScript, no framework.** React's reconciler would add meaningful overhead to a per-character animation that mutates styles on potentially thousands of spans every frame. More importantly, the code is small enough that a framework would obscure it rather than organize it. Every DOM operation is `document.createElement`, `classList.add`, `style.opacity = String(...)`. The entire codebase is 812 lines of TypeScript across 10 source files. The invitation, broadcast, and silence phases each own their own DOM and their own teardown. Phase orchestration is a closure in `main.ts`, not a state library.
+That belief gets tested when you're building an art piece, because art is often the place where accessibility falls away first. A gallery installation might rely on visuals only. A musical performance might rely on hearing only. The assumption that art requires a particular kind of body and a particular kind of perception is so embedded that it's easy not to question it.
 
-**Content Security Policy enforces the privacy claim at the HTTP layer.** The CSP in `index.html` is `default-src 'self'` with explicit allowances only for Google Fonts and Vercel Analytics. No `unsafe-inline`, no `unsafe-eval`, no permissive wildcards. The privacy story is "the browser itself won't allow this page to exfiltrate your text even if someone found a way to try." This is the kind of thing that isn't the user-facing story but is the foundation that makes the user-facing story believable.
+I wanted The Forgetting Machine to be accessible because I believe an art piece, of all things, should be available to anyone who wants the experience. The decisions I made around screen readers, reduced motion, and performance fallbacks weren't compliance. They were the piece taking its own values seriously.
 
-**Two aria-live regions, one polite, one assertive.** During broadcast, a visually hidden `aria-live="polite"` region holds the full secret, announced once. The visual character spans are not individually labelled, so a screen reader gets the whole text once at the start and isn't subjected to a repetitive announcement loop as characters decay. In silence, `aria-live="assertive"` announces "Gone." because that's the conclusion and it should interrupt. The visual layer does the decay; the accessible layer tells a cleaner version of the same story.
+## What Made It Hard to Build
 
-**Reduced motion isn't a switch, it's a different experience.** When `prefers-reduced-motion: reduce` is set (or when the mobile frame-time monitor detects ten consecutive frames slower than 33ms), the per-character effect path is bypassed entirely. The entire text container fades as one unit over the same 60 seconds. Same arc, same timing, no per-span transform work. The performance fallback and the accessibility fallback use identical code paths, which is useful because it means I can't ship a regression in one and miss the other.
+The premise is a promise: nothing is saved. Most of the technical work was making that promise structurally true rather than claimed.
 
-**One clock per system, not a shared clock.** The decay loop and the music fade both use `performance.now()` but they're started independently: the decay loop at the start of broadcast, the fade at the start of silence. They are not unified, by design. This is the right call for this experience because the music fade is meant to begin exactly when the text is gone, not in parallel with the decay. The downside is that if the tab is backgrounded during silence, the fade's RAF pauses while the music keeps playing, so the two can drift. In a longer experience I'd handle this, but in a 60-second piece I decided it wasn't worth the complexity.
+That sounds trivial. "Don't write to a database" is the default. The interesting part is that the secret has to live somewhere long enough to be displayed and animated. Once it's in the browser, it's reachable from extensions, screenshot tools, and the accessibility tree. The question isn't "should I avoid storing this?" It's "where can the text exist, for how long, and who can reach it?"
 
-**Glitchy static was built and removed.** An earlier version of the decay effect replaced characters with Unicode block characters (`░▒▓`) as they decayed, giving a radio-static aesthetic. That implementation existed for about a week before I deleted it with a commit message noting that character replacement is no longer part of the effect. The final version is pure optical fade. "Radio static" is a cooler concept; "signal loss through stillness" is the one that actually fits the premise. The piece is about letting go, not about chaos.
+The other hard part was designing for an experience that's supposed to disappear. Most UI work is about making things visible and stable. Here the whole craft is the opposite. There's a phase where you're meant to read the words. A phase where they start to feel uncertain. A phase where they're breaking apart. A phase where they're almost gone. Then silence. Figuring out what each of those phases meant, at what pace, with what kind of feeling, took more iteration than building any of the technical machinery underneath.
+
+And then there's the screen reader question. A visual decay that gets announced verbatim, character by character, would be both technically broken and actively hostile to listen to. The visual and accessibility layers needed to tell different versions of the same story. Same shape, different telling.
+
+Privacy isn't a feature here. It's a constraint that shapes every decision.
+
+This project is small in scope, but it reflects how I approach larger systems: start from constraints, make guarantees mechanically true, and align implementation details with the intent of the experience.
+
+## What I Decided and Why
+
+**The text exists only as a function argument.** It's captured when you click "Let go," passed directly into the function that renders the decay, and never assigned to any variable that lives longer than that function call. It's never stored in a shared state, never serialized, never sent over the wire. It exists only on the call stack and in the DOM nodes that render it. Nowhere else.
+
+When the broadcast ends, the teardown happens in a specific order: clear the accessible announcement first, then remove the visible characters, then dismantle the rest. The order matters. Doing it any other way would leave a window where the text exists in one layer but not the other. This is intentionally paranoid, and I'm okay with that.
+
+**Vanilla TypeScript, no framework.** A framework like React would add real overhead to an animation that mutates styles every frame, and the codebase is small enough that a framework would obscure it instead of organize it. The whole thing is 812 lines across ten files. Anyone reading the code can verify the privacy claim end to end without a framework's lifecycle getting in the way.
+
+**A Content Security Policy enforces the privacy claim at the HTTP layer.** The browser itself is configured to refuse any attempt to send your text anywhere. Even if an exploit were introduced, the browser would refuse the request. Privacy that depends on developer discipline can erode quietly. Privacy enforced by the browser holds up.
+
+**Two ways of telling a screen reader what's happening.** When the experience starts, a hidden announcement region holds the secret and reads it once. The visible characters aren't individually labelled, so the screen reader doesn't get a horror show of letters disappearing. At the end, a more urgent region announces "Gone." because the conclusion should interrupt. The visual layer does the decay; the accessibility layer tells a quieter, punctuated version of the same arc.
+
+**Reduced motion is a different experience, not a switch.** When someone has indicated they prefer reduced motion, or when the device starts struggling to keep up with the per-character animation, the whole text container fades as one unit instead. Same arc, same timing, less work for the device. The accessibility version and the performance fallback share a code path, which means a regression in one would be caught by the other.
+
+**Independent clocks for the visual decay and the music fade.** The two animations start at different moments. The visual decay starts when you click "Let go," and the music fade starts when the text is gone. They aren't synchronized, because the music fade is meant to begin exactly when the text disappears, not in parallel with it. The downside is that if you switch tabs during the silence at the end, the visual fade pauses while the audio keeps playing, so the two can drift apart slightly. In a longer experience that would matter. In a sixty-second piece, it's bounded enough that I let it go.
+
+**A glitch aesthetic was built and then removed.** An earlier version of the decay replaced characters with Unicode block shapes (`░▒▓`) as they faded, giving the whole thing a corrupted, radio-static look. The idea wasn't new. I'd written the same effect for RO-SHAM-BO.EXE, an earlier project of mine, where the entire aesthetic is retro-terminal and the chaos belongs. I had working code and a tool I trusted. I dropped it into The Forgetting Machine, lived with it for about a week, then deleted it.
+
+It was wrong here. Static is panic. Static is the thing breaking down. The Forgetting Machine is about gradual loss, not chaos. Fade was the right shape.
+
+This is the design decision I'm proudest of, and you can't see it in the final result. That's how design works sometimes. The most important call you make is the thing you decide not to do, even when the thing you're declining is something you already built and know works.
+
+## The Music
+
+The soundtrack is something I wrote specifically for this piece. I knew it had to do the same emotional work the visuals do, layered alongside them rather than just playing underneath. Two languages telling the same story.
+
+I started with a two-chord progression. Fmaj7 to C. Fmaj7 is a beautiful chord with built-in tension; the major seventh sits a half step below the root, which gives it a quality of unrest inside something that sounds warm. It also happens to be the opening chord of Space Oddity, a song about someone drifting away from home. C is the resolution. Solid, complete, no tension. It's the place you come back to.
+
+I didn't want a wall of sound. The notes in each chord arrive as a quick ascending run, then hold, instead of strumming all at once. That gives the chord a feeling of movement, of arriving, instead of just being there. The progression goes from Fmaj7 (drifting, unresolved) and resolves to C (home).
+
+The melody plays off that progression but doesn't keep a consistent rhythm. It drifts. It builds for the first part of the piece, then it starts to fall apart on its own. Notes get further apart. Structure dissolves. Eventually there are only a few notes spaced out across silence, and then it fades.
+
+The composition tells the same story as the visuals. Both build, both lose coherence, both end in silence. Each piece of the work layers on itself, the same way every piece of music does.
+
+The composition itself is a 70 BPM piece in 4/4, three tracks (strings, bell, piano), 46 notes across a 70-beat phrase. It plays once. It doesn't loop. It doesn't repeat.
+
+I wrote it in Soundscape, which is the audio library I built for projects like this one.
+
+## How People Have Used It
+
+I'm a moderator in an online community. A few weeks before this story, I'd shared The Forgetting Machine in the server the way you share anything you've made: a quick "hey, check out this project I built." Some people responded warmly. Most didn't say anything. I didn't know if it had landed for anyone, and I moved on.
+
+Then someone in the community asked if we'd add a venting channel. We've talked about that kind of channel before, and we've decided against it; the emotional labor of moderating one is more than we can take on. The last time the question came up, before any of the moderators could respond, a different member replied with a link to The Forgetting Machine. They told the original asker it might be a good place to write the kind of thing they wanted to vent. Write it, watch it disappear, hopefully feel a little better.
+
+I was shocked. I had no idea the piece had landed for that person. They'd never said anything to me about it. They'd been quiet when I shared it, like most people. But it had stayed with them, and when someone else in the community needed a place to put something heavy, they thought of it and reached for it without me being part of the conversation at all.
+
+That's the moment I knew the piece had found its shape. Not because I'd watched it work, but because someone else had recognized what it was for, accurately, and offered it to a stranger. The piece was doing what I'd hoped it would do, in a way I couldn't have engineered.
+
+I use it myself, too. I'll come back to it now and then to share a feeling I don't need in my life anymore. There's something that brings me back, something about typing the thing and watching it go that helps in a way that just thinking about it doesn't.
 
 ## Stack
 
-Vanilla TypeScript, Vite, plain CSS using custom properties. Two production dependencies: `@vercel/analytics` for page views only, and `soundscape-engine` (a package I maintain on npm) for the music. Vitest with jsdom for tests. Hosted on Vercel, deployed automatically on push to main. TypeScript configured with `strict`, `noUnusedLocals`, `noUncheckedIndexedAccess`, and the newer `verbatimModuleSyntax` and `erasableSyntaxOnly` flags. A pre-commit hook runs lint, typecheck, and commitlint.
-
-## On the Music
-
-The soundtrack is a 70 BPM piece I composed in my own tool. It's three tracks (strings, bell, piano), 46 notes, 4/4 time, a 70-beat phrase that plays only once. The file (`music.json`) is 7,799 bytes of pure composition data, loaded at runtime and handed to the engine along with the engine's built-in instrument presets. When the broadcast phase ends, the silence phase triggers `musicManager.fadeOut()`, which steps the engine's master volume to zero over 7 seconds using `requestAnimationFrame` and `engine.updateMixer()`. The fade is implemented in the consumer rather than the engine because the engine is deliberately unopinionated about automation: it doesn't have a built-in tween system, and I didn't want it to.
+Vanilla TypeScript with strict configuration. Vite for the build. Plain CSS using custom properties. Two production dependencies: `@vercel/analytics` for aggregate page views (no per-user tracking) and `soundscape-engine` for the music. Vitest with jsdom for tests. Vercel for hosting, with auto-deploy on push to main.
 
 ## Numbers
 
 - 812 lines of TypeScript across 10 source files. 249 lines of CSS. 2 production dependencies.
-- 60 seconds of decay across four named phases: clear (0-19.8s), drift (19.8-40.2s), dissolve (40.2-55.2s), vanish (55.2-60s).
-- Each character has its own randomized phase thresholds, so no two characters decay on quite the same schedule.
-- Mobile performance fallback kicks in after 10 consecutive frames slower than 33ms.
-- 7-second music fade out, 5-second silence hold, then the site resets.
-- Audio context is only created inside the "Let go" click handler, so the browser's autoplay policy is respected.
-- Test suite covers the phase renders, decay math, threshold distribution, effect application, and the progress bar. 511 lines of tests for 812 lines of source.
+- 60 seconds of decay across four phases: clear (0-19.8s), drift (19.8-40.2s), dissolve (40.2-55.2s), vanish (55.2-60s).
+- Each character has randomized phase thresholds, so no two decay on exactly the same schedule.
+- The mobile fallback engages when the device drops more than ten consecutive frames below 30fps.
+- 7-second music fade out, 5-second silence, then the site resets.
+- 511 lines of tests for 812 lines of source code.
 
 ## Try It
 
-[https://forgetting-machine.com/](https://forgetting-machine.com/)
+[https://forgetting-machine.com](https://forgetting-machine.com)
 
 Type something. Click Let go. Wait.
 
 ## What I'd Do Differently
 
-The RAF loop in the broadcast phase returns a `stopLoop` function for cancellation, but the current orchestration doesn't store it. If a rapid phase transition were triggered during broadcast (it can't be via the UI, but it's structurally possible within the current design), the loop wouldn't be cancelled. It's a latent correctness bug and I should either wire it up or remove the affordance.
+The visual fade and the audio fade don't share a clock. In a longer experience, the drift between them when the tab is backgrounded would be noticeable. It's fine for sixty seconds. If I built another piece in this idiom, I'd start from a unified clock.
 
-The visual fade loop and the audio fade loop are independent timers with no shared clock. In a longer experience the drift between them during tab backgrounding would be noticeable. It isn't noticeable here, but if I revisited this I'd run both off a single RAF source and pass elapsed time to each subsystem.
+Part of the mobile detection logic relies on user-agent sniffing, which is fragile and unreliable on tablets with keyboards or other hybrid devices. Better media queries would be more robust. The cost of getting it wrong is low, since it just chooses between two correct implementations, but it's still worth fixing.
 
-`isMobile()` uses user-agent sniffing, which is inherently fragile. Pointer and hover media queries would be more robust and don't lie when someone's on a tablet with a keyboard.
-
-And the README still lists `src/decay/characters.ts` in the project structure diagram, months after I deleted it. It's a small issue, but it's the kind of drift I'd normally catch.
+The README still lists a file in the project structure diagram that I deleted months ago. Documentation drift is a real bug, and I should treat it that way.
 
 ## What's Next?
 
-Probably nothing structural at this point. The piece is what it is. I'll tighten the small things above, and at some point I want to write about the decision to remove the glitch aesthetic, because it's the design decision I'm proudest of on this project and it's invisible from the final product.
+I carried that drive on the 101 with me for twenty years before I knew what to do with it. The Forgetting Machine is the form I finally found for it. It's not a project that wants to grow, and it doesn't need anything else from me. The piece is what it is, and what it is is enough.
+
+Somewhere out there, someone is typing something into it right now. They're going to watch it disappear, and the music is going to play through, and they're going to feel something. I don't know what they're going to feel. That's not mine to decide. But the piece will be there for them, the way the radio was there for me on a dark stretch of highway twenty years ago, however briefly, in a way that mattered.
+
+That's the work. That's what I wanted to make.
