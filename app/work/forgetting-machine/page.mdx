@@ -31,7 +31,7 @@ That moment stayed with me for two decades. Not because it was sad, exactly, but
 
 The Forgetting Machine is an attempt to make that feeling structural. You sit with something for a moment. Then it's gone, and the music goes with it. I made it as an art piece. I knew I was making art. It's closer to a poem than to software, and I wanted it to evoke something specific in whoever uses it.
 
-People have told me different things about how it feels. Some say it makes them sad, or makes them think about loss. Others say it's calm, or peaceful. Both are right. Art is allowed to do different things to different people.
+People have told me different things about how it feels. Some say it makes them sad, or makes them think about loss. Others say it's calm, or peaceful. Both are right. Art is allowed to be different things to different people.
 
 ## On Accessibility
 
@@ -42,6 +42,10 @@ Accessibility isn't something I add at the end of a project. It's a foundational
 That belief gets tested when you're building an art piece, because art is often the place where accessibility falls away first. A gallery installation might rely on visuals only. A musical performance might rely on hearing only. The assumption that art requires a particular kind of body and a particular kind of perception is so embedded that it's easy not to question it.
 
 I wanted The Forgetting Machine to be accessible because I believe an art piece, of all things, should be available to anyone who wants the experience. The decisions I made around screen readers, reduced motion, and performance fallbacks weren't compliance. They were the piece taking its own values seriously.
+
+I should be honest about what that's looked like in practice. I built the screen reader experience the way I thought it should work, then someone close to the project pointed out that I had never actually described the screen reader version of the piece end to end. So I tested it with VoiceOver, and what I'd built didn't behave the way I thought it did. Some announcements fired. Others didn't. Focus management was incidental rather than intentional. The gap between what the code said it did and what a screen reader user actually experienced was real.
+
+I've been working on closing that gap, and I'm still working on it. Accessibility is harder than it looks, and the platforms are inconsistent, and the abstractions leak in ways that are only visible when you sit with the actual tool and watch what happens. The version of the piece live right now is more accessible than it was, less accessible than I want it to be, and an accurate snapshot of the work-in-progress that is doing accessibility well.
 
 ## What Made It Hard to Build
 
@@ -67,7 +71,9 @@ When the broadcast ends, the teardown happens in a specific order: clear the acc
 
 **A Content Security Policy enforces the privacy claim at the HTTP layer.** The browser itself is configured to refuse any attempt to send your text anywhere. Even if an exploit were introduced, the browser would refuse the request. Privacy that depends on developer discipline can erode quietly. Privacy enforced by the browser holds up.
 
-**Two ways of telling a screen reader what's happening.** When the experience starts, a hidden announcement region holds the secret and reads it once. The visible characters aren't individually labelled, so the screen reader doesn't get a horror show of letters disappearing. At the end, a more urgent region announces "Gone." because the conclusion should interrupt. The visual layer does the decay; the accessibility layer tells a quieter, punctuated version of the same arc.
+**The screen reader experience is its own version of the piece.** A screen reader can't watch the visual decay, so the visible characters aren't individually labelled. A polite live region holds the secret and announces it once at the start of the broadcast. An assertive region announces "Gone." at the end. The visual decay plays out silently for screen reader users, the way silence plays out for everyone else. The accessibility layer doesn't try to mirror the visual layer literally; it tells a different version of the same arc.
+
+In practice, getting that experience to actually work the way I designed it has been an ongoing process. Some announcements fire reliably. Others don't, depending on focus management, timing, and platform-specific quirks I'm still working through. The intent of the design is correct. The execution is still catching up with the intent. I'm continuing to iterate on it.
 
 **Reduced motion is a different experience, not a switch.** When someone has indicated they prefer reduced motion, or when the device starts struggling to keep up with the per-character animation, the whole text container fades as one unit instead. Same arc, same timing, less work for the device. The accessibility version and the performance fallback share a code path, which means a regression in one would be caught by the other.
 
@@ -75,7 +81,7 @@ When the broadcast ends, the teardown happens in a specific order: clear the acc
 
 **A glitch aesthetic was built and then removed.** An earlier version of the decay replaced characters with Unicode block shapes (`░▒▓`) as they faded, giving the whole thing a corrupted, radio-static look. The idea wasn't new. I'd written the same effect for RO-SHAM-BO.EXE, an earlier project of mine, where the entire aesthetic is retro-terminal and the chaos belongs. I had working code and a tool I trusted. I dropped it into The Forgetting Machine, lived with it for about a week, then deleted it.
 
-It was wrong here. Static is panic. Static is the thing breaking down. The Forgetting Machine is about gradual loss, not chaos. Fade was the right shape.
+It was wrong here. Static is panic. Static is the thing breaking down. The Forgetting Machine is about gradual change, not chaos. Fade was the right shape.
 
 This is the design decision I'm proudest of, and you can't see it in the final result. That's how design works sometimes. The most important call you make is the thing you decide not to do, even when the thing you're declining is something you already built and know works.
 
