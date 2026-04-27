@@ -11,8 +11,101 @@ export const metadata = {
 
 # Soundscape
 
-**A browser-native music sequencer and synthesizer, shipped as a zero-dependency npm package with a web-based composer.**
+**A browser-native music sequencer and synthesizer, shipped as a zero-dependency npm package with a web-based composer. The audio engine that powers the music in two of my other projects.**
 
 Active · [npm](https://www.npmjs.com/package/soundscape-engine) · [Composer](https://soundscape-editor.vercel.app/) · [Source](https://github.com/anthony-liddle/soundscape)
 
-## Coming Soon
+## The Pitch
+
+Soundscape is two systems in one repo. The engine, `soundscape-engine`, is a 22KB audio library with no runtime dependencies. It handles synthesis, scheduling, voice management, and effects on top of the Web Audio API. The editor is a React app that sits on top of the engine and lets you compose multi-track pieces in a piano roll, then export them as JSON files the engine can play anywhere.
+
+It's the audio layer for two other projects in my portfolio: [RO-SHAM-BO.EXE](/work/ro-sham-bo-exe/) and [The Forgetting Machine](/work/forgetting-machine/). Both use music I composed in the editor. The piece you hear when you let go of a secret on The Forgetting Machine is a Soundscape file, played back by the engine.
+
+## Where It Came From
+
+I've been obsessed with music my whole adult life. I've never been paid for it; it's always been the thing I do alongside everything else. Guitar, bass, ukulele, piano, vocals. I've been in and out of a lot of music projects over the years. I've also been a web developer for fifteen years. Soundscape is the project where those two halves of my life finally met up.
+
+The thread goes back further than Soundscape itself. In late 2012, I built a browser-based drum pad with WAV files, where you could record a loop, hit pads to trigger samples, and the loop would play back automatically. I built it after working on something similar at my day job and wanting to take the concept further on my own. In 2013, I built an art piece where you'd draw a picture on a `<canvas>` element and the code would loop through the pixels, generating tones from the color values. I'd just thought, "how can I draw a song?", and took it and ran. In 2014, I built a real-time audio visualizer that generated fractals from microphone input. I was in a noise-punk two-piece at the time, me and a drummer, and the plan was to project the fractals on the wall behind us during shows. It didn't hold up past one rehearsal, mostly because I didn't have a real digital projector; I was using one of those mirror projectors meant for laying photos on, and propping my laptop onto it the way I was wasn't really what it was built for.
+
+I tell you all that because Soundscape didn't come out of nowhere. It came out of more than a decade of pulling on the same thread from different angles. Browser audio, generative sound, music as something you build software around. There are still ideas from those early experiments rolling around in my head, and who knows, maybe one of them will surface in some completely unexpected way someday.
+
+The actual moment Soundscape clicked happened in the middle of building RO-SHAM-BO.EXE. I was writing music for the game in GarageBand, exporting individual tracks as MP3s, and playing them back overlapped in the browser, muting and unmuting them as the game's tension shifted. It worked, but the bandwidth was getting heavy, and the more layers I added, the more brittle the system felt. I started getting concerned about how much audio I was shipping over the wire for a small game.
+
+Around the same time, I spent an afternoon at the Synth Library in Portland, in an introduction to synth music class. (Yes, this is a very Portland story. There's a synth library you can take classes at. I love it here.) I'd used the Web Audio API plenty over the years, but mostly for playing back external audio files, not for synthesis. The class gave me a different lens. By the time I left, I had a clear realization: it would be much more efficient, on every axis (bandwidth, file size, flexibility), to generate the tones directly in the browser and ship a configuration of those tones plus a schedule.
+
+That's what Soundscape is. Take a tone configuration and a schedule, play it back. Once I had that frame, the project wrote itself.
+
+## On Building My Own
+
+I didn't seriously consider Tone.js, the obvious existing alternative. Partly that was an exercise in what I could actually build; I wanted to know if I could write a scheduler and a synth voice and an effects chain from scratch, and I wanted the tool I ended up with to be one I understood end to end. Partly it was about overhead. Tone.js is great, but it's significantly larger than what I needed. By writing it myself, I knew I could keep the engine small, keep the API shaped exactly to my use cases, and skip every feature I knew I'd never reach for.
+
+There's also something to be said for trusting your own work when you've been pulling on a thread for over a decade. By the time I started Soundscape, I'd written Web Audio code many different times. I knew what the API could do. The decision to build my own wasn't naive; it was informed by the experiments that came before.
+
+This isn't a case for never using libraries. It's a case for knowing when you're the right person to build the thing yourself, because you've been building close to it for long enough that the work is more interesting than the dependency would be.
+
+## Key Decisions and Tradeoffs
+
+**Zero runtime dependencies.** The engine has no dependencies in its `package.json`. None. That meant writing the scheduler, the synthesizer voices, the envelope generator, the filter, the modulation, and the effects chain from scratch. The payoff is a 22KB library that drops into any project without bringing anything else along with it. A consumer importing the engine doesn't have to wonder what else they're importing.
+
+**The scheduler runs on the audio thread, not the main thread.** This was the most important technical call in the project, and the version I shipped is better than the one I started with. Browsers don't make precise audio timing easy. The standard approach is a "lookahead scheduler" that wakes up periodically and queues up notes that should play in the near future. The problem is that the usual JavaScript timer for waking the scheduler up gets throttled by the browser to about once per second when you switch away from the tab. So if you started a piece, switched to your email, and came back, the music would have stuttered or stopped entirely.
+
+The fix is something called AudioWorklet, which is a way to run code on the dedicated audio thread that the browser doesn't throttle. The scheduler ticks about every three milliseconds regardless of whether the tab is focused, and the music keeps playing cleanly even if you're somewhere else.
+
+I didn't know about AudioWorklet when I started this project. Someone recommended it, I learned it, and once I understood what it did, I rewrote the scheduler. I would have shipped a worse version of this tool without that conversation. I'm including that detail because the case study should reflect what actually happened, and what happened was: I built it one way, learned about a better way, and rebuilt it. That's the work.
+
+**The engine and the editor used to be one package.** They started together, in a single npm package. Partway through the build, I realized that anyone who wanted to play back a Soundscape composition didn't need a piano roll UI bundled with the engine. So I split them. The engine is a tiny library; the editor is a separate web app that imports the engine and adds the composition tools on top.
+
+That split is what makes Soundscape useful as infrastructure. The Forgetting Machine doesn't need an editor; it just needs to play back a JSON file. Splitting them meant The Forgetting Machine could import only the small library, in vanilla TypeScript, with no React anywhere.
+
+**The engine doesn't know about React.** Or any framework. It's pure TypeScript and the Web Audio API. Consumers integrate however they want. The editor wraps it in a React provider; The Forgetting Machine instantiates it in a plain class. Both work because the engine doesn't care which one is calling it.
+
+If I'd built the engine to assume React, The Forgetting Machine would have had to pull in React just to play music, on a project that doesn't use React for anything else. The framework-free design wasn't an aesthetic choice. It was a portability choice, and it's been validated every time I've reached for the engine in a new project.
+
+**Sliders that feel right.** Synthesizer parameters in their raw form are unforgiving. Filter cutoff, for example, is a frequency in Hertz, and human hearing perceives frequency logarithmically, not linearly. So if you put a slider on raw Hertz values, sliding it from 100 to 200 sounds like a huge change, and sliding it from 10000 to 10100 sounds like nothing at all. Same numerical change, completely different musical result.
+
+The engine handles this by exposing every continuous parameter as a number from 0 to 1, with internal mapping functions that convert to actual values along perceptually meaningful curves. The composer or developer building a UI on top doesn't have to think about this. They just put a slider on a parameter, and the slider feels right.
+
+This is the call I'm proudest of as a working musician building a tool. If you've ever fought with a UI where the knobs don't match what your ears are doing, you know how much this matters. A musician shouldn't have to think about exponential frequency curves to set a filter. They should just hear the sound and adjust.
+
+**Composition state lives outside the engine.** The engine knows what's playing right now. It doesn't know about your full composition. The composition is a regular JavaScript object that the consumer owns. The editor manages it with state and an undo stack; The Forgetting Machine just imports a JSON file. The engine doesn't care where the composition came from.
+
+A Soundscape composition is just data. You can save it, version it, hand-edit it if you want to. That's a different kind of portability than runtime portability, but it's worth having.
+
+This ended up less like a side project and more like infrastructure I'll reuse; small, focused, and built to survive outside the project that created it.
+
+## Stack
+
+TypeScript across the whole monorepo. Web Audio API and AudioWorklet for the engine. React 19 and Vite 8 for the editor. Vitest for tests across both packages. The engine ships with zero runtime dependencies; the editor adds React and React DOM. No audio libraries, no state management libraries, no event emitters anywhere.
+
+## Numbers
+
+- Engine: roughly 2,000 lines of TypeScript across 18 files.
+- Editor: roughly 2,300 lines across 25 files.
+- Published engine bundle: 22KB on disk.
+- Eight simultaneous voices per track, with the oldest voice yielding to a new one when needed.
+- The piano roll spans seven octaves. Eleven built-in synth presets.
+- Five published versions on npm so far.
+
+## Try It
+
+[https://soundscape-editor.vercel.app/](https://soundscape-editor.vercel.app/)
+
+Compose a pattern, export the JSON, and you have a file the engine can play anywhere. The music in The Forgetting Machine is one of those files.
+
+## What I'd Do Differently
+
+The piano roll in the editor renders every cell of the grid as a real DOM element. At the current loop length it's fine, but it'll get sluggish on longer arrangements. Virtualizing the grid (only rendering the cells you can see) is overdue.
+
+You can't drag to move a note in the editor right now. You have to delete it and redraw it where you want it. Two gestures where there should be one. It was easy to defer in the first version and it's noticeable now.
+
+The reverb effect generates a fresh impulse response for each track, which means two tracks have subtly different reverb characters even when they shouldn't. Sharing one would fix it. It's a small thing, but it bugs me.
+
+## What's Next?
+
+I'm planning a restructuring of how compositions are stored, moving from a flat list of tracks and notes to a "patterns and arrangements" model that's closer to how most digital audio workstations work. It's a breaking change to the data shape, so it'll land with v0.3. The editor I want, eventually, is one where you compose short patterns and arrange them into longer pieces, instead of writing one long timeline.
+
+I'm also planning a cleaner runtime API for embedding the engine in games and interactive experiences, with imperative methods for adjusting the mix in real time. I expect to keep building things that need a dynamic music layer, and I want the integration to be cleaner than it was in RO-SHAM-BO.EXE.
+
+But what I keep coming back to is what this tool has already done. RO-SHAM-BO.EXE has a glitching, escalating, retro-terminal soundtrack that gets meaner as the game gets meaner. The Forgetting Machine has a 70 BPM piece, three tracks, played once, that fades out as a stranger's secret disappears. Two completely different pieces, in completely different genres, written in the same editor, played back by the same engine.
+
+Twelve years ago I was drawing pictures on a canvas and turning them into tones. Today I have a tool I built myself, and when the next project needs music, I won't be back in GarageBand exporting MP3s. I'll be in my own tool, composing for whatever comes next. The thread continues.
