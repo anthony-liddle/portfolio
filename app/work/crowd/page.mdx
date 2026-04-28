@@ -11,8 +11,124 @@ export const metadata = {
 
 # Crowd
 
-**A location-based, ephemeral messaging platform where your identity exists only as long as your content does. Messages are visible only within a radius, and only for a limited time. When everything you've posted expires, your identity expires with it.**
+**A location-based, ephemeral messaging platform for protest organizing and community coordination. Anonymous to the platform itself, by design. There's safety in numbers.**
 
-In active development · [Source](https://github.com/anthony-liddle/crowd)
+Active · [Source](https://github.com/anthony-liddle/crowd)
 
-## Coming Soon
+## The Pitch
+
+Crowd is a mobile app where the messages you see are limited by where you are. You post a message with a radius and a duration. People physically inside that radius see it for as long as it lives. Then it's gone, no longer returned by the API, and eventually deleted from the database, leaving no record it ever existed.
+
+There are no accounts. Your identifier is a UUID generated on your device that rotates when your content runs out. The server has no way to correlate one rotation to the next. The platform genuinely cannot distinguish you from anyone else once your content has cycled through.
+
+I'm building it for organizing under conditions where surveillance is a real threat. The subtitle is "there's safety in numbers," and that's the thesis: the people using Crowd are protected by being anonymous in a crowd of anonymous people, and the messages they share don't leave a trail.
+
+## Where It Came From
+
+I had the idea for Crowd in the summer of 2015. I'd been watching what was happening with movements like Occupy Wall Street, the Arab Spring, the Gezi Park protests in Turkey, and the Umbrella Movement in Hong Kong. People were using the platforms available to them, mostly Twitter and Facebook, to coordinate, share information, document state violence, and find each other. Those platforms made the organizing possible at a scale that would have been impossible without them. They also made organizers visible. Identifiable. Subject to being tracked, doxxed, throttled, or in the worst cases handed over to oppressive regimes.
+
+The Turkish government openly attacked Twitter during the Gezi protests, calling it a menace. The Umbrella Movement in Hong Kong went a different direction. Demonstrators leaned heavily on FireChat, an app that used Bluetooth and peer-to-peer mesh networking so phones could pass messages between each other directly, without going through cell towers or the open internet. That meant the network kept working when service was overwhelmed, and the messages didn't have to pass through a company's servers to reach the next person in the crowd. I've thought about FireChat often in the years since. The idea of a protest network that doesn't depend on infrastructure controlled by anyone is a powerful one. I'll come back to that.
+
+I wanted there to be an alternative. Something where the platform itself didn't know who its users were. Something where messages didn't persist beyond the moment they were useful. Something where the act of using the platform didn't generate a record that could be subpoenaed, leaked, or sold.
+
+I built a prototype. React Native was new at the time, and I was interested in mobile but progressive web apps weren't there yet. I'd worked with PhoneGap before but had lost interest in it, mostly because it required jQuery Mobile to do anything useful, and I'd developed an annoyingly snooty attitude about jQuery being a crutch. Some of that was real (once you know vanilla JavaScript well, importing a massive library for relatively simple things starts to feel unnecessary), and some of it was the particular smugness of having just learned something better.
+
+React Native was the framework that made sense at that moment. The community was small and approachable in a way that made it fun to be an early adopter. I'd been working with Angular at my day job and I was not enjoying myself. I'd inherited a complicated project, and the cracks in a large-scale Angular codebase, especially around change detection and state management, had me reaching for alternatives. React Native felt like a different way to think about UI work, and I wanted to spend time in it.
+
+The backend was Parse, which was good enough for rapid iteration. It was free, and the backend model was familiar from other projects I'd worked on
+
+I put the app on my phone and took long walks over my lunch break, posting messages and checking the feed, watching them appear and expire. I was the only user. The proof of concept worked, but my backend skills weren't where they needed to be to build the version of this I actually wanted, and React Native in 2015 had real gaps for what I was trying to do. So I shelved it.
+
+The idea didn't go away. I thought about Crowd often over the next decade. The need only kept growing.
+
+## On Why It Still Matters
+
+The political climate in 2025 makes this project feel more relevant than it did in 2015. ICE raids are happening with little public warning. Protesters are being doxxed and harassed for showing up to demonstrations. Activists are being tracked through their device IDs and social media activity. The platforms organizers used a decade ago have, in many cases, become part of the surveillance infrastructure that targets them now.
+
+I'm building Crowd for that reality. There are people putting themselves at risk simply by showing up, and visibility is the thing that puts them at risk. The platform's whole shape comes from that: anonymous to itself, ephemeral by default, location-bound so messages reach the people physically present rather than scaling indefinitely.
+
+I want to be honest about something. A platform with these properties (anonymous, ephemeral, location-based) is also a platform that could be used for things I'm not building it for. Illegal activity, harassment, misinformation, and worse. I've thought about this seriously, and I want to surface that thinking rather than pretend the question doesn't exist.
+
+A coworker once wrote an essay about her engineering practice, and the line I remember most was that the first thing she asks about every project is "can this be used to hurt someone?" That question stayed with me. Expecting users to be altruistic isn't just naive; it's actively harmful and negligent. You have to think through the misuse cases or you're not doing the design work ethically.
+
+For Crowd, I'm willing to make the tradeoff. The kinds of organizing that need anonymity and ephemerality (protest coordination, activism under surveillance, mutual aid in legally gray spaces) need the same affordances that less savory uses also need. Even Twitter, with all of its identity verification and surveillance, has users coordinating illegal activities, harassment campaigns, misinformation, and substantially worse things than what Crowd specifically enables. Crowd is more limited than that by design. There's no image sharing, no video, no link sharing. I'm not planning to add any of those. The platform's whole design leans toward small, local, ephemeral coordination, and the scope of what it can be used for is bounded by what those constraints allow.
+
+I'd rather build the thing that protects people who need protecting and accept that some people will use it for things I wouldn't choose, than build nothing because someone might misuse it.
+
+## The Return
+
+In 2025, after a project at BreakAway Data brought me back to React Native for the first time in a decade, I sat down to rebuild Crowd from scratch.
+
+The 2015 codebase wasn't worth migrating. Almost everything had changed: the React Native versions, the build tooling, the libraries, the patterns, the platforms. Parse was long gone. So I started fresh, with the benefit of ten years of additional experience and a clearer sense of what I actually wanted Crowd to be. This time I had a fire in me; the world is actively burning down around us, and I needed to do *something*.
+
+I built the new version on Expo and React Native, with a Fastify backend, Drizzle ORM, and PostgreSQL. The full stack is at the bottom of this case study. What's worth noting up front is that I structured it as a monorepo with shared types and a hand-rolled API client, because I wanted runtime validation on both sides of the API boundary and a single source of truth for the data contracts. That's a heavier setup than a small app needs. I built it that way because the platform deserves to be built carefully.
+
+## Key Decisions and Tradeoffs
+
+**Anonymous, with rotating identity.** There are no accounts on Crowd. The first time you open the app, it generates a UUID and stores it in your device's secure storage (the OS keychain, encrypted at the device level). That UUID is your identity for as long as you have active content. When everything you've posted or boosted has run out, the UUID rotates: a new one is generated, the old one is wiped, and the server has no way to connect them.
+
+The clock that triggers rotation isn't a wall-clock timer. I made it a watermark that advances every time you post or boost a message, and the watermark advances to the latest end time of anything you've engaged with. If everything you've posted has a short lifespan, you stay identifiable for a short window. If you've boosted something with a long lifespan, you stay identifiable until that ends. Your identity literally lives as long as your content does, then resets. It's privacy as expiration rather than privacy as timer.
+
+The server has no awareness of rotation. It stores the UUID and uses it to look up your messages, but it doesn't try to figure out who you are from it. The UUID is just an arbitrary identifier with no meaning attached. Even if the database were compromised, even if a server log were leaked, there's nothing to link a previous identity to a current one.
+
+**Boosting as geographic relay, not numeric extension.** Messages have a radius. People physically inside the radius see the message. The obvious way to let users amplify a message would be to let them extend its radius, but that means trusting the booster to set a reasonable new value, and it creates an easy vector for spam.
+
+I made boosting work geographically instead. When you boost a message, the app records your location at the moment of the boost. The feed query then asks: what's the closest reachable point of this message to me? Either the message's original location, or any of its boost locations. The radius doesn't change. What changes is where the radius is measured from.
+
+This means a message can spread by being relayed by people who physically encounter it and choose to extend it into their own area. A protest update posted at the front of a march can be boosted by people further back, and from there boosted by people in adjacent neighborhoods. The message moves the way information actually moves: held and passed along by humans in physical proximity to each other.
+
+The original 2015 design had a different boosting mechanic. I called it "chaining" then. Each boost extended the reach but reduced the lifespan. The idea was that things spreading fast should die fast, as a structural limit on virality. I removed that in the current version. It felt limiting, and since I'd kept the maximum radius small enough that runaway virality isn't really a concern, the constraint wasn't earning its keep. Trusting users felt like a better default than enforcing a limit they didn't ask for.
+
+**Two kinds of feeds: global and crowds.** The default Crowd experience is the global feed. You see messages from anyone whose radius reaches you. This is the platform's main shape: location-based, public, ephemeral.
+
+Crowds are optional named groups that have their own scoped feeds. If you join a crowd, you can see messages posted to that crowd in addition to the global feed. Crowds have a 24-hour lifespan and then they're gone, taking their messages and memberships with them. When you join a crowd, the app generates a separate UUID specifically for that crowd. This crowd-specific identity persists across global identity rotation, which lets you stay a stable member of a crowd while your global identity cycles.
+
+Crowds come in two kinds: open and private. Both are invite-only at the moment, meaning you join either kind by entering a crowd code or following a share link. The meaningful design distinction I'm building toward is how the join flow itself works. Open crowds will eventually be joinable by anyone with the code. Private crowds will require physical proximity to join, through tap-to-share or a QR code scan, so that becoming a member of a private crowd requires being physically near someone who's already in it.
+
+The original idea was that Crowd would be one big global feed and nothing else. A developer friend of mine and I have a regular weekly cowork call, and on one of them I was talking about Crowd and he raised the idea of named groups. I was resistant at first. I wanted the platform to be open and to trust users at scale. My instinct was that the positive use cases would outweigh the bad actors, the way most platforms eventually balance out around their use cases.
+
+The thing that changed my mind was thinking about protest organizing specifically. The cost of one infiltrator is much higher than the cost of one missed user. Open feeds tolerate noise. Protest organizing doesn't. A trusted invite-only group, especially one that requires physical proximity to join, is structurally aligned with the rest of the platform. You can't infiltrate it remotely. And there's a real friction baked into the infiltration: someone trying to get in has to gain access from a trusted member of that crowd, in person, face to face. The infiltrator's identity, or at least their face, is on the line.
+
+The schema supports both kinds. The UI lets you create both. The actual proximity-based join mechanism for private crowds is the next thing I'm building.
+
+**Ephemerality enforced server-side, with a cleanup pass.** Messages have an `expiresAt` timestamp set at creation. The feed query filters out anything past its expiration, so expired messages stop appearing in results immediately. Hard deletion (actually removing the rows from the database) happens via a cleanup script that needs to run periodically.
+
+Right now I run the cleanup script manually. The plan is to set up a cron job, running it regularly on a set schedule. The lag between expiration and hard deletion isn't user-visible, but it matters for the privacy claim: a message that's been "deleted" but still sits in the database is a message that could theoretically be recovered. The script exists; the automation is the gap I haven't closed yet.
+
+**Haversine in SQL for distance.** The feed query computes distance between the user's location and each message location using the Haversine formula, written as inline SQL inside the Drizzle query. No PostGIS, no geospatial indexes, no bounding-box pre-filter. Every feed query computes distance against every non-expired message.
+
+This works at the current scale and won't at higher scale. The right move when message volume grows is to add an indexed bounding-box filter that eliminates rows obviously outside the radius before the trig math runs, or to switch to a geohash-based index. The fix is well-understood. And honestly, hitting that scaling cliff would be a great problem to have, because it would mean people are using Crowd. I'd welcome that problem.
+
+The system is designed so its guarantees (anonymity, ephemerality, locality) are enforced by architecture, not by policy.
+
+## Stack
+
+Monorepo via pnpm workspaces. Backend is Node.js with Fastify v5, Drizzle ORM, PostgreSQL via the pg driver, Zod for validation, Vitest plus Testcontainers for integration tests against real Postgres. Mobile is React Native with Expo v54, React Navigation, NativeWind for styling, React Hook Form, Expo SecureStore plus AsyncStorage for persistence, expo-location for geolocation. There's also a small devtools web app (React plus Vite) that lets me simulate being at any latitude and longitude for development. Shared types and Zod schemas live in their own packages, consumed by both the mobile app and the devtools. Docker Compose for local PostgreSQL.
+
+## What I'd Do Differently
+
+The cleanup automation is the most important gap to close. The script works; it just needs to run on a schedule. Until that's in place, expired data sits in the database longer than it should, and that weakens the privacy claim by a small but real amount.
+
+The Haversine-per-row approach will need a bounding-box filter or a geospatial index when the platform sees real usage. I'm looking forward to that problem.
+
+Mobile tests aren't run in CI right now. The server tests are thorough, the shared package tests are solid, but mobile is currently relying on local runs. That's the testing gap I'd close first.
+
+The fallback in the identity rotation code uses a nil UUID (all zeros) when the device's secure storage fails. In a development environment that's fine. In production it would mean any user with a SecureStore failure gets the same identity as every other failing user. The right fallback is probably to fail loudly rather than silently degrade. Small fix, real importance.
+
+The CORS configuration defaults to `*`, which is fine for development and wrong for production. I'll lock it down before any real launch.
+
+## What's Next?
+
+Tap-to-share and QR code joining for private crowds. The schema and the UI for private crowds are in place; what's missing is the actual join flow that requires physical proximity. The plan is to support both QR codes (for hand-the-phone-over moments, printed handouts at organizing meetings, or even taped to the back of someone's sign at a protest) and tap-to-share (for closer in-person sharing). Either way, joining a private crowd should require being physically present with someone who's already a member. You can only get into a private crowd by being there, and that's the point.
+
+After that: cleanup automation, locked-down CORS, mobile tests in CI, and the bounding-box filter when the scale demands it.
+
+Eventually, public launch. The platform is approaching the point where it could be useful to people who aren't me. I want to get private crowds in place first so that early users have a way to organize safely, and I want to put it in front of activists and organizers I trust before any wider release.
+
+Longer-term, mesh networking is on my mind. The Umbrella Movement's use of FireChat back in 2014 was the demonstration that protest networks don't have to depend on the open internet. Bluetooth and peer-to-peer mesh would mean Crowd could keep working when cell service is overwhelmed at a demonstration, or when an authority decides to throttle the network. It would also remove a layer of dependency on any company's infrastructure, including mine. I've done some research on it. It's a serious technical undertaking, and this project is already ambitious enough without that layer of complexity. I want to get the basics working first. But mesh is the right answer for the most adversarial conditions, and Crowd should eventually have it.
+
+What I keep coming back to is what this project is for. The same friend who suggested private crowds also introduced me to solarpunk, and it resonated with me. Solarpunk, broadly, is a near-future vision where technology serves communities, ecology, and care rather than extraction and surveillance. It's a deliberate counter to the cyberpunk premise that the future is grim and we are alone. Solarpunk says the future is collective and we're going to need each other.
+
+Crowd is, I hope, a small piece of that. A platform built for the kinds of organizing that protect people, that strengthen community, that don't extract value from the people using them. There's anger in this work, at the surveillance state, at the platforms that have monetized our connections, at the political climate that's made this kind of tool necessary. There's also hope. People have always organized to protect each other. They've always needed tools to do it. I can't be in every protest, but I can build something that protects the people who are.
+
+There's safety in numbers. That's why this exists. That's why I'll keep working on it.
