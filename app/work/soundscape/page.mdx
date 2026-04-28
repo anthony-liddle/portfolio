@@ -65,7 +65,7 @@ If I'd built the engine to assume React, The Forgetting Machine would have had t
 
 The engine handles this by exposing every continuous parameter as a number from 0 to 1, with internal mapping functions that convert to actual values along perceptually meaningful curves. The composer or developer building a UI on top doesn't have to think about this. They just put a slider on a parameter, and the slider feels right.
 
-This is the call I'm proudest of as a working musician building a tool. If you've ever fought with a UI where the knobs don't match what your ears are doing, you know how much this matters. A musician shouldn't have to think about exponential frequency curves to set a filter. They should just hear the sound and adjust.
+This is the call I'm proudest of as a musician building a tool. If you've ever fought with a UI where the knobs don't match what your ears are doing, you know how much this matters. A musician shouldn't have to think about exponential frequency curves to set a filter. They should just hear the sound and adjust.
 
 **Composition state lives outside the engine.** The engine knows what's playing right now. It doesn't know about your full composition. The composition is a regular JavaScript object that the consumer owns. The editor manages it with state and an undo stack; The Forgetting Machine just imports a JSON file. The engine doesn't care where the composition came from.
 

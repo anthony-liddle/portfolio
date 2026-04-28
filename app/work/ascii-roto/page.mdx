@@ -11,8 +11,80 @@ export const metadata = {
 
 # ascii-roto
 
-**A command-line tool that converts video files into ASCII animations. Originally built to generate the hand gestures in RO-SHAM-BO.EXE, later extended to support color for a future project.**
+**A small command-line tool that converts video footage into looping ASCII animations. Built to make the visuals for RO-SHAM-BO.EXE; cleaned up and released after a friend asked how I'd made them.**
 
 Active · [Source](https://github.com/anthony-liddle/ascii-roto)
 
-## Coming Soon
+## The Pitch
+
+You give it a video file. It splits the video into frames, converts each frame into ASCII art, and exports the whole sequence as a JavaScript file you can import into a project and play back as an animation. The character set, density, and dimensions are configurable. The output is a flat array of strings, one per frame, ready to be played back as an animation.
+
+It exists because [RO-SHAM-BO.EXE](/work/ro-sham-bo-exe/) needed visuals, and I'm not a graphic designer.
+
+## Where It Came From
+
+I love lo-fi. Music, art, and especially tech. ASCII art has been used in games and computer interfaces for decades, and I grew up around enough of it to absorb it as an aesthetic before I started making things myself. Old MUDs (remember those?). Text-based adventure games. The kind of computer interfaces where the visual language was shaped entirely by what a fixed-width font could do.
+
+That taste runs through most of my work. RO-SHAM-BO.EXE's terminal aesthetic. The deliberate restraint of [The Forgetting Machine](/work/forgetting-machine/). The quiet typography of this portfolio. There's a thread of "less is more, constraint creates meaning" that I keep pulling.
+
+ASCII rotoscoping fits that thread perfectly. Rotoscoping (the animation technique of tracing over filmed footage frame by frame) goes back almost a century. Wizards is one of my favorite cartoons, and rotoscoping plays heavily into it. Combine the technique with ASCII, and you get something that respects both mediums: graphics that don't betray the constraint of the text grid, motion that reads as filmed because it was.
+
+The actual idea goes back to 2013, when I was building text-based RPGs and writing my own MUD-style engine. I remembered a radioplay series I'd written with a frequent collaborator, and I turned the first episode into a text-based adventure. I had friends play it. It had that quality of old point-and-click adventure games where the puzzles required some out-of-the-box thinking, so most of them didn't get very far.
+
+The whole time I was building those, I was looking for a way to add graphics that wouldn't betray the medium. The text-based form was the point. Pixel art or sprites would have undone the spell. ASCII felt right, but I didn't have a good way to make ASCII animations that didn't look stiff.
+
+In 2015, I tried. I sat on the bathroom floor with the lights off and the door closed, lit only by my computer screen (which I was using to film). I shot a five-second clip of my face emerging from darkness and disappearing back into it. I wrote enough code to convert that single clip into ASCII frames. Even at that stage I knew the dramatic shadows and darkness would be visually striking.
+
+The thing was, I didn't have a project that needed it. The text RPGs were quiet personal experiments and didn't quite fit. So the 2015 work sat for nine years.
+
+Then RO-SHAM-BO.EXE happened, and the technique finally had a home.
+
+## The Footage
+
+Most of the case study for the tool itself is short, because the tool is short. But I want to spend a minute on the actual footage process, because the footage is where most of the creative work lived.
+
+I bought a plain white plastic mask. I sat in a dark room and lit the mask from below, the way kids hold a flashlight under their chin to tell ghost stories. I filmed myself for a few minutes at a time. Then I'd review the footage and pull out the three-to-five-second clips that worked. Each clip went through ascii-roto.
+
+For higher-tension shots, I layered folds of tape on the mask so the directional lighting cast unnerving shadows. Taping a mask to make it weirder is exactly the sort of low-stakes physical creativity I love about working this way. No one is checking. You're alone in a dark room. You can try anything.
+
+For the highest-tension shots in the game, I ran mesh cables through the mask's eye sockets, then filmed myself slowly pulling the cables back into the mask. Played in reverse, it looked like cables bursting out of the eyes. When I shared in-progress animations, I would often hear "wow, I HATE that." That's when I knew I was on to something.
+
+The whole production was one person, a mask, a flashlight, a few props from around the house, and a video camera. I had a blast.
+
+## How the Tool Works
+
+The pipeline is straightforward. Take a video file. Use ffmpeg to extract individual frames as images. Resize each image to the target resolution and convert it to JPEG. Convert each JPEG to ASCII by mapping pixel brightness to characters from a configurable character set (denser characters for darker pixels, sparser for lighter). Concatenate the ASCII frames into a JavaScript array and write it to a file.
+
+The goal wasn't just to generate ASCII. It was to generate output that could be used as a stable, predictable asset in another system.
+
+The tricky parts:
+
+**The character set.** Choosing the right characters to represent grayscale values matters more than I expected. Too few characters and the image looks flat. Too many and the result becomes noisy. The mapping from pixel brightness to characters also has to be tuned to the specific footage; high-contrast lighting wants different ramps than soft-lit footage. I spent more time on character set tuning than on any other part of the tool.
+
+**The pipeline orchestration.** The script chains several tools together, and the failure modes of each step are different. A bad frame extraction can fail silently; a bad ASCII conversion produces garbage; a bad export breaks the consumer. Getting reliable, repeatable output across all three stages required a lot of small adjustments to error handling and intermediate file management.
+
+Even with the tool, building the animations for RO-SHAM-BO.EXE was time-consuming. For each clip, I'd export the ASCII frames, load them in a browser, watch them loop, and decide which frame the loop should start on and which it should end on. Then I'd hand-edit the JavaScript export array to trim to those bounds. I'd go in and clear up artifacts that shouldn't be there. The tool compressed the work; it didn't eliminate it.
+
+Still much shorter than drawing every frame by hand.
+
+## How It Got Released
+
+I didn't intend to release ascii-roto. It was a personal pipeline I'd built for one project, and I'd have left it that way. Then a friend played RO-SHAM-BO.EXE, asked how I'd made the animations, and expressed interest in trying it themselves. That's when I cleaned it up.
+
+The cleanup pass was bigger than polish. Up to that point, the only way I had to view the animations the tool produced was inside RO-SHAM-BO.EXE itself, since the game was the consumer. For someone else to use the tool, they’d need a way to see their output without standing up a full project around it. So I built a small HTML viewer that loads the exported JS and plays the animation back in the browser. I also added color support, which I'd skipped originally because RO-SHAM-BO.EXE is monochrome. That turned out to be a small and satisfying challenge, more interesting than I'd expected for what I'd assumed was a quick feature.
+
+The name came at that moment too. I hadn't been calling it anything in particular while I was using it; it was just "the script." When I sat down to give it a public name, I thought about what the tool actually was: ASCII output, rotoscoped from filmed footage. ascii-roto. The reference to rotoscoping is intentional. The technique has a long history I'm explicitly drawing on.
+
+## Stack
+
+Node.js. ffmpeg for video frame extraction. A small custom image-to-ASCII converter. No dependencies beyond Node and ffmpeg. Configurable through a JSON config file that controls character set, output resolution, frame rate, and color mode.
+
+## What's Next?
+
+The tool should probably be an npm package. Right now it's a repository you clone and run. Packaging it would let people use it without thinking about install paths, and it would put it in front of anyone searching for "ASCII rotoscoping" or "video to ASCII." I'll probably do it the next time I come back to the tool for another project. It's not a current focus; I have other things I'm working on. But the next time ascii-roto becomes useful to me, the publishing pass will come with it.
+
+There are also a few rough edges in the script that I'd like to clean up. The error handling assumes well-formed input, which is fine for a personal tool but bad for a public one. The configuration could do a better job choosing sensible defaults from the input video’s properties. The JavaScript export format is opinionated in ways that might not fit every consumer.
+
+But I keep coming back to what the tool already enabled. I had a creative impulse in 2015 that didn't have a home. Nine years later, the right project came along, and the tool I built to serve it produced visuals that helped make a small horror game land the way it does. Lo-fi tools for lo-fi work. The aesthetic and the practice keep finding each other.
+
+That's the satisfaction of the small projects. They don't change the world. They just make the next thing possible.
