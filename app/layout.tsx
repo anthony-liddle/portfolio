@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Libre_Baskerville } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import SiteNav from '@/components/SiteNav';
 import './globals.css';
 
@@ -63,6 +64,7 @@ export default function RootLayout({
             {children}
           </main>
         </div>
+        <Analytics />
       </body>
     </html>
   );
