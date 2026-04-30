@@ -15,4 +15,154 @@ export const metadata = {
 
 Active · [Live site](https://contact-your-reps.org) · [Source](https://github.com/anthony-liddle/contact-your-reps)
 
-## Coming Soon
+## The Pitch
+
+You type your ZIP code. The site shows you your two senators and your House representative, with phone numbers, field offices, photos, and for House members a link to their voting record. You pick any number of nineteen curated issues you want to write about. The site generates a message. You can edit it, copy it to your clipboard, and paste it into your rep's official contact form.
+
+The site never emails anyone. It never posts a message to a backend. It doesn't know your name or your address. When you close the tab, it forgets your ZIP code. Analytics is one aggregate page-view counter, no behavioral tracking. The whole contact mechanism is deliberately manual, because a personalized message is more likely to be read than a form letter, and because a tool that cannot send messages on your behalf is unable to misrepresent you.
+
+It's live at contact-your-reps.org. A few people visit it every day. Friends and family have used it. Someone once asked if I'd thought about trademarking the Voteprint visualization, which was the first moment I realized the work was doing something distinctive.
+
+## Where It Came From
+
+I've been cycling through depression and anger and frustration and fear about the state of this country. I've taken steps to protect myself: disengaging from some social platforms, being more selective and intentional with my inner circle, trying to lower the constant ambient distress that comes from staying plugged in to the daily news cycle.
+
+I didn't want to disengage from the larger community, though. We're all in this together. I firmly believe that contacting your representatives is a real way to enact change. I may be naive in that way. I'd rather try and be wrong than not try and be right.
+
+I am confident in my vulnerability. I've done a lot of work to be okay with not being okay. This case study can be both clear-eyed about the political situation and honest about the emotional state that produced this project, because both are true and neither cancels the other.
+
+So I built this. The first version went live three months ago. It started simple: enter a ZIP code, get back the contact information for your two senators and your House rep. Names, phone numbers, photos, links to official sites.
+
+A few years ago I did some phone banking for a political candidate. What stuck with me most clearly was how much the script helped. Knowing what to actually say to a stranger on the other end of the line is a real hurdle, and a script lowers it dramatically. People can have things they want to say but get stuck on how to say them. They know which issues they care about. They know they're frustrated, or scared, or angry that something needs to change. They just don't always know how to turn that into a sentence.
+
+That's where the issue selection came in. I started with my own list. Then I asked the communities I'm part of what issues they would want to see represented, and I added what came back. The list isn't just mine; it's the result of asking people what matters to them and trusting their answers. 
+
+Pick the issues you care about, get a generated message you can use as a starting point. Edit it, personalize it, copy it, paste it into the rep's contact form. The hurdle shifts from "I have to write a letter to my congressperson, oh god" to "I have to read this and decide if it's what I want to say."
+
+The first version's messages were too gentle. The language didn't match how furious I actually was. I rewrote them to be stronger. The current version uses language like "I demand," "your silence is complicity," "represent us, or we will find someone who will." That's a deliberate editorial choice. A neutral civic template has no teeth. Representatives need to understand what's at stake, and if they don't respond to how their votes affect their constituents, they need feel the risk of losing their position. We the people have the power to decide whether they're worthy of their power. We can take it away if we want, and they need to remember that.
+
+After the message generator was working and the site was live, I started thinking about the next layer. Party affiliation doesn't mean they're voting in my best interest. I wanted people to see how their representative actually vote at the moment they reach out. That's when I found Congress.gov's API.
+
+That's when Voteprint started.
+
+## On Why This Project, Now
+
+Years ago, I had an idea for a different version of this: a service that would physically mail letters to representatives on behalf of users. Not impersonating them, just handling printing, addressing, and postage. I imagined hundreds of letters going out every day. Realistically, it would have required full-time work and funding, so I shelved it. I might come back to it someday.
+
+Contact Your Reps closes part of that gap. It's not the physical-letter version, but it comes from the same instinct: lower the barrier to participation.
+
+Several of the issues on this list hit close to home for me. Prison reform. LGBTQ+ rights. The war on drugs. The specifics of how those issues touch my family aren't mine to share, but they're part of why I built this and not something I want to obscure. Surveillance and digital rights, which is also on the list, have been a thread in my career going back to Mozilla and are probably the most visible political throughline in the rest of my work.
+
+The thing is, these aren't just my issues. They're everyone's. We all deserve healthcare. We all deserve access to education, including higher education. We all deserve to live in a country where our reproductive choices, our gender identity, our immigration status, our race, and our economic class don't determine whether we get to be safe and free. The list is curated, not neutral. It reflects what I believe is at stake.
+
+The contact form on a representative's website is the way you actually reach them. Anything that makes using it less daunting is a thing worth building.
+
+## The Interesting Problem
+
+The surface area of the tool is small: a form, a lookup, a message template, a clipboard call. The majority of the work happens outside of that.
+
+The first piece of the puzzle was figuring out where to get the rep data, and how to keep it fresh. An incorrect representative is worse than no representative. The site uses the 5calls API for district resolution, which is purpose-built for civic contact and returns rep data including a short explanation string ("This is one of your two Senators," "This is your representative in the House"), Which I surface as a small confirmation of the lookup.
+
+The second piece was the voting record. Most civic tools stop at contact info. I wanted a user writing to their rep about the climate policy to immediately see how that rep has voted on climate-related bills. That required building Voteprint: a custom donut-ring chart where wedges correspond to issue categories, spokes correspond to individual roll call votes, and spoke direction and length encode whether the rep's vote aligned with or opposed a leftist position on the issue.
+
+Outward spokes mean alignment with a leftist position on that issue. Inward spokes mean opposition. Gaps mean they were absent. 
+
+This is a leftist tool, and I don't shy away from that. Internally the model is more precise, but the user-facing framing is simple: outward is aligned, inward isn't.
+
+Building Voteprint surfaced the hardest problem in the project: how do you assign a stance to every roll call without hiring a policy analyst or guessing? 
+
+The answer I built is an AI-assisted pipeline with mandatory human review. Claude Haiku processes batches of votes and suggests a category, stance, a confidence score, and a short note. High-confidence entries land in a suggestions file; I review them manually before merigng anything into the canonical dataset.
+
+Early in development, some hallucinated mappings made it into production. Those kinds of failures in front of a user erode confidence in the tool. I caught them quickly, but they reinforced that the human review step isn't optional.
+
+It took several iterations to land on the visual language for Voteprint. Earlier versions felt cluttered or were hard to scan. The current one isn't perfect (some users love it, some don't, you can't please everyone), but I think it's successful at what it's trying to do: give a viewer a visceral, fast read on a representative's voting pattern, broken down by the issues that motivated their visit to the site.
+
+## Key Decisions and Tradeoffs
+
+**Copy-paste contact, not automation.** Users copy a message and paste it into official forms. This looks like a UX compromise, but I promise it's not. It was a core design decision. Two reasons. Congressional offices filter form letters, so personalized messages are more likely to be read. And a site that cannot send messages cannot misrepresent a user.
+
+**`sessionStorage` over `localStorage`.** ZIP codes persist within a session, then disappear on tab close. No cookies, no accounts, no history.
+
+**Server as proxy and cache.** Two API routes: one for ZIP lookup via 5calls, one for caching voting records from Congress.gov. No user data beyond ZIP or Representative ID.
+
+**Voteprint as raw Canvas**
+~320 lines of Canvas API. No charting library. Fully keyboard-accessible, screen-reader friendly, responsive to color scheme changes. More work, but the payoff is that I got the visual language exactly how I wanted it
+
+**A curated set of issues, not neutral.** The landing page copy is neutral. The generated messages are not. I'm not pulling any punches. The current list:
+- Universal Healthcare (Medicare for All)
+- Climate Justice and Green New Deal
+- End Police Violence and Mass Incarceration
+- Protect Transgender People and Trans Youth
+- End ICE Abuses and Protect Immigrants
+- Workers' Rights and Union Power
+- Housing as a Human Right
+- Cancel Student Debt and Fund Public Education
+- Expand Voting Rights and Democratic Participation
+- End Endless War and Military Overspending
+- Curb Corporate Power and Monopolies
+- Reproductive Justice and Bodily Autonomy
+- Defend LGBTQ+ Rights and Equality
+- Disability Rights and Accessibility
+- Racial Justice and Reparations
+- Indigenous Sovereignty and Land Rights
+- End Mass Surveillance and Protect Digital Rights
+- End the War on Drugs and Decriminalize
+- Food Sovereignty and End Hunger
+
+**Background cache warming** After a ZIP lookup, low-priority requests warm voting data. Errors are swallowed intentionally; the warming is a best-effort optimization, not a contract. It's a minimal piece of engineering to make the next click in the user's likely flow feel instant.
+
+## On the AI Pipeline
+
+This is worth its own section, because "I used AI in the build pipeline" is becoming a claim people make without evidence, and I want to be clear about what I actually did.
+
+The pipeline categorizes congressional votes into the project's nineteen issue categories. 
+
+Votes are fetched from Congress.gov, enriched with bill title and policy area, and sent in batches of twenty to Claude Haiku with a system prompt describing all nineteen categories. the model returns category, stance, confidence, and a short note. Results are split into high-confidence and review buckets. Only high entries are eligible for merging into the canonical dataset, and even those land in a separate suggestions file that I review by hand before a separate command applies them.
+
+The canonical dataset has 143 vote mappings across 18 of the 19 categories, covering roll calls from the 118th and 119th Congress. The one category without mappings is LGBTQ+ rights. No votes have crossed the confidence threshold for that category yet, which is its own kind of signal.
+
+I want to be honest about my position on AI use in general, because the case study would be incomplete without it. I have real concerns about the broader trajectory of AI tooling. The environmental cost is significant. The collapse of junior engineering pipelines as companies replace early-career engineers with assistants is a real and scary problem that the industry hasn't reckoned with. The homogenization of writing and thinking that comes from millions of people running their work through similar models is something I worry about. I try to push against it in my own work.
+
+I used AI in this project anyway, because this use case makes sense. The model drafts; I review. Only approved entries are shipped. The canonical dataset never contains an unreviewed AI output. This is the version of AI use that doesn't replace human judgment; it scales human judgment by handling the part that would otherwise make the project impossible. Manually reading the bill summary for every roll call in a Congress is the kind of task that kills a side project before it ships. I used AI to make this doable as a side project, and I built a review step because Haiku is fast but wrong sometimes, and a public-facing civic dataset is not the place for "sometimes."
+
+It's not a clean answer. It's a tradeoff, and I want the case study to be honest about that.
+
+## Stack
+
+Next.js 16 with the App Router, React 19, TypeScript (strict). Five production dependencies. Jest + jsdom for tests, ~243 test cases. CI runs lint, test, build. Deployed on Vercel. Voteprint data cached in Vercel Blob (24-hour TTL).
+
+## Numbers
+
+- 8,282 lines of source across 62 files. 21 test files, around 243 assertions.
+- 5 production dependencies. 2 serverless API routes. No database.
+- 19 curated issues. 143 Congressional roll call mappings across 18 of them.
+- Voteprint canvas: around 320 lines, no charting library, four visual spoke encodings, keyboard-navigable, responsive to `prefers-color-scheme`.
+- Cache warming: 2-second delay after ZIP lookup, low priority, errors intentionally swallowed.
+- Congress.gov fetches: up to 100 roll calls per member on first load, hence the 60-second timeout on the voting-record page.
+- AI pipeline: claude-haiku-4-5, batches of 20, stance and confidence required, results always gated by a human review step.
+
+## What I'd Do Differently
+
+The `lowAccuracy` flag returned by 5calls for split ZIP codes and low-confidence matches is currently ignored. I should surface it. A user whose ZIP spans two districts deserves to be told, and a "we're not sure about this lookup" badge is a small, high-trust addition.
+
+Voteprint currently supports only the House of Representatives because Congress.gov doesn't yet expose Senate roll call detail in the same way. Right now senators get a static rep card and House members get a card plus a voting-record link, and that difference is a visible gap.
+
+No automated accessibility testing in CI. I've done careful manual testing of the accessibility behavior, but a `jest-axe` pass on every build would establish a baseline rather than relying on vigilance. It's on the list.
+
+Focus management on route transitions needs work. For a tool that real people will navigate with screen readers, I want a more reliable baseline than the framework default.
+
+## What's Next?
+
+The most user-visible improvement is faster first loads on rep voting pages. Right now the first visit to a representative's Voteprint can take up to a minute while Congress.gov data loads and gets cached. A scheduled pre-caching script (running weekly, or on every site deploy) would warm the cache for every active member of the House, so a user's first visit always hits cached data. That's the next thing I want to ship.
+
+After that: Senate voting records once Congress.gov exposes the equivalent endpoint. Surfacing the `lowAccuracy` signal from 5calls. A proper accessibility audit with tooling in CI. Periodic runs of the AI pipeline as new Congresses begin; the canonical dataset is accurate for the 118th and 119th but will need fresh roll call mappings for the 120th.
+
+The next major feature I want to build is campaign finance transparency. Who's funding this representative? Which industries, which PACs, which major donors? The OpenSecrets and FEC datasets are public, the shape of the data is workable, and the design question is the interesting one: how do you surface "who might be influencing this person" in a way that's informative without being insinuating? Voteprint shows you how a rep votes on the issues you care about. The next layer would show you where the pressure on their vote is coming from. Put the two next to each other and a user walks away knowing something real before they pick up the phone.
+
+A few other directions I've been thinking about: a ranked view of representatives by their voting alignment with progressive positions, and a survey-based tool that matches users to candidates based on actual voting records rather than questionnaires. Both are interesting. Both are further out than the campaign finance work.
+
+But what I keep coming back to is what this project is actually for. People are suffering. The political situation is bad and getting worse. I've been cycling through hard feelings about it for a while now. I built this because I needed to do something, and because I think the people I love and the people I share a country with deserve tools that lower the barrier to doing something themselves.
+
+Maybe contacting representatives doesn't change the world. Maybe it does, sometimes, in small ways. I'd rather be part of a country where it's easy to try than one where it's easy to give up. This project is me trying.
+
+Represent us, or we will find someone who will.
