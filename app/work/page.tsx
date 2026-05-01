@@ -19,6 +19,8 @@ export default function WorkPage() {
       <h1 className="work-index__heading">Work</h1>
       <p className="work-index__intro">
         A selection of things I&rsquo;ve built, both at work and on my own time.
+        One shipped to millions. Some are just for me. The rest live somewhere
+        in between.
       </p>
 
       <section aria-labelledby="featured-label">
