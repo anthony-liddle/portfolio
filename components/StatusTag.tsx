@@ -11,7 +11,7 @@ export default function StatusTag({ status, className }: StatusTagProps) {
     <span
       className={cn(
         'status-tag',
-        status === 'Shipped' ? 'status-tag--shipped' : 'status-tag--active',
+        status === 'Shut down' ? 'status-tag--shutdown' : 'status-tag--active',
         className,
       )}
       aria-label={`Status: ${status}`}

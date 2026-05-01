@@ -356,7 +356,7 @@ a {
   line-height: 1.5;
 }
 
-.status-tag--shipped {
+.status-tag--shutdown {
   color: var(--muted);
   border-color: var(--border);
 }

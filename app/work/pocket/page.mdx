@@ -11,8 +11,233 @@ export const metadata = {
 
 # Pocket
 
-**The web home of Pocket, Mozilla's article-discovery service. A multi-surface editorial and personal-library platform that served more than 2 million daily page views at its peak. I was hired in 2017 to work on the first rewrite of the web application with one other engineer, Joel Kelly; in 2020 I co-architected the second rewrite. I stayed through the Mozilla acquisition and up to the product's eventual shutdown, six years total.**
+**Six and a half years as a frontend engineer, then a Staff frontend engineer, on a product I loved. Two rebuilds, a Reader, a Listen feature I had to fight for years to ship, a team I helped build, and a layoff I didn't choose. Pocket is gone now, and I still haven't found a replacement.**
 
-Shipped · [Source](https://github.com/Pocket/web-client)
+Shut down · 2017–2024 (my time)
 
-## Coming Soon
+## The Pitch
+
+Pocket was a read-it-later app. You'd come across an article, click a button, and it would land in your Pocket library on any of your devices, ready to read whenever you had time. No algorithmic feed. No urgency. No notifications nagging you to return. Just a quiet, personal repository of everything you found interesting and wanted to come back to. Recipes. Blogs. News. Long essays. Anything on the web that was worth a second read, stripped of advertising and popups and the cruft of websites all vying for your attention. Pocket let the content speak for itself.
+
+I worked on Pocket for six and a half years, joining as a frontend engineer and leaving as a Staff engineer. I shipped a lot of work. I helped rebuild the application twice. I led the frontend team's accessibility practice from scratch. I built features that lived on the user-facing side of the product, the Reader, the published-article template, and the Listen feature I had to fight for years to ship. I built rituals that were part of the team-facing side, daily emoji check-ins, a monthly lightning talks program, a mentorship practice, and somewhere in the middle of all of that, a culture I'm still proud of.
+
+The product is gone now. In late 2023 the entire Pocket team was reassigned to build a Mozilla-branded Mastodon instance called Mozilla.social. We shipped it in under six months and we all knew it was doomed. Two months after I'd been allowed to move back to Pocket as a sole frontend engineer, Mozilla restructured. The Mozilla Social team was let go in a single round of layoffs, and I got swept up in it despite my reassignment. A year later, in 2025, Pocket itself was shut down for good. I downloaded an export of my saves. I still haven't found a suitable replacement. It's frustrating.
+
+This case study is longer than the others. It has to be. Pocket was the longest sustained chapter of my career, and it shaped how I think about everything I've built since.
+
+## How I Got There
+
+Before Pocket, I worked at McAfee. I was a UI engineer in a part of the company called Labs, building interesting things in a small room with no windows. The work had its ups and downs. The most fun project I worked on was building an enterprise application in React in late 2015, mostly because React sounded fun and I had the autonomy to choose. Other projects were grueling. The six months I spent rewriting the server for our internal malware researchers' tool was mostly tests, written under heavy constraints, in an existing tech stack I hadn't picked.
+
+Then I got moved across the building to a far-off corner by myself. I'd see my manager once every couple of weeks for our regular 1:1, sometimes accidentally in the cafeteria. The cafeteria gave me gastrointestinal distress every day. Public transit took an hour each way. The team I was working with was based out of India. I'd check email in the morning, work on whatever felt right, send an end-of-day email summarizing what I'd done, and that was the structure of my day. There were people everywhere on the Intel campus, but no one working on the same things I was. I'd never felt so lonely.
+
+So I stopped going in to the office. I kept up with my work, but there was no reason for me to be there. I'd show up once every two weeks for a 1:1, then go home again. I did this for twelve months.
+
+Then I got a new manager. My routine continued. After six months he asked how long I hadn't been coming in to the office. I was honest. He didn't seem to mind, but he made clear that if there were layoffs, employees who worked remotely were usually first to go.
+
+That same day, an old coworker of mine, Joel Kelly, reached out to me. Pocket was hiring. The job was 100% remote. If that wasn't a sign from the universe, I don't know what one is.
+
+A note on Joel. We'd worked together for a few years at Level Studios, never in the same office and never on the same project, but messaging every day. It took a couple of years before we ever met in person. We respected each other's work, saw each other's talents, and most importantly, we vibed. When I left Level Studios, I was worried I'd lose the relationship. I didn't. We kept in touch. He left Level Studios and joined Pocket. The things I was doing at McAfee turned out to be the things he wanted to do to the Pocket web platform.
+
+So when Pocket opened a job req for another web developer, he reached out to me immediately. He wanted to rebuild the Pocket web application, and he wanted my help.
+
+I interviewed. It went well. I got the job.
+
+Funny side note: my first day at Pocket was at the Portland Mozilla office. I'd broken my foot the week before, so I got the full Mozilla onboarding tour while hobbling around on crutches in a leg cast. The introductions to every new employee at the weekly all-hands meeting took on a particular flavor under those conditions. Memorable, if not graceful.
+
+## What Pocket Was
+
+The web application at Pocket when I joined was an utter mess. Over ten thousand lines of JavaScript in a single file. That's what ran the application. I could see immediately why we were going to rebuild it.
+
+But first I got to get my feet wet. I worked on the Pocket Chrome extension. I ran an experiment on the built-in Pocket button inside the Firefox browser. I touched new web tech I hadn't had a chance to explore. It was overwhelming at times, but it was always exciting.
+
+Then we rebuilt the application. And it was a blast. I got tasked with rebuilding the Reader, the surface where users actually read their saved articles. The Reader felt perfect for a lot of my sensibilities: clean, refined, highly customizable, supporting all sorts of wild HTML. The way Pocket worked was that when a user saved an article, the URL was sent to our backend, which scraped the page, parsed the HTML, and stored a clean version for the Reader.
+
+The parser was a behemoth of legacy code that had been built upon and built upon, with hundreds of custom rules accumulated over years. There was always talk that we needed to rebuild it. Six and a half years of talk. It never happened, and it wasn't on my plate to fix. I always imagined the parser as Howl's Moving Castle: a hodgepodge of rooms and buildings stacked on top of each other in a way where you couldn't believe it was standing, let alone walking through the countryside.
+
+I rebuilt the Reader. It felt great. Adding the highlighting capability was particularly challenging; I have CodePen experiments where I tried three different approaches to how it could work ([first](https://codepen.io/anthony-liddle/pen/JxdWJa), [second](https://codepen.io/anthony-liddle/pen/KJpmLJ), [third](https://codepen.io/anthony-liddle/pen/Vgerva)).
+
+The whole thing felt like the best parts of my time at McAfee. I got to make product decisions based on experiments. The difference was that this time, the product was something I'd actually use. I wasn't building for malware researchers; I was building for everyday people who liked to read. People who liked to collect knowledge. People who liked to sort, organize, and curate. My kind of people.
+
+I was working closely with Product and Design. We were making decisions together. Things weren't being thrown over the fence to me with "build this exactly," which was what I'd experienced as part of the agency work at Level Studios. At Pocket, we'd talk through a problem and figure out the best way to solve it. Collaborative. Exactly what I needed.
+
+## The Listen Feature
+
+I have to talk about Listen, because it's the project that defined my whole tenure at Pocket. It's also the project where I learned what fighting for accessibility looks like in practice.
+
+The idea: have an article read aloud to you. Not the default screen reader voice, but a high-quality neural network voice. Pocket already had this in our iOS app. The audio stream existed. I could pull it into the browser and play it.
+
+The accessibility benefit was significant. Listen would have made Pocket meaningfully more accessible for users with visual impairments, dyslexia, attention differences, or just the desire to consume content while doing something else. Audiobooks have a thriving market for a reason. Listen would have brought that experience to every article a user saved.
+
+I built Listen the first time as part of the Save to Pocket extension. It would read aloud the site you were currently on. I pitched it. Product wasn't interested.
+
+I built it again, this time integrated into the Reader view. Pitched it. Product still wasn't interested.
+
+I kept building it. Each version slightly different. Each pitch slightly more refined. The frustration wasn't the rejection itself; it was the lack of interest, the sense that nobody was seeing what I was seeing about why this mattered.
+
+Near the end of my time at Pocket, I built it into our publishing site. I did all the coding, all the design. I released it behind a feature flag, so I could turn it on for specific people in product and leadership. Instead of pitching with a slide deck or a demo, I let them experience it firsthand on their own devices.
+
+Eventually I got it in front of our head of content. She loved it. We took it to Mozilla's lawyers to confirm our licensing contracts allowed for "distribution" in this form. Approved. I turned it on.
+
+It was used by over a thousand people a day.
+
+I was so proud. Years of building, pitching, rebuilding, repitching, and then the thing finally existed in the world and people were using it. That's a particular kind of slow-motion vindication that takes years to land. Pocket's been shut down now, and Listen went with it, but for a while it existed. People used it, found value in it. That counts.
+
+## The Travel Years
+
+As part of Mozilla, Pocket was its own thing but also part of the broader org. We went to Mozilla all-hands events but always felt like a distinct team.
+
+I got to travel to Austin, San Francisco, Orlando (I took my family on that one; they spent their time at Disney World and Universal Studios while I was in meetings), Whistler, and Berlin. Berlin was particularly cool. I took my family, and we arrived two weeks early, got an apartment in the heart of Berlin, and explored. We added a few days in Iceland which I'll never forget.
+
+I was following the news while we were in Berlin. There were articles about a strange virus making people incredibly sick. It was a bit surreal. By the time we were in the airport for the flight home, there were warnings everywhere. "Cover your mouth when you cough." "Watch out for anyone who may be sick." "Keep your distance." I knew things were going to get bad.
+
+We flew home on February 1, 2020.
+
+Things did indeed get bad.
+
+## Lockdown and the Quiet Stretch
+
+Lockdown.
+
+It was during this stretch that I finished the work on the published article page. I was happy with how it came out.
+
+Then in late 2020, layoffs hit. The frontend team lost our most junior member. Then another senior member left for another job. It was just Joel and me again. Also without a manager, a product person, or a designer. We were in limbo.
+
+So we took the opportunity to rebuild the Pocket application again and fold it into the publishing codebase. Since it was just the two of us, we had ideas for new surfaces to try, ways to boost user engagement that nobody was around to second-guess. We ended up with a new manager and a new product person eventually, but Joel and I were already in too deep on a brand-new surface we dubbed Home. We cobbled it together with all the various feeds we had: recommendations for recent saves, favorite topics, the publishing platform's content, anything that could make Home feel like a personal entry point to your Pocket.
+
+The rest of Pocket reprioritized to add their own version of Home across other platforms once they saw it. (Our PM got the credit, though we'd had to fight her for every step. That happens sometimes.)
+
+Around this time, I got a new manager: Liz. She turned out to be one of the best managers I've ever had. The right kind of people manager. Empathetic, calm, attentive, the kind of person who created space for hard conversations and showed up for her team. I was one of the people who interviewed her, which is its own kind of professional flex looking back: I helped pick the manager who turned out to be the best manager I've ever had.
+
+We brought on Aly. I interviewed and trained her. Onboarding her is one of the experiences that shaped how I think about mentorship now.
+
+## What I Built
+
+I want to summarize the body of work, because in a portfolio context it matters, but I also want to do it briefly because the work isn't the point of this case study.
+
+**The Reader rebuild.** From a single ten-thousand-line JavaScript file to a component-based architecture. Highlighting. Customization. Support for messy real-world HTML.
+
+**Save to Pocket extension work.** I added an article preview to the dropdown panel after save, showing the `og:image` and article title. The feature stayed in the Firefox browser for the rest of the extension's lifecycle.
+
+**The publishing platform.** When Pocket started licensing "evergreen" articles (pieces that stayed relevant over years and were saved consistently), the business question became: how do we host these ourselves with our own ads? My suggestion was to build a publishing site. That way we could host the articles with our monetization, and if a user saved that version they'd still get it in the clean Reader they loved Pocket for. It also shifted Pocket's brand from "read it later" to being synonymous with high-quality content. That suggestion became the architecture. It fundamentally shifted Pocket's business model. I built the article template that would render every piece of licensed content for the rest of the product's life.
+
+**Home.** A new surface Joel and I built during the no-leadership stretch. By the time the rest of Pocket noticed, it was already shipping. Other platforms reprioritized to build their own version.
+
+**The frontend team's accessibility practice.** I made the entire web application keyboard-accessible and screen-reader-friendly. Then I made accessibility a default for all future work: PRs reviewed for it, regression tests in place, new features tested before shipping. This ended up being the thing I'm probably most proud of in terms of long-term impact on the team's culture.
+
+One specific accessibility battle worth surfacing: I fought for years to add the OpenDyslexic font as a Reader option. Pocket already supported multiple font preferences for users, and OpenDyslexic would have been a real boon for users with dyslexia. The font is open source, but it's based on a non-open-source font whose creator is reportedly litigious. Mozilla's lawyers had concerns. Product never made it a priority. Every time we got a new product manager, I'd bring it up again. It would have taken me about ten minutes to add. It never shipped. I'm still grumpy about it.
+
+**The analytics rewrite.** I got tired of debugging Snowplow failures. The transition to a new analytics system had been messy, with constant failures and urgent debugging sessions. I sorted through thousands of logs to find root causes and eventually realized the implementation itself could be better. I advocated for a new approach, planned the work, executed it, and documented it. The new implementation made our analytics reliable in a way they hadn't been before.
+
+**The Pocket Graph migration.** Moving the Reader to GraphQL. Partnering with the Infra team to make sure the frontend's product and technical needs were reflected in the backend work. This deepened my GraphQL experience enough that I built an annotations proof of concept on top of it. The POC didn't ship, but it existed.
+
+**My List to Saves.** I led a user-facing rename that touched most URLs in the application. I made the plan, coordinated across multiple teams, and executed the work. No downtime. The kind of change that looks invisible if it goes well, and that's exactly what it did.
+
+**Braze integration.** Multi-channel marketing infrastructure. I added a UI tool so the product team could test in-app messages directly in the production Pocket web app without needing engineering support. Small but meaningful: it freed up our team's attention.
+
+**Setup Moment experiments.** Multiple iterations of new-user onboarding. The last version required replacing our custom-built onboarding library, and I scoped it, defined the requirements, and shipped before the end of the year.
+
+**Shareable Lists.** When I joined the Lists team in 2023, the frontend velocity tripled. I completed more tickets than any other engineer on the project. After we shipped, more than seventeen thousand users created their own Lists, and roughly five percent of Pocket's users were actively engaging with them.
+
+**Listen.** Already covered above. The project I had to fight for, for years, that finally shipped at the end and got used by over a thousand users a day.
+
+## What I Learned About Leadership
+
+Liz called it "relationship-based leadership" in one of my performance reviews. Once I saw the phrase written down, I realized that was exactly what I'd been doing.
+
+A teammate once described the bi-weekly retro I ran as a form of group therapy. I think she meant it as a compliment, and I took it as one.
+
+I wasn't a manager at Pocket. I was a Staff engineer. But I led a lot of things that weren't strictly engineering: stand-ups, retros, daily check-ins, hiring loops, onboarding plans, mentorship. When the team had no manager, I was the interim one. When the team needed a culture, I helped build it. The leadership work wasn't a side project; it was a substantial part of what I did, and it was what kept the team functional through some genuinely turbulent stretches.
+
+A few things I started or sustained:
+
+**Daily emoji check-ins.** I'd post a question in our Slack channel and people would react with the emoji that captured their morning. The legend was simple:  
+  ❤️ Great  
+  🧡 Good  
+  💛 Steady  
+  💚 Low energy  
+  💙 Overwhelmed  
+  💜 Could use help  
+  🖤 I need some space  
+
+Sometimes the question that came with the check-in was serious. More often it was silly: "If you had a magic fanny pack that was always full of your favorite snack, what snack would it be?" "What's the best costume you've ever worn?" Participation was always optional. The point wasn't to track anyone or surface anyone who didn't want to be surfaced. The point was that everyone on the team had a small, low-stakes way to be present with each other if they wanted to. I miss those check-ins.
+
+**A monthly lightning talks program.** Anyone could present on anything. The point was practice. Engineers don't always get to develop their soft skills, and a five-minute talk on a topic of your choice is a low-pressure way to build that muscle. The topics ranged from technical to weird to deeply personal. All of them were good.
+
+**Mentorship.** I joined Mozilla's mentorship program. I worked with one mentee for over a year on her career growth. She wanted a promotion. We met every two weeks, built a plan, tracked her progress against it. She got the promotion. I'm proud of her. I hope she's proud of herself, too.
+
+**Onboarding Aly.** When we hired Aly onto the team, I designed her onboarding from scratch. I built her a list of bugs to fix as she got familiar with the codebase, paired with her, wrote her documentation, made myself available. She stayed at Pocket and grew. Watching that happen taught me what good mentorship feels like from the inside. I miss working with her.
+
+**Hiring.** I was part of nearly every interview loop on the team. I designed the take-home test we used. I assessed candidates' code submissions. I sat in the live interview portion and used it as a conversation about the choices the candidate had made, rather than a coding-while-watched session. (I hate coding-while-watched interviews. They prove that someone is good at taking tests. They don't prove someone is good at the job.)
+
+The thread through all of this is that I was building a team I cared about, on a product I cared about, in a way that felt sustainable to me. I led with relationships because that was how I wanted to work and because it was what the team needed. The fact that the team kept calling it out across every one of my performance reviews, year after year, is the thing I take with me most clearly from Pocket. Whatever the product becomes or doesn't become, the way you treat people is what they remember.
+
+## The Slow Ending
+
+The team that worked on the Firefox New Tab feature, which surfaced Pocket recommendations and ads to Firefox users, was one of the top sources of revenue for Mozilla overall. One day that team was suddenly split off from Pocket into a new entity. I knew it meant trouble. I also knew that Pocket's saved-content data was a major signal for the New Tab recommendations, and without Pocket the quality of those recommendations would take a hit. So I was hopeful.
+
+I was part of the long-term planning for Pocket. We talked about five-year goals. Real pie-in-the-sky ideas. I built a prototype that brought the Pocket Reader to the user wherever they already were on the web. Instead of users having to come back to the Pocket web client to read an article, they'd get the clean Reader view right there on whatever site they were on. Complete with highlights and even Listen. The idea was to bring Pocket to the user instead of forcing the user to come to Pocket.
+
+By that point, Matt, the CTO who had hired me back in 2017, had moved on. His replacement was the one who decided to pivot us. He held a meeting and told us we weren't going to work on Pocket anymore. We were going to build a Mozilla-branded social media platform. A Mastodon instance. Mozilla.social.
+
+I'll just say: I think it was the wrong call. The new direction misread what made Pocket valuable to its users, and it pulled an entire team off a product they understood and onto a product nobody had asked for.
+
+We built it anyway. We released Mozilla.social in under six months. We all knew it was doomed. Mastodon instances aren't a competitive product strategy. The Fediverse is a movement, not a market. We were great engineers doing competent work on a product that wasn't going to find an audience, and we knew it the whole time.
+
+Toward the end of that project, my manager asked how I'd feel about moving back to Pocket. I'd be the sole frontend engineer. New manager. A small scrappy team of six taking the place of what had once been a sixty-person Pocket team at its peak. Daunting, but exciting. I said yes, please.
+
+I got to do that for almost two months.
+
+## The Morning
+
+One morning I woke up and checked Slack. There was an announcement I'd seen versions of before, the kind of all-hands message that signals a layoff round. Deep down I knew. I checked my calendar. There was a ten-minute meeting scheduled for later that morning.
+
+I got the kids ready for school with a massive pit in my stomach. I woke my partner up. I said, "We're going to be ok, but I'm getting laid off today."
+
+I could see the panic in her eyes. I tried not to show it, but I felt it too.
+
+The meeting happened. They were letting me go. The whole Mozilla Social team was being let go. I'd moved back to Pocket two months before, but the layoff swept me up anyway. The manager who delivered the news read carefully from a script. She'd once shared pictures of her farm animals with me, and I'd shown her pictures of my children. She looked quietly devastated. HR sat there silently.
+
+I had a week left. No work got done in that week. I met with people. We all felt the same: disheartened, broken. We were grieving a product we'd loved, used, and believed in.
+
+And then it was over. No final ship. No farewell party. Just the end of a calendar week, and a Slack workspace I no longer had access to. The team scattered. The product kept running for a while without us, but it wasn't really ours anymore.
+
+A year later, in 2025, Pocket was shut down for good. I downloaded an export of my saves. I still haven't found a suitable replacement. It's frustrating.
+
+## What Stayed
+
+A few things outlasted Pocket itself.
+
+**Joel.** That round of layoffs missed him, and he's still at Mozilla. We meet for a weekly virtual coffee. We talk shop. We talk about the work each of us is doing now. We talk about the state of the world and how to keep it from getting to us. I miss working with him. The friendship outlasted the company. It also predated it; Pocket is what we got to do together for a while, but the relationship existed before Pocket and continues now.
+
+**The team.** I'm in a private Slack channel with the former members of the web team I helped build. We still talk. We vent about the state of the tech industry. We share our artwork. We grieve Pocket together when something reminds us of it. The team mattered to me more than I realized while I was inside it.
+
+**Matt.** The former CTO of Pocket, who hired me back in 2017, reached out to me in 2024 and brought me onto the startup he'd joined. He's now my CTO and direct manager again at BreakAway Data. The relationships you build at a job you loved often outlast the job. Sometimes they come back around in ways you didn't expect.
+
+**The work.** Some of what I did at Pocket lives on in my practice now. The accessibility default I established on the team is the same default I bring to every project. The Listen feature is gone, but the lesson (you have to keep pitching the thing you believe in even when it gets overlooked, because eventually the timing might be right) is something I carry. The relationship-based leadership I developed at Pocket is the leadership I bring everywhere now.
+
+**The recognition.** People who used Pocket loved it. I had a lot of Pocket swag after six and a half years, and someone would often recognize the logo. The response was always the same: "Pocket! I fucking LOVE Pocket!" Genuine enthusiasm. Real excitement. I never got the same response with any other company swag I've worn.
+
+Pocket was special because it was personal. A repository of everything you'd found interesting, recipes and blogs and random articles, whatever you needed it to be. And what you saved was always there waiting for you. Not screaming for your attention. Not demanding engagement. Just there. Quietly there.
+
+That's the kind of product I most want to build. Things that respect your attention rather than competing for it. Things that earn return visits because they're useful, not because they nag. Things that earn their place in your life rather than demanding it. Pocket was where I learned that's what I value, and every project I've built since carries some piece of that lesson.
+
+## What I'd Do Differently
+
+I wish I'd pushed harder for Listen earlier. The fact that I built it multiple times across years before it shipped is a story I tell with pride, but it's also a story about institutional inertia, and I could have been louder.
+
+I wish I'd advocated more directly when the leadership of Pocket lost the thread of what made it valuable. The product chased "active users" toward the end, and that was the wrong metric for what Pocket actually was. I saw it happening. I was in the strategy meetings. I had standing as a Staff engineer. I could have used that standing to push back harder on the framing. I didn't, partly because I knew the leadership above me was under pressure I couldn't see, and partly because by then the writing was already on the wall.
+
+I wish I'd left before they made me leave. There's a version of my career where I read the signs in late 2023 and started looking. I would have landed somewhere on my own terms. Instead I got laid off. I'm fine now, I have a job I like, and I work with people I respect, but the agency of leaving on your own timing is real, and I gave it up by waiting.
+
+That said, six and a half years on a product I loved, with a team I'm still in touch with, ending in a way that wasn't my choice but wasn't anyone's fault either, is not a bad chapter. The grief about the ending doesn't erase the joy of the work. Both are true. Pocket was my dream job while I had it, even if I didn't know that going in.
+
+## Closing
+
+Pocket isn't something I can put a "what's next" on, because there's no next. The product is gone. The team is scattered. My time on it is finished.
+
+What I have instead is this: I worked on something that mattered to people. I built things I'm proud of. I helped a team grow. I learned how I want to lead. I made friendships that have outlasted the company, including the one with Joel that started this whole chapter when he texted me out of nowhere the day I'd just been told remote workers were first to be let go.
+
+The product is gone, but the work happened. Pocket existed. People used it. People loved it. I was part of that. That's enough.
+
+If you're reading this and you also miss Pocket, I see you. We all miss it. That's part of why it was special.
