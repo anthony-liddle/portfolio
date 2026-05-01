@@ -1,4 +1,4 @@
-export type ProjectStatus = 'Shipped' | 'Active' | 'Development';
+export type ProjectStatus = 'Shut down' | 'Active' | 'Development';
 
 export interface ProjectLink {
   label: string;
@@ -23,7 +23,7 @@ export const projects: Project[] = [
     tileName: 'Pocket',
     pitch:
       "The web home of Mozilla's article-discovery service. 2M+ daily page views at peak. Co-architected across six years.",
-    status: 'Shipped',
+    status: 'Shut down',
     tags: ['Next.js', 'React', 'Redux', 'GraphQL'],
     links: [{ label: 'Source', url: 'https://github.com/Pocket/web-client' }],
     summary:
