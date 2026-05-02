@@ -61,7 +61,7 @@ export const projects: Project[] = [
     slug: 'forgetting-machine',
     name: 'The Forgetting Machine',
     pitch:
-      'Write a secret. Watch it decay for 60 seconds. Nothing is saved, by design, not policy.',
+      'Write a secret. Watch it dematerialize for 60 seconds. Nothing is saved, by design, not policy.',
     status: 'Active',
     tags: ['Vanilla TypeScript', 'Vite', 'Web Audio'],
     links: [
@@ -72,7 +72,7 @@ export const projects: Project[] = [
       },
     ],
     summary:
-      "A small web experience where someone writes a secret, watches it decay for 60 seconds with music, and then it's gone.",
+      "A small web experience where someone writes a secret, watches it dematerialize for 60 seconds with music, and then it's gone.",
   },
   {
     slug: 'contact-your-reps',
