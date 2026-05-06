@@ -123,7 +123,7 @@ export default function HomePage() {
           accessibility, audio, civic tools, and the kinds of weird projects
           that exist for their own reasons.
         </p>
-        <p className="home-prose">
+        <p className="home-prose" style={{ marginTop: '1rem' }}>
           Outside work I cook, sing karaoke badly, play piano slightly better,
           and sew. I&rsquo;m a parent. I care about software that respects the
           people using it.
