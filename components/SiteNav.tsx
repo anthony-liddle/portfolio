@@ -34,7 +34,7 @@ export default function SiteNav() {
         </li>
         <li>
           <a
-            href="mailto:anthonyliddle@gmail.com"
+            href="mailto:anthony@anthonyliddle.dev"
             className="nav-link nav-link--external"
           >
             <span
