@@ -118,6 +118,12 @@ export default function HomePage() {
       <footer style={{ marginTop: '5rem' }}>
         <hr className="section-rule" />
         <p className="home-prose">
+          I&rsquo;m interested in talking to people building software that
+          respects the people using it. That covers a lot of ground: privacy,
+          accessibility, audio, civic tools, and the kinds of weird projects
+          that exist for their own reasons.
+        </p>
+        <p className="home-prose">
           Outside work I cook, sing karaoke badly, play piano slightly better,
           and sew. I&rsquo;m a parent. I care about software that respects the
           people using it.
