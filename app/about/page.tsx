@@ -56,8 +56,8 @@ export default function AboutPage() {
 
         <p className="about-contact">
           Say hello:{' '}
-          <a href="mailto:anthonyliddle@gmail.com" className="about-link">
-            anthonyliddle@gmail.com
+          <a href="mailto:anthony@anthonyliddle.dev" className="about-link">
+            anthony@anthonyliddle.dev
           </a>
         </p>
       </div>

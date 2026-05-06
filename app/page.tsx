@@ -123,8 +123,8 @@ export default function HomePage() {
           people using it.
         </p>
         <p className="home-prose" style={{ marginTop: '1rem' }}>
-          <a href="mailto:anthonyliddle@gmail.com" className="home-link">
-            anthonyliddle@gmail.com
+          <a href="mailto:anthony@anthonyliddle.dev" className="home-link">
+            anthony@anthonyliddle.dev
           </a>
           {' · '}
           <a
