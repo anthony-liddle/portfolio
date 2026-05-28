@@ -166,6 +166,69 @@ export function workOgImage(): ImageResponse {
   );
 }
 
+export function latelyOgImage(): ImageResponse {
+  return new ImageResponse(
+    <div
+      style={{
+        background: BG,
+        width: W,
+        height: H,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: PAD,
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          justifyContent: 'center',
+          gap: 0,
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            fontFamily: 'Libre Baskerville',
+            fontSize: 96,
+            fontWeight: 700,
+            color: TEXT,
+            lineHeight: 1.1,
+          }}
+        >
+          Lately
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            fontFamily: 'Inter',
+            fontSize: 28,
+            color: MUTED,
+            lineHeight: 1.45,
+            maxWidth: 920,
+            marginTop: 24,
+          }}
+        >
+          What I&apos;ve been watching, reading, and listening to
+        </div>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          fontFamily: 'Inter',
+          fontSize: 20,
+          color: ACCENT,
+        }}
+      >
+        anthonyliddle.dev
+      </div>
+    </div>,
+    opts,
+  );
+}
+
 export function caseStudyOgImage(slug: string): ImageResponse {
   const project = projects.find((p) => p.slug === slug);
   const name = project?.name ?? slug;
