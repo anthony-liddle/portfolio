@@ -1,0 +1,12 @@
+# Manual reading entries that aren't (or weren't only) in Libby.
+# This file is hand-edited; the package validates it strictly.
+
+# A physical library book (not via Libby; checked out at the branch
+# in person, the way the old library habit still works).
+- title: "Descender"
+  author: "Jeff Lemire"
+  isbn: "9780593654477"
+  status: finished
+  format: physical
+  source: "library"
+  finishedAt: "2026-05-22"

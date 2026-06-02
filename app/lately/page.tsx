@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import WatchingSection from '@/components/WatchingSection';
+import ReadingSection from '@/components/ReadingSection';
 
 // Statically generate at build time, then refresh daily (ISR). The literal is
 // required: the segment revalidate value must be statically analyzable.
@@ -27,7 +28,8 @@ export default function LatelyPage() {
 
       <div className="lately-sections">
         <WatchingSection />
-        {/* Reading and Listening sections drop in here. */}
+        <ReadingSection />
+        {/* Listening section drops in here. */}
       </div>
     </div>
   );
