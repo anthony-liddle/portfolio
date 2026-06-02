@@ -762,5 +762,24 @@
       ]
     },
     "matchQuality": "exact"
+  },
+  "isbn:1632154269": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:1632154269",
+    "data": {
+      "coverUrl": "https://covers.openlibrary.org/b/id/12649533-L.jpg",
+      "pageCount": 160,
+      "publishYear": 2015,
+      "format": "physical",
+      "olid": "OL20006043W",
+      "subjects": [
+        "Androids",
+        "Robots",
+        "Comic books, strips",
+        "Comics & graphic novels, science fiction",
+        "FICTION / Science Fiction / Military"
+      ]
+    },
+    "matchQuality": "exact"
   }
 }
