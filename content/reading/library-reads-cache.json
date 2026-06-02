@@ -1,0 +1,787 @@
+{
+  "isbn:9781501977831": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781501977831",
+    "data": {
+      "coverUrl": "https://covers.openlibrary.org/b/id/15156453-L.jpg",
+      "publishYear": 2018,
+      "format": "audiobook",
+      "olid": "OL19747311W",
+      "subjects": [
+        "franchise:The Murderbot Diaries",
+        "series:The Murderbot Diaries",
+        "form:novella",
+        "genre:science fiction",
+        "Human-computer interaction",
+        "Life on other planets",
+        "Artificial intelligence",
+        "Androids",
+        "Robots",
+        "Interplanetary voyages",
+        "Fiction"
+      ]
+    },
+    "matchQuality": "exact"
+  },
+  "title-author:c75a6ef8e5b02d0b": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:c75a6ef8e5b02d0b",
+    "data": {
+      "olid": "OL42457071W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/15128632-L.jpg",
+      "pageCount": 176,
+      "publishYear": 2025,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781250403254": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781250403254",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:992255f9fd812645": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:992255f9fd812645",
+    "data": {
+      "olid": "OL17827992W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/8597847-L.jpg",
+      "pageCount": 480,
+      "publishYear": 2019
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780807216859": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9780807216859",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:2b78ca5bd1a1b4cc": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:2b78ca5bd1a1b4cc",
+    "data": {
+      "olid": "OL28996W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/15173389-L.jpg",
+      "pageCount": 560,
+      "publishYear": 2022,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781400085699": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781400085699",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:83abdf6965cf982b": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:83abdf6965cf982b",
+    "data": {
+      "olid": "OL28993W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/12258298-L.jpg",
+      "pageCount": 352,
+      "publishYear": 2020,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781400085682": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781400085682",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "isbn:9781501977824": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781501977824",
+    "data": {
+      "coverUrl": "https://covers.openlibrary.org/b/id/15155947-L.jpg",
+      "publishYear": 2017,
+      "format": "audiobook",
+      "olid": "OL17914663W",
+      "subjects": [
+        "franchise:The Murderbot Diaries",
+        "series:The Murderbot Diaries",
+        "form:novella",
+        "genre:science fiction",
+        "Human-computer interaction",
+        "Life on other planets",
+        "Artificial intelligence",
+        "Androids",
+        "Robots",
+        "Interplanetary voyages",
+        "Fiction"
+      ]
+    },
+    "matchQuality": "exact"
+  },
+  "title-author:12896adea08ba988": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:12896adea08ba988",
+    "data": {
+      "olid": "OL468431W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14369845-L.jpg",
+      "pageCount": 431,
+      "publishYear": 2020,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9798200735754": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9798200735754",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:bf9dc9fb0118891e": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:bf9dc9fb0118891e",
+    "data": {
+      "olid": "OL24487194W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/11102583-L.jpg",
+      "publishYear": 2019,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781478934912": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781478934912",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:fce0b98322605b6a": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:fce0b98322605b6a",
+    "data": {
+      "olid": "OL42560110W",
+      "publishYear": 2022
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781478904717": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781478904717",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "isbn:9781250621986": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781250621986",
+    "data": {
+      "pageCount": 320,
+      "publishYear": 2021,
+      "olid": "OL25073147W",
+      "subjects": [
+        "American literature",
+        "Horror",
+        "Fantasy",
+        "Historical Fiction",
+        "Fiction",
+        "Witches",
+        "Historical",
+        "Paranormal",
+        "Gothic"
+      ]
+    },
+    "matchQuality": "exact"
+  },
+  "isbn:9781478904724": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781478904724",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:f370e1cb4fa2c4f8": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:f370e1cb4fa2c4f8",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "isbn:9780062095701": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9780062095701",
+    "data": {
+      "publishYear": 2016,
+      "olid": "OL20196280W",
+      "subjects": [
+        "Fiction, occult & supernatural",
+        "Fiction, fantasy, paranormal"
+      ]
+    },
+    "matchQuality": "exact"
+  },
+  "title-author:21870e6e2b51d692": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:21870e6e2b51d692",
+    "data": {
+      "olid": "OL35056124W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14809521-L.jpg",
+      "pageCount": 176,
+      "publishYear": 2024,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781250332158": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781250332158",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:37c7dc4102fa039f": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:37c7dc4102fa039f",
+    "data": {
+      "olid": "OL20924196W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/10296774-L.jpg",
+      "pageCount": 320,
+      "publishYear": 2020,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781666134384": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781666134384",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "isbn:9780061796845": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9780061796845",
+    "data": {
+      "coverUrl": "https://covers.openlibrary.org/b/id/6404363-L.jpg",
+      "publishYear": 2007,
+      "format": "ebook",
+      "olid": "OL453657W",
+      "subjects": [
+        "Discworld (Imaginary place)",
+        "Fiction",
+        "Romans",
+        "Merveilleux",
+        "Fantasy",
+        "Samuel Vimes (Fictitious character)",
+        "Rincewind",
+        "Twoflower (fictional characters)",
+        "parody",
+        "humour",
+        "Dollhouses",
+        "Doll furniture",
+        "Miniature objects",
+        "Collectors and collecting",
+        "Miniature dolls",
+        "Fiction, humorous",
+        "Fiction, fantasy, general",
+        "Discworld (imaginary place), fiction",
+        "Fiction, humorous, general",
+        "Rincewind the wizard (fictitious character), fiction",
+        "Fiction, satire",
+        "Geographical myths",
+        "Dollhouses -- Collectors and collecting",
+        "Miniature dolls -- Collectors and collecting",
+        "Doll furniture -- Collectors and collecting",
+        "Miniature objects -- Collectors and collecting",
+        "English literature",
+        "Wizards",
+        "Tourism",
+        "Satire",
+        "Humorous stories",
+        "Fantasy fiction"
+      ]
+    },
+    "matchQuality": "exact"
+  },
+  "title-author:bd998e087833c807": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:bd998e087833c807",
+    "data": {
+      "olid": "OL81605W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/12300325-L.jpg",
+      "pageCount": 605,
+      "publishYear": 2017,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781797190433": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781797190433",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:441a632c4bddd5b2": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:441a632c4bddd5b2",
+    "data": {
+      "olid": "OL42360848W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14847912-L.jpg",
+      "pageCount": 382,
+      "publishYear": 2025,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781546171508": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781546171508",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:a0cd0c5da3438acb": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:a0cd0c5da3438acb",
+    "data": {
+      "olid": "OL20716197W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/13342995-L.jpg",
+      "pageCount": 517,
+      "publishYear": 2023,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781338635201": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781338635201",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:c3173ab6212838ce": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:c3173ab6212838ce",
+    "data": {
+      "olid": "OL14908941W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/12646490-L.jpg",
+      "pageCount": 448,
+      "publishYear": 2018
+    },
+    "matchQuality": "fuzzy"
+  },
+  "title-author:74aa79ba5842891b": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:74aa79ba5842891b",
+    "data": {
+      "olid": "OL453662W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/10854659-L.jpg",
+      "pageCount": 392,
+      "publishYear": 2020,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781473588363": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781473588363",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:e79e46974a0d8e60": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:e79e46974a0d8e60",
+    "data": {
+      "olid": "OL5735360W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/12527335-L.jpg",
+      "pageCount": 416,
+      "publishYear": 2022,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "title-author:08dddbaaa2088b27": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:08dddbaaa2088b27",
+    "data": {
+      "olid": "OL81616W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/12228836-L.jpg",
+      "pageCount": 1,
+      "publishYear": 2019,
+      "format": "audiobook"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781508217442": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781508217442",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:15f9807c06a748fd": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:15f9807c06a748fd",
+    "data": {
+      "olid": "OL37939883W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/15162576-L.jpg",
+      "pageCount": 496,
+      "publishYear": 2025,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780593907306": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9780593907306",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:4966d945b5bd060f": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:4966d945b5bd060f",
+    "data": {
+      "olid": "OL5735363W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/15139410-L.jpg",
+      "pageCount": 458,
+      "publishYear": 2012,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781626251724": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781626251724",
+    "data": {
+      "pageCount": 224,
+      "publishYear": 2015,
+      "olid": "OL20006178W",
+      "subjects": [
+        "Dysfunctional families",
+        "Adult children of dysfunctional families",
+        "Mental health",
+        "Emotional maturity",
+        "Psychological aspects",
+        "Self-help techniques",
+        "Parenting",
+        "nyt:advice-how-to-and-miscellaneous=2024-07-28",
+        "New York Times bestseller"
+      ]
+    },
+    "matchQuality": "exact"
+  },
+  "title-author:72bcdf9f6e113d08": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:72bcdf9f6e113d08",
+    "data": {
+      "olid": "OL20006178W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/10673530-L.jpg",
+      "pageCount": 1,
+      "publishYear": 2021,
+      "format": "audiobook"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781515977025": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781515977025",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:479d5d0cce18e71e": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:479d5d0cce18e71e",
+    "data": {
+      "olid": "OL81628W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/13245698-L.jpg",
+      "pageCount": 288,
+      "publishYear": 2021,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781508217411": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781508217411",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:fee13b3cba0b360c": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:fee13b3cba0b360c",
+    "data": {
+      "olid": "OL24207665W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14434578-L.jpg",
+      "pageCount": 352,
+      "publishYear": 2022,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780593410035": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9780593410035",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:573879097394d6ae": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:573879097394d6ae",
+    "data": {
+      "olid": "OL28890216W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14809669-L.jpg",
+      "pageCount": 342,
+      "publishYear": 2023,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781250332417": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781250332417",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "isbn:9781250794673": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781250794673",
+    "data": {
+      "publishYear": 2023,
+      "olid": "OL28890216W",
+      "subjects": [
+        "Fiction, thrillers, general"
+      ]
+    },
+    "matchQuality": "exact"
+  },
+  "isbn:9781684064922": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781684064922",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:d0a8e06158b1acb6": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:d0a8e06158b1acb6",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:5e20aca43d352df7": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:5e20aca43d352df7",
+    "data": {
+      "olid": "OL17077942W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/15158219-L.jpg",
+      "pageCount": 240,
+      "publishYear": 2014
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781483049762": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781483049762",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:d79dbb3d8065d3cc": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:d79dbb3d8065d3cc",
+    "data": {
+      "olid": "OL19742707W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14641922-L.jpg",
+      "pageCount": 336,
+      "publishYear": 2019
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780062849588": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9780062849588",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:5caa390c36bbe278": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:5caa390c36bbe278",
+    "data": {
+      "olid": "OL60149W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/13759188-L.jpg",
+      "pageCount": 320,
+      "publishYear": 2022,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781436186124": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781436186124",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:87f2ff58849de47b": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:87f2ff58849de47b",
+    "data": {
+      "olid": "OL29331033W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/15224788-L.jpg",
+      "pageCount": 277,
+      "publishYear": 2024,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781797159515": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781797159515",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:0805a8944d1b2c12": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:0805a8944d1b2c12",
+    "data": {
+      "olid": "OL26666164W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/13158172-L.jpg",
+      "pageCount": 413,
+      "publishYear": 2022,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780593591833": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9780593591833",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:d4f65980129d8a14": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:d4f65980129d8a14",
+    "data": {
+      "olid": "OL26663382W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/15166164-L.jpg",
+      "pageCount": 320,
+      "publishYear": 2025,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781797147949": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781797147949",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:8ff7dc867749b509": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:8ff7dc867749b509",
+    "data": {
+      "olid": "OL19753352W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14641987-L.jpg",
+      "pageCount": 336,
+      "publishYear": 2022,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781982527976": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781982527976",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:605825dae4bd0f49": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:605825dae4bd0f49",
+    "data": {
+      "olid": "OL20128158W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/10139515-L.jpg",
+      "pageCount": 496,
+      "publishYear": 2020,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781980004905": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9781980004905",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:12aa5754c6e0e465": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "title-author:12aa5754c6e0e465",
+    "data": {
+      "olid": "OL17716925W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/12077760-L.jpg",
+      "pageCount": 1,
+      "publishYear": 2021,
+      "format": "audiobook"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780062969538": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9780062969538",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "isbn:9780593654477": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:9780593654477",
+    "data": {
+      "coverUrl": "https://covers.openlibrary.org/b/id/14036185-L.jpg",
+      "pageCount": 354,
+      "publishYear": 2023,
+      "olid": "OL34388805W",
+      "subjects": [
+        "Romance literature",
+        "Inteligencia artificial",
+        "Matemáticas",
+        "Fisica Nuclear",
+        "Narrativa"
+      ]
+    },
+    "matchQuality": "exact"
+  },
+  "isbn:1632154269": {
+    "fetchedAt": "2026-06-02",
+    "lookupKey": "isbn:1632154269",
+    "data": {
+      "coverUrl": "https://covers.openlibrary.org/b/id/12649533-L.jpg",
+      "pageCount": 160,
+      "publishYear": 2015,
+      "format": "physical",
+      "olid": "OL20006043W",
+      "subjects": [
+        "Androids",
+        "Robots",
+        "Comic books, strips",
+        "Comics & graphic novels, science fiction",
+        "FICTION / Science Fiction / Military"
+      ]
+    },
+    "matchQuality": "exact"
+  }
+}
