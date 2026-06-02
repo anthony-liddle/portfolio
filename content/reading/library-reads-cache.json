@@ -558,7 +558,9 @@
     "data": {
       "publishYear": 2023,
       "olid": "OL28890216W",
-      "subjects": ["Fiction, thrillers, general"]
+      "subjects": [
+        "Fiction, thrillers, general"
+      ]
     },
     "matchQuality": "exact"
   },
