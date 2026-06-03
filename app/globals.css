@@ -844,6 +844,28 @@ a {
   gap: 2rem;
 }
 
+.lately-entry {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+/* Fixed 2:3 thumbnail. Open Library covers vary in source dimensions, so the
+   box size is fixed and object-fit crops to fill, avoiding both distortion and
+   layout shift. Letterboxd posters are already 2:3 and slot in cleanly. */
+.lately-entry__cover {
+  flex-shrink: 0;
+  width: 56px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: var(--border);
+}
+
+.lately-entry__body {
+  min-width: 0;
+}
+
 .lately-entry__link {
   text-decoration: none;
   color: inherit;
@@ -882,6 +904,9 @@ a {
 
 .lately-section__more {
   margin-top: 1.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--muted);
 }
 
 .lately-link {
