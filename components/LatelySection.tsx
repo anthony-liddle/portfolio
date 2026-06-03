@@ -9,6 +9,12 @@ interface LatelySectionProps {
   children: React.ReactNode;
   /** Optional trailing link out to the source, e.g. a Letterboxd profile. */
   viewMore?: ViewMoreLink;
+  /**
+   * Optional muted footnote shown on the same trailing row as the view-more
+   * link (separated by a bullet), e.g. a data-source attribution. Lives here so
+   * it sits inside the section that actually uses the data, not at page level.
+   */
+  footnote?: React.ReactNode;
 }
 
 /**
@@ -20,6 +26,7 @@ export default function LatelySection({
   title,
   children,
   viewMore,
+  footnote,
 }: LatelySectionProps) {
   const labelId = `lately-${title.toLowerCase()}`;
 
@@ -31,17 +38,21 @@ export default function LatelySection({
 
       {children}
 
-      {viewMore && (
+      {(viewMore || footnote) && (
         <p className="lately-section__more">
-          <a
-            href={viewMore.href}
-            className="lately-link"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${viewMore.label} (opens in new tab)`}
-          >
-            {viewMore.label}
-          </a>
+          {viewMore && (
+            <a
+              href={viewMore.href}
+              className="lately-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${viewMore.label} (opens in new tab)`}
+            >
+              {viewMore.label}
+            </a>
+          )}
+          {viewMore && footnote && ' · '}
+          {footnote}
         </p>
       )}
     </section>

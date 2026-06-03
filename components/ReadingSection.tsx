@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import LatelySection from './LatelySection';
 import { getRecentReads } from '@/lib/library-reads';
 
@@ -15,17 +16,28 @@ export default async function ReadingSection() {
   const entries = await getRecentReads(3);
 
   return (
-    <LatelySection title="Reading">
+    <LatelySection
+      title="Reading"
+      footnote={
+        // A nudge toward libraries, shown only when there is something to credit
+        // them for. There is no source to deep-link to, so no view-more link.
+        entries.length > 0
+          ? 'Most of these came from my local library. Support yours.'
+          : undefined
+      }
+    >
       {entries.length === 0 ? (
         <p className="lately-empty">Nothing logged just now.</p>
       ) : (
         <ul role="list" className="lately-entries">
           {entries.map((entry) => {
             // Author always shows (it plays the role year/rating does for
-            // films); source shows only when it is interesting, i.e. not the
-            // default 'library' that Libby borrows carry.
+            // films); publish year follows when known; source shows only when
+            // it is interesting, i.e. not the default 'library' that Libby
+            // borrows carry.
             const meta: string[] = [];
             if (entry.author) meta.push(entry.author);
+            if (entry.publishYear) meta.push(String(entry.publishYear));
             if (entry.source && entry.source !== 'library') {
               meta.push(entry.source);
             }
@@ -36,15 +48,27 @@ export default async function ReadingSection() {
 
             return (
               <li key={key} className="lately-entry">
-                <span className="lately-entry__title">{entry.title}</span>
-
-                {meta.length > 0 && (
-                  <p className="lately-entry__meta">{meta.join(' · ')}</p>
+                {entry.coverUrl && (
+                  <Image
+                    src={entry.coverUrl}
+                    alt=""
+                    width={56}
+                    height={84}
+                    className="lately-entry__cover"
+                  />
                 )}
 
-                {entry.notes && (
-                  <p className="lately-entry__note">{entry.notes}</p>
-                )}
+                <div className="lately-entry__body">
+                  <span className="lately-entry__title">{entry.title}</span>
+
+                  {meta.length > 0 && (
+                    <p className="lately-entry__meta">{meta.join(' · ')}</p>
+                  )}
+
+                  {entry.notes && (
+                    <p className="lately-entry__note">{entry.notes}</p>
+                  )}
+                </div>
               </li>
             );
           })}
