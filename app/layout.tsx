@@ -51,6 +51,15 @@ export default function RootLayout({
       className={`${inter.variable} ${libreBaskerville.variable}`}
     >
       <body>
+        {/*
+          Mastodon profile verification. The rel="me" link must be present in the
+          server-rendered HTML without JavaScript; React hoists this <link> into
+          <head>. It is non-visual (a <link>, not an <a>), so nothing renders on
+          the page. The metadata API has no field for rel="me" (its verification
+          option only emits <meta name="me">, which Mastodon does not accept).
+        */}
+        <link rel="me" href="https://mastodon.social/@anthonyliddle" />
+
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
