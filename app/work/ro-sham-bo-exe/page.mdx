@@ -49,7 +49,7 @@ The next semester they asked me to teach another class. I designed one called "O
 
 That experience is the foundation under RO-SHAM-BO.EXE. Privacy in tech isn't a thing I picked up to make a thematic game. It's something I've been thinking about, teaching, and arguing for in every place I've worked, for years. I care about it specifically because of what those teenagers' faces looked like when they realized what their browsers had been doing on their behalf.
 
-That's why this game treats permissions the way it does. It's not just a horror dressing. It's a deliberate piece of design about a thing I believe people don't think about enough.
+That's why this game treats permissions the way it does. It's a deliberate piece of design about something I believe people don't think about enough, not just horror dressing.
 
 There's one specific decision worth surfacing here. Early in the design, I considered using server-side IP geolocation for the location reveal. Every browser request leaks an IP address by default, and there are services that can turn an IP into a rough city. It would have been the easier path: no permission prompt, no user friction, the effect of the robot "knowing where you are" lands without the player ever having to opt in.
 
@@ -65,16 +65,17 @@ Every violation the robot performs has to be a performance, not a real intrusion
 
 If any of those lines are crossed, the project becomes the thing it's pretending to be.
 
-The second problem is making five tension tiers feel like a single coherent escalation rather than a collection of unrelated feature flags. The tension score is a number between 0 and 100. Everything downstream reads from it: music BPM, which audio layers are active, idle animation frame rate, dialogue pool selection, the page title, the favicon, whether the ASCII frames are being actively corrupted. The hard part wasn’t any individual connection; it was calibration. The hard part was making each subsystem escalate at a pace that matched the others, so moving from UNEASY to IRRITATED feels like one shift, not seven.
+The second problem is making five tension tiers feel like a single coherent escalation rather than a collection of unrelated feature flags. The tension score is a number between 0 and 100. Everything downstream reads from it: music BPM, which audio layers are active, idle animation frame rate, dialogue pool selection, the page title, the favicon, whether the ASCII frames are being actively corrupted. The hard part wasn't any individual connection; it was calibration. The hard part was making each subsystem escalate at a pace that matched the others, so moving from UNEASY to IRRITATED feels like one shift, not seven.
 
 The third problem is that a player who refuses every permission, mutes the music, and closes the tab halfway through has to still feel like they lost. The robot's response to refusal is not to give up. It's to get angrier.
 
 ## Key Decisions and Tradeoffs
 
-**The opponent is cryptographically fair.** Move selection is: 
+**The opponent is cryptographically fair.** Move selection is:
+
 ```
 crypto.getRandomValues(new Uint32Array(1))[0] % 3
-``` 
+```
 
 This yields a uniform distribution across the three moves. Not `Math.random`, not a weighted distribution, not reactive to sensor data. Everywhere else, `Math.random` is used for visual effects, dialogue selection, and frame corruption. The asymmetry is deliberate and it matters: the game is architecturally honest about the one thing the player would care most about, whether the match is rigged, and theatrical about everything else. If a player reverse-engineers the source, they find a fair RNG and a completely performative everything else. That's the joke.
 
