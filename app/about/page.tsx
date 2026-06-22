@@ -23,8 +23,8 @@ export default function AboutPage() {
           McAfee, and agencies before that. I&rsquo;ve spent most of that time
           on data-intensive products: analytics platforms, editorial surfaces,
           live-capture systems, personalization. The data is complicated. The
-          user-facing surface needs to feel simple. The space between is where I
-          thrive.
+          user-facing surface needs to feel simple. I&rsquo;ve spent my career
+          connecting the two.
         </p>
 
         <p>

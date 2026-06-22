@@ -35,13 +35,13 @@ So I built this. The first version went live three months ago. It started simple
 
 A few years ago I did some phone banking for a political candidate. What stuck with me most clearly was how much the script helped. Knowing what to actually say to a stranger on the other end of the line is a real hurdle, and a script lowers it dramatically. People can have things they want to say but get stuck on how to say them. They know which issues they care about. They know they're frustrated, or scared, or angry that something needs to change. They just don't always know how to turn that into a sentence.
 
-That's where the issue selection came in. I started with my own list. Then I asked the communities I'm part of what issues they would want to see represented, and I added what came back. The list isn't just mine; it's the result of asking people what matters to them and trusting their answers. 
+That's where the issue selection came in. I started with my own list. Then I asked the communities I'm part of what issues they would want to see represented, and I added what came back. The list isn't just mine; it's the result of asking people what matters to them and trusting their answers.
 
 Pick the issues you care about, get a generated message you can use as a starting point. Edit it, personalize it, copy it, paste it into the rep's contact form. The hurdle shifts from "I have to write a letter to my congressperson, oh god" to "I have to read this and decide if it's what I want to say."
 
-The first version's messages were too gentle. The language didn't match how furious I actually was. I rewrote them to be stronger. The current version uses language like "I demand," "your silence is complicity," "represent us, or we will find someone who will." That's a deliberate editorial choice. A neutral civic template has no teeth. Representatives need to understand what's at stake, and if they don't respond to how their votes affect their constituents, they need feel the risk of losing their position. We the people have the power to decide whether they're worthy of their power. We can take it away if we want, and they need to remember that.
+The first version's messages were too gentle. The language didn't match how furious I actually was. I rewrote them to be stronger. The current version uses language like "I demand," "your silence is complicity," "represent us, or we will find someone who will." That's a deliberate editorial choice. A neutral civic template has no teeth. Representatives need to understand what's at stake, and if they don't respond to how their votes affect their constituents, they need to feel the risk of losing their position. We the people have the power to decide whether they're worthy of their power. We can take it away if we want, and they need to remember that.
 
-After the message generator was working and the site was live, I started thinking about the next layer. Party affiliation doesn't mean they're voting in my best interest. I wanted people to see how their representative actually vote at the moment they reach out. That's when I found Congress.gov's API.
+After the message generator was working and the site was live, I started thinking about the next layer. Party affiliation doesn't mean they're voting in my best interest. I wanted people to see how their representative actually votes at the moment they reach out. That's when I found Congress.gov's API.
 
 That's when Voteprint started.
 
@@ -61,17 +61,17 @@ The contact form on a representative's website is the way you actually reach the
 
 The surface area of the tool is small: a form, a lookup, a message template, a clipboard call. The majority of the work happens outside of that.
 
-The first piece of the puzzle was figuring out where to get the rep data, and how to keep it fresh. An incorrect representative is worse than no representative. The site uses the 5calls API for district resolution, which is purpose-built for civic contact and returns rep data including a short explanation string ("This is one of your two Senators," "This is your representative in the House"), Which I surface as a small confirmation of the lookup.
+The first piece of the puzzle was figuring out where to get the rep data, and how to keep it fresh. An incorrect representative is worse than no representative. The site uses the 5calls API for district resolution, which is purpose-built for civic contact and returns rep data including a short explanation string ("This is one of your two Senators," "This is your representative in the House"), which I surface as a small confirmation of the lookup.
 
-The second piece was the voting record. Most civic tools stop at contact info. I wanted a user writing to their rep about the climate policy to immediately see how that rep has voted on climate-related bills. That required building Voteprint: a custom donut-ring chart where wedges correspond to issue categories, spokes correspond to individual roll call votes, and spoke direction and length encode whether the rep's vote aligned with or opposed a leftist position on the issue.
+The second piece was the voting record. Most civic tools stop at contact info. I wanted a user writing to their rep about climate policy to immediately see how that rep has voted on climate-related bills. That required building Voteprint: a custom donut-ring chart where wedges correspond to issue categories, spokes correspond to individual roll call votes, and spoke direction and length encode whether the rep's vote aligned with or opposed a leftist position on the issue.
 
-Outward spokes mean alignment with a leftist position on that issue. Inward spokes mean opposition. Gaps mean they were absent. 
+Outward spokes mean alignment with a leftist position on that issue. Inward spokes mean opposition. Gaps mean they were absent.
 
 This is a leftist tool, and I don't shy away from that. Internally the model is more precise, but the user-facing framing is simple: outward is aligned, inward isn't.
 
-Building Voteprint surfaced the hardest problem in the project: how do you assign a stance to every roll call without hiring a policy analyst or guessing? 
+Building Voteprint surfaced the hardest problem in the project: how do you assign a stance to every roll call without hiring a policy analyst or guessing?
 
-The answer I built is an AI-assisted pipeline with mandatory human review. Claude Haiku processes batches of votes and suggests a category, stance, a confidence score, and a short note. High-confidence entries land in a suggestions file; I review them manually before merigng anything into the canonical dataset.
+The answer I built is an AI-assisted pipeline with mandatory human review. Claude Haiku processes batches of votes and suggests a category, stance, a confidence score, and a short note. High-confidence entries land in a suggestions file; I review them manually before merging anything into the canonical dataset.
 
 Early in development, some hallucinated mappings made it into production. Those kinds of failures in front of a user erode confidence in the tool. I caught them quickly, but they reinforced that the human review step isn't optional.
 
@@ -85,10 +85,11 @@ It took several iterations to land on the visual language for Voteprint. Earlier
 
 **Server as proxy and cache.** Two API routes: one for ZIP lookup via 5calls, one for caching voting records from Congress.gov. No user data beyond ZIP or Representative ID.
 
-**Voteprint as raw Canvas**
+**Voteprint as raw Canvas.**
 ~320 lines of Canvas API. No charting library. Fully keyboard-accessible, screen-reader friendly, responsive to color scheme changes. More work, but the payoff is that I got the visual language exactly how I wanted it
 
 **A curated set of issues, not neutral.** The landing page copy is neutral. The generated messages are not. I'm not pulling any punches. The current list:
+
 - Universal Healthcare (Medicare for All)
 - Climate Justice and Green New Deal
 - End Police Violence and Mass Incarceration
@@ -109,13 +110,13 @@ It took several iterations to land on the visual language for Voteprint. Earlier
 - End the War on Drugs and Decriminalize
 - Food Sovereignty and End Hunger
 
-**Background cache warming** After a ZIP lookup, low-priority requests warm voting data. Errors are swallowed intentionally; the warming is a best-effort optimization, not a contract. It's a minimal piece of engineering to make the next click in the user's likely flow feel instant.
+**Background cache warming.** After a ZIP lookup, low-priority requests warm voting data. Errors are swallowed intentionally; the warming is a best-effort optimization, not a contract. It's a minimal piece of engineering to make the next click in the user's likely flow feel instant.
 
 ## On the AI Pipeline
 
 This is worth its own section, because "I used AI in the build pipeline" is becoming a claim people make without evidence, and I want to be clear about what I actually did.
 
-The pipeline categorizes congressional votes into the project's nineteen issue categories. 
+The pipeline categorizes congressional votes into the project's nineteen issue categories.
 
 Votes are fetched from Congress.gov, enriched with bill title and policy area, and sent in batches of twenty to Claude Haiku with a system prompt describing all nineteen categories. the model returns category, stance, confidence, and a short note. Results are split into high-confidence and review buckets. Only high entries are eligible for merging into the canonical dataset, and even those land in a separate suggestions file that I review by hand before a separate command applies them.
 
@@ -125,7 +126,7 @@ I want to be honest about my position on AI use in general, because the case stu
 
 I used AI in this project anyway, because this use case makes sense. The model drafts; I review. Only approved entries are shipped. The canonical dataset never contains an unreviewed AI output. This is the version of AI use that doesn't replace human judgment; it scales human judgment by handling the part that would otherwise make the project impossible. Manually reading the bill summary for every roll call in a Congress is the kind of task that kills a side project before it ships. I used AI to make this doable as a side project, and I built a review step because Haiku is fast but wrong sometimes, and a public-facing civic dataset is not the place for "sometimes."
 
-It's not a clean answer. It's a tradeoff, and I want the case study to be honest about that.
+It's a tradeoff, not a clean answer, and I want the case study to be honest about that
 
 ## Stack
 
