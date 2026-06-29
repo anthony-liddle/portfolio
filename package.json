@@ -24,8 +24,8 @@
     "react-dom": "19.2.7"
   },
   "devDependencies": {
-    "@commitlint/cli": "^21.0.2",
-    "@commitlint/config-conventional": "^21.0.2",
+    "@commitlint/cli": "^21.1.0",
+    "@commitlint/config-conventional": "^21.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/mdx": "^2.0.14",
     "@types/node": "^25",
@@ -37,7 +37,7 @@
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.8",
-    "prettier": "^3.8.4",
+    "prettier": "^3.9.1",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4",
     "typescript": "^6"
