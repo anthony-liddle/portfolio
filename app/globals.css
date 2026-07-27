@@ -862,6 +862,13 @@ a {
   background: var(--border);
 }
 
+/* Album covers are square, not 2:3. Widening to match the shared height keeps
+   the row heights identical across sections while letting the artwork sit at
+   its own aspect ratio instead of being cropped to a poster shape. */
+.lately-entry__cover--square {
+  width: 84px;
+}
+
 .lately-entry__body {
   min-width: 0;
 }
