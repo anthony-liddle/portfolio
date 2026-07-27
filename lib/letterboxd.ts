@@ -25,6 +25,11 @@ const revalidatingFetch: typeof fetch = (input, init) =>
  * case is logged rather than swallowed silently. A valid but empty feed also
  * returns [], so callers handle "nothing to show" and "fetch failed" the same
  * quiet way.
+ *
+ * Unlike the reading and listening wrappers, there are no warnings to log here:
+ * getDiary returns a bare array and signals trouble by throwing, so the catch
+ * below is the whole error surface. A feed either parses or it does not; there
+ * is no soft-failure middle ground to report.
  */
 export async function getRecentlyWatched(limit = 3): Promise<DiaryEntry[]> {
   try {

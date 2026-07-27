@@ -21,10 +21,17 @@ const revalidatingFetch: typeof fetch = (input, init) =>
  * Most recent albums, newest first. Degrades to an empty array on any failure
  * so a broken yaml file, missing credentials, or an unreachable Apple Music
  * never fails the build; the broken case is logged rather than swallowed
- * silently. The package also returns `warnings` and `lastEntryDate`, but the
- * page renders neither, so only `entries` is read here. `limit` is passed
- * through to `getListeningLog` so the package's sort and cap apply before the
- * result is returned.
+ * silently. The page renders neither `warnings` nor `lastEntryDate`, but
+ * warnings are logged: they are how a catalog miss announces itself, and the
+ * build console is the only place they can surface. They never fail the build,
+ * matching the package's own stance that a catalog having a bad afternoon
+ * should cost a cover image rather than a deploy. `limit` is passed through to
+ * `getListeningLog` so the package's sort and cap apply before the result is
+ * returned.
+ *
+ * Note this only ever prints during a local build. Once the cache is committed
+ * and complete, a deploy makes no network calls, so there is nothing to warn
+ * about.
  */
 export async function getRecentListening(limit = 3): Promise<ListeningEntry[]> {
   try {
@@ -41,6 +48,9 @@ export async function getRecentListening(limit = 3): Promise<ListeningEntry[]> {
       limit,
       fetchImpl: revalidatingFetch,
     });
+    for (const warning of result.warnings) {
+      console.warn('listening-log:', warning);
+    }
     return result.entries;
   } catch (error) {
     console.error('Failed to load listening-log:', error);

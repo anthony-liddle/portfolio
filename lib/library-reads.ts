@@ -20,10 +20,16 @@ const revalidatingFetch: typeof fetch = (input, init) =>
 /**
  * Most recent reads, newest first. Degrades to an empty array on any failure so
  * a broken input file or an unreachable Open Library never fails the build; the
- * broken case is logged rather than swallowed silently. The package also returns
- * `warnings` and `lastEntryDate`, but the page renders neither, so only
- * `entries` is read here. `limit` is passed through to `getReads` so the
- * package's sort and cap apply before the result is returned.
+ * broken case is logged rather than swallowed silently. The page renders
+ * neither `warnings` nor `lastEntryDate`, but warnings are logged: they are how
+ * a fuzzy match or an Open Library miss announces itself, and the build console
+ * is the only place they can surface. They never fail the build. `limit` is
+ * passed through to `getReads` so the package's sort and cap apply before the
+ * result is returned.
+ *
+ * Note this only ever prints during a local build. Once the cache is committed
+ * and complete, a deploy makes no network calls, so there is nothing to warn
+ * about.
  */
 export async function getRecentReads(limit = 3): Promise<ReadEntry[]> {
   try {
@@ -35,6 +41,9 @@ export async function getRecentReads(limit = 3): Promise<ReadEntry[]> {
       limit,
       fetchImpl: revalidatingFetch,
     });
+    for (const warning of result.warnings) {
+      console.warn('library-reads:', warning);
+    }
     return result.entries;
   } catch (error) {
     console.error('Failed to load library-reads:', error);
