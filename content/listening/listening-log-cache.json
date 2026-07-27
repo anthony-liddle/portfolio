@@ -1,0 +1,38 @@
+{
+  "am:q:62ac4d974a17598a": {
+    "fetchedAt": "2026-07-27",
+    "key": "am:q:62ac4d974a17598a",
+    "appleMusic": {
+      "albumId": "1726639434",
+      "url": "https://music.apple.com/us/album/becoming-x/1726639434",
+      "artworkTemplate": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/73/6f/10/736f1074-17b1-4c90-a317-e6ee85f2f774/5016958091101.png/{w}x{h}bb.jpg"
+    }
+  },
+  "am:q:7e684c7c8b307fcb": {
+    "fetchedAt": "2026-07-27",
+    "key": "am:q:7e684c7c8b307fcb",
+    "appleMusic": {
+      "albumId": "1440796793",
+      "url": "https://music.apple.com/us/album/sing-the-sorrow/1440796793",
+      "artworkTemplate": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/b0/4d/dc/b04ddc80-408d-8e46-1ebc-32aa87c12c13/06UMGIM13904.rgb.jpg/{w}x{h}bb.jpg"
+    }
+  },
+  "am:q:b3f10fbde04bb4c3": {
+    "fetchedAt": "2026-07-27",
+    "key": "am:q:b3f10fbde04bb4c3",
+    "appleMusic": {
+      "albumId": "1502476612",
+      "url": "https://music.apple.com/us/album/ladies-and-gentlemen-we-are-floating-in-space/1502476612",
+      "artworkTemplate": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/32/d1/b6/32d1b6a7-1ff3-212b-b85c-95cead2d7372/195081146409.jpg/{w}x{h}bb.jpg"
+    }
+  },
+  "am:q:681264a9d4ef3905": {
+    "fetchedAt": "2026-07-27",
+    "key": "am:q:681264a9d4ef3905",
+    "appleMusic": {
+      "albumId": "1120325818",
+      "url": "https://music.apple.com/us/album/spiderland-remastered/1120325818",
+      "artworkTemplate": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/2d/62/b7/2d62b77d-9518-b5f1-7212-5542597953c2/cover.jpg/{w}x{h}bb.jpg"
+    }
+  }
+}

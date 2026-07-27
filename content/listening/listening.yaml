@@ -16,3 +16,23 @@
 #   artist: 'Radiohead'
 #   format: vinyl
 #   playedAt: 2026-05-28
+
+- title: 'Becoming X'
+  artist: 'Sneaker Pimps'
+  format: digital
+  playedAt: 2026-07-26
+
+- title: 'Sing the Sorrow'
+  artist: 'AFI'
+  format: cd
+  playedAt: 2026-07-25
+
+- title: 'Ladies and gentlemen we are floating in space'
+  artist: 'Spiritualized'
+  format: digital
+  playedAt: 2026-07-24
+
+- title: 'Spiderland'
+  artist: 'Slint'
+  format: digital
+  playedAt: 2026-07-23
