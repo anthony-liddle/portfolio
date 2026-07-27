@@ -1,0 +1,18 @@
+# Albums I have been listening to. One row per play; rows for the same album
+# aggregate into a single entry, so playing something four times is one entry
+# with playCount 4, not four entries.
+#
+# Required on every row: title, artist, format, playedAt.
+# format is one of: vinyl, cd, cassette, digital
+# playedAt is an ISO date (YYYY-MM-DD).
+#
+# Optional:
+#   appleMusicAlbumId  pin the catalog match when the search picks badly
+#   discogsReleaseId   pin the specific pressing, which Apple Music cannot say
+#   source             free-form origin, e.g. 'Music Millennium used bin'
+#   private            true keeps the play out of the output entirely
+#
+# - title: 'Kid A'
+#   artist: 'Radiohead'
+#   format: vinyl
+#   playedAt: 2026-05-28

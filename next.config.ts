@@ -19,6 +19,15 @@ const nextConfig: NextConfig = {
         pathname: '/b/id/**',
         search: '',
       },
+      // Apple Music album artwork. The host is sharded across is1-ssl through
+      // is5-ssl, so the subdomain is wildcarded; the path is pinned to the
+      // image CDN prefix. No query string, so `search` is pinned to empty.
+      {
+        protocol: 'https',
+        hostname: '**.mzstatic.com',
+        pathname: '/image/thumb/**',
+        search: '',
+      },
     ],
   },
 };
