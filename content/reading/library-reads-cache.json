@@ -783,5 +783,181 @@
       ]
     },
     "matchQuality": "exact"
+  },
+  "title-author:9c7081ae4ba7ff79": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "title-author:9c7081ae4ba7ff79",
+    "data": {
+      "olid": "OL44829733W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/15166161-L.jpg",
+      "pageCount": 288,
+      "publishYear": 2026,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780593788721": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "isbn:9780593788721",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:05fb38098d367e29": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "title-author:05fb38098d367e29",
+    "data": {
+      "olid": "OL34059594W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14641725-L.jpg",
+      "pageCount": 448,
+      "publishYear": 2024,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780593790175": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "isbn:9780593790175",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:7e8cc3a0bfa7d211": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "title-author:7e8cc3a0bfa7d211",
+    "data": {
+      "olid": "OL21210044W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/10357430-L.jpg",
+      "pageCount": 160,
+      "publishYear": 2020,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781984892058": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "isbn:9781984892058",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:f03b676c9ff190fa": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "title-author:f03b676c9ff190fa",
+    "data": {
+      "olid": "OL27742721W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/15133535-L.jpg",
+      "pageCount": 272,
+      "publishYear": 2024,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781250886361": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "isbn:9781250886361",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:6703038d530e1aa7": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "title-author:6703038d530e1aa7",
+    "data": {
+      "olid": "OL33402895W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14538949-L.jpg",
+      "pageCount": 160,
+      "publishYear": 2023,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781705040973": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "isbn:9781705040973",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:66f12b7e119e156f": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "title-author:66f12b7e119e156f",
+    "data": {
+      "olid": "OL21781214W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14373773-L.jpg",
+      "pageCount": 60,
+      "publishYear": 2012
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781442359895": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "isbn:9781442359895",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:028f8bd82303b0a5": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "title-author:028f8bd82303b0a5",
+    "data": {
+      "olid": "OL46125W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/12750589-L.jpg",
+      "pageCount": 272,
+      "publishYear": 2021,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780307749703": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "isbn:9780307749703",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "isbn:9781501999994": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "isbn:9781501999994",
+    "data": {
+      "coverUrl": "https://covers.openlibrary.org/b/id/15156455-L.jpg",
+      "publishYear": 2018,
+      "format": "audiobook",
+      "olid": "OL19763338W",
+      "subjects": [
+        "franchise:The Murderbot Diaries",
+        "series:The Murderbot Diaries",
+        "form:novella",
+        "genre:science fiction",
+        "Fiction",
+        "Androids",
+        "Human-computer interaction",
+        "Artificial intelligence",
+        "Robots"
+      ]
+    },
+    "matchQuality": "exact"
+  },
+  "isbn:9781501999796": {
+    "fetchedAt": "2026-07-27",
+    "lookupKey": "isbn:9781501999796",
+    "data": {
+      "coverUrl": "https://covers.openlibrary.org/b/id/15156454-L.jpg",
+      "publishYear": 2018,
+      "format": "audiobook",
+      "olid": "OL19753589W",
+      "subjects": [
+        "franchise:The Murderbot Diaries",
+        "series:The Murderbot Diaries",
+        "form:novella",
+        "genre:science fiction",
+        "Fiction",
+        "Androids",
+        "Human-computer interaction",
+        "Artificial intelligence",
+        "Robots"
+      ]
+    },
+    "matchQuality": "exact"
   }
 }
