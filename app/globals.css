@@ -187,10 +187,14 @@ a {
 
 /* ─── Navigation ─────────────────────────────────────────────────────────────── */
 
+/* Wraps the link list below the wordmark on narrow viewports. Inert when the
+   row fits, so no breakpoint is needed. */
 .site-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 0.75rem;
   padding: 1.5rem 2rem;
   font-family: var(--font-sans);
   font-size: 0.875rem;
