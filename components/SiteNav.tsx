@@ -28,6 +28,11 @@ export default function SiteNav() {
           </Link>
         </li>
         <li>
+          <Link href="/lately" className="nav-link">
+            Lately
+          </Link>
+        </li>
+        <li>
           <Link href="/about" className="nav-link">
             About
           </Link>
