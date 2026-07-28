@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { projects } from '@/content/projects';
+import { caseStudies } from '@/content/case-studies';
 
 const W = 1200;
 const H = 630;
@@ -106,7 +106,7 @@ export function homeOgImage(): ImageResponse {
   );
 }
 
-export function workOgImage(): ImageResponse {
+export function writingOgImage(): ImageResponse {
   return new ImageResponse(
     <div
       style={{
@@ -137,18 +137,23 @@ export function workOgImage(): ImageResponse {
             lineHeight: 1.1,
           }}
         >
-          Work
+          Writing
         </div>
         <div
           style={{
             display: 'flex',
+            flexWrap: 'wrap',
             fontFamily: 'Inter',
             fontSize: 28,
             color: MUTED,
+            lineHeight: 1.45,
+            maxWidth: 920,
             marginTop: 24,
           }}
         >
-          A selection of things I&apos;ve built
+          Essays about the things I&apos;ve built. Every one of them started
+          somewhere personal, because none of them started as a technical
+          problem.
         </div>
       </div>
       <div
@@ -229,7 +234,7 @@ export function latelyOgImage(): ImageResponse {
   );
 }
 
-export function madeOgImage(): ImageResponse {
+export function projectsOgImage(): ImageResponse {
   return new ImageResponse(
     <div
       style={{
@@ -260,7 +265,7 @@ export function madeOgImage(): ImageResponse {
             lineHeight: 1.1,
           }}
         >
-          Made
+          Projects
         </div>
         <div
           style={{
@@ -293,7 +298,7 @@ export function madeOgImage(): ImageResponse {
 }
 
 export function caseStudyOgImage(slug: string): ImageResponse {
-  const project = projects.find((p) => p.slug === slug);
+  const project = caseStudies.find((p) => p.slug === slug);
   const name = project?.name ?? slug;
   const pitch = project?.pitch ?? '';
 

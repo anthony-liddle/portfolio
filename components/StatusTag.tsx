@@ -1,8 +1,8 @@
 import { cn } from '@/lib/cn';
-import type { ProjectStatus } from '@/content/projects';
+import type { CaseStudyStatus } from '@/content/case-studies';
 
 interface StatusTagProps {
-  status: ProjectStatus;
+  status: CaseStudyStatus;
   className?: string;
 }
 
