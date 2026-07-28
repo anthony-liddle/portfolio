@@ -1,0 +1,102 @@
+import { Fragment } from 'react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { madeSections, type MadeEntry, type MadeLink } from '@/content/made';
+
+const DESCRIPTION =
+  'An index of everything Anthony Liddle has built that is finished and live: word games, browser audio, civic tools, and npm packages.';
+
+export const metadata: Metadata = {
+  title: 'Made',
+  description: DESCRIPTION,
+  openGraph: {
+    title: 'Made — Anthony Liddle',
+    description: DESCRIPTION,
+  },
+};
+
+/**
+ * Every entry carries a "GitHub" link, so the visible text alone leaves screen
+ * reader users with a dozen identical links (WCAG 2.4.4). Qualifying each one
+ * with the entry name keeps them distinguishable in a links list.
+ */
+function linkLabel(entry: MadeEntry, link: MadeLink, external: boolean) {
+  const base = link.primary ? link.label : `${link.label}: ${entry.name}`;
+  return external ? `${base} (opens in new tab)` : base;
+}
+
+function EntryLink({ entry, link }: { entry: MadeEntry; link: MadeLink }) {
+  const className = link.primary
+    ? 'lately-link made-link--primary'
+    : 'lately-link';
+  const external = !link.href.startsWith('/');
+
+  if (!external) {
+    return (
+      <Link
+        href={link.href}
+        className={className}
+        aria-label={linkLabel(entry, link, false)}
+      >
+        {link.label}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={link.href}
+      className={className}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={linkLabel(entry, link, true)}
+    >
+      {link.label}
+    </a>
+  );
+}
+
+export default function MadePage() {
+  return (
+    <div className="page-container">
+      <h1 className="lately-heading">Made</h1>
+      <p className="lately-intro">
+        Everything here is finished and running. Open it, install it, or fork
+        it.
+      </p>
+
+      <div className="lately-sections">
+        {madeSections.map((section) => {
+          const labelId = `made-${section.title.replace(/\s+/g, '-').toLowerCase()}`;
+
+          return (
+            <section key={section.title} aria-labelledby={labelId}>
+              <h2 id={labelId} className="lately-section__label">
+                {section.title}
+              </h2>
+
+              <ul className="lately-entries">
+                {section.entries.map((entry) => (
+                  <li key={entry.name}>
+                    <h3 className="lately-entry__title made-entry__name">
+                      {entry.name}
+                    </h3>
+                    <p className="lately-entry__note">{entry.description}</p>
+                    <p className="made-entry__links">
+                      {entry.links.map((link, index) => (
+                        <Fragment key={link.href}>
+                          {index > 0 && ' · '}
+                          <EntryLink entry={entry} link={link} />
+                        </Fragment>
+                      ))}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

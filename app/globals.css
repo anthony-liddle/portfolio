@@ -937,6 +937,34 @@ a {
   text-decoration-color: var(--accent);
 }
 
+/* ─── Made index ────────────────────────────────────────────────────────────── */
+
+/* Entry names reuse .lately-entry__title, which is only ever applied to spans
+   on the Lately page and so never had to counter the bold heading default.
+   Here the name is a real heading, so the weight is brought back in line. */
+.made-entry__name {
+  font-weight: 400;
+}
+
+/* Inline text, not flex: the row wraps at the separator spaces on its own,
+   which is what keeps the longest rows inside a 320px viewport. */
+.made-entry__links {
+  margin-top: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* Same underline treatment as .lately-link, at full text strength so the live
+   site reads as the entry's primary destination. */
+.made-link--primary {
+  color: var(--text);
+}
+
+.made-footer {
+  margin-top: 4rem;
+}
+
 /* ─── Scrollbar (subtle) ────────────────────────────────────────────────────── */
 
 @media (prefers-color-scheme: dark) {
