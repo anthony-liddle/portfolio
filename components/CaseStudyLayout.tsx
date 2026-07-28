@@ -9,8 +9,8 @@ export default function CaseStudyLayout({ children }: CaseStudyLayoutProps) {
   return (
     <div className="page-container--wide">
       <nav aria-label="Breadcrumb" className="case-study__breadcrumb">
-        <Link href="/work" className="case-study__back-link">
-          ← Work
+        <Link href="/writing" className="case-study__back-link">
+          ← Writing
         </Link>
       </nav>
 

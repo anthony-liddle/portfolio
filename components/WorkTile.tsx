@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import StatusTag from './StatusTag';
-import type { Project } from '@/content/projects';
+import type { CaseStudy } from '@/content/case-studies';
 
 interface WorkTileProps {
-  project: Project;
+  project: CaseStudy;
 }
 
 export default function WorkTile({ project }: WorkTileProps) {
@@ -11,7 +11,7 @@ export default function WorkTile({ project }: WorkTileProps) {
 
   return (
     <Link
-      href={`/work/${project.slug}`}
+      href={`/writing/${project.slug}`}
       className="work-tile"
       aria-label={displayName}
     >

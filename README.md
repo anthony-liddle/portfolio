@@ -30,10 +30,13 @@ app/
   layout.tsx          Root layout with fonts, nav, metadata
   page.tsx            Home page
   globals.css         Tailwind + CSS design system
-  work/               Case study pages (MDX)
+  writing/            Case study essays (MDX)
+  projects/           Index of finished, running work
+  lately/             Watching, reading, and listening
   about/              About page
 components/           Shared UI components
-content/projects.ts   Source of truth for project metadata
+content/case-studies.ts  Source of truth for the case study essays
+content/projects.ts      Source of truth for the projects index
 lib/cn.ts             classnames utility
 ```
 

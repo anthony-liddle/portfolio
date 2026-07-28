@@ -3,6 +3,27 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+  // /work and /made were the previous names for these two indexes. The Pocket
+  // case study in particular has been shared publicly, so its old URL has to
+  // keep resolving. `permanent: true` emits a 308, which preserves the method
+  // and tells crawlers to transfer ranking to the new path. The `:path*` rules
+  // cover both the case studies and the generated opengraph-image routes.
+  async redirects() {
+    return [
+      { source: '/work', destination: '/writing', permanent: true },
+      {
+        source: '/work/:path*',
+        destination: '/writing/:path*',
+        permanent: true,
+      },
+      { source: '/made', destination: '/projects', permanent: true },
+      {
+        source: '/made/:path*',
+        destination: '/projects/:path*',
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       // Letterboxd film posters. The `?v=` hash varies per poster, so `search`

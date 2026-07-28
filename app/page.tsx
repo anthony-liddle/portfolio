@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
 import WorkTile from '@/components/WorkTile';
 import ExperienceItem from '@/components/ExperienceItem';
-import { projects, featuredSlugs } from '@/content/projects';
+import { caseStudies, featuredSlugs } from '@/content/case-studies';
 
 export const metadata: Metadata = {
   title: 'Anthony Liddle',
   description: 'Staff / Lead Frontend Engineer in Portland, OR',
 };
 
-const featuredProjects = featuredSlugs.map(
-  (slug) => projects.find((p) => p.slug === slug)!,
+const featuredProjects = featuredSlugs.map((slug) =>
+  caseStudies.find((p) => p.slug === slug)!,
 );
 
 const experience = [

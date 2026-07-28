@@ -1,16 +1,20 @@
 import { Fragment } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { madeSections, type MadeEntry, type MadeLink } from '@/content/made';
+import {
+  projectSections,
+  type ProjectEntry,
+  type ProjectLink,
+} from '@/content/projects';
 
 const DESCRIPTION =
   'An index of everything Anthony Liddle has built that is finished and live: word games, browser audio, civic tools, and npm packages.';
 
 export const metadata: Metadata = {
-  title: 'Made',
+  title: 'Projects',
   description: DESCRIPTION,
   openGraph: {
-    title: 'Made — Anthony Liddle',
+    title: 'Projects — Anthony Liddle',
     description: DESCRIPTION,
   },
 };
@@ -20,12 +24,18 @@ export const metadata: Metadata = {
  * reader users with a dozen identical links (WCAG 2.4.4). Qualifying each one
  * with the entry name keeps them distinguishable in a links list.
  */
-function linkLabel(entry: MadeEntry, link: MadeLink, external: boolean) {
+function linkLabel(entry: ProjectEntry, link: ProjectLink, external: boolean) {
   const base = link.primary ? link.label : `${link.label}: ${entry.name}`;
   return external ? `${base} (opens in new tab)` : base;
 }
 
-function EntryLink({ entry, link }: { entry: MadeEntry; link: MadeLink }) {
+function EntryLink({
+  entry,
+  link,
+}: {
+  entry: ProjectEntry;
+  link: ProjectLink;
+}) {
   const className = link.primary
     ? 'lately-link made-link--primary'
     : 'lately-link';
@@ -56,18 +66,18 @@ function EntryLink({ entry, link }: { entry: MadeEntry; link: MadeLink }) {
   );
 }
 
-export default function MadePage() {
+export default function ProjectsPage() {
   return (
     <div className="page-container">
-      <h1 className="lately-heading">Made</h1>
+      <h1 className="lately-heading">Projects</h1>
       <p className="lately-intro">
         Everything here is finished and running. Open it, install it, or fork
         it.
       </p>
 
       <div className="lately-sections">
-        {madeSections.map((section) => {
-          const labelId = `made-${section.title.replace(/\s+/g, '-').toLowerCase()}`;
+        {projectSections.map((section) => {
+          const labelId = `projects-${section.title.replace(/\s+/g, '-').toLowerCase()}`;
 
           return (
             <section key={section.title} aria-labelledby={labelId}>
