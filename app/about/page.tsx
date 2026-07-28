@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
+import { siteTitle } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'A bit about Anthony Liddle — Staff / Lead Frontend Engineer in Portland, OR. Building things at BreakAway Data, and on my own time.',
+    'A bit about Anthony Liddle, Staff / Lead Frontend Engineer in Portland, OR. Building things at BreakAway Data, and on my own time.',
   openGraph: {
-    title: 'About — Anthony Liddle',
+    title: siteTitle('About'),
     description:
-      'A bit about Anthony Liddle — Staff / Lead Frontend Engineer in Portland, OR. Building things at BreakAway Data, and on my own time.',
+      'A bit about Anthony Liddle, Staff / Lead Frontend Engineer in Portland, OR. Building things at BreakAway Data, and on my own time.',
   },
 };
 

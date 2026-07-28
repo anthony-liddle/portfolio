@@ -1,136 +1,228 @@
-export type ProjectStatus = 'Shut down' | 'Active' | 'Development';
-
 export interface ProjectLink {
+  /** Visible text. Live sites use their bare domain, tools use "npm"/"GitHub". */
   label: string;
-  url: string;
+  /** Absolute URL, or a leading-slash path for an internal /writing case study. */
+  href: string;
+  /** Marks the entry's live destination so it reads louder than the rest. */
+  primary?: boolean;
 }
 
-export interface Project {
-  slug: string;
+export interface ProjectImage {
+  /** Absolute URL of the project's own OG image, served from its domain. */
+  src: string;
+  /**
+   * What the image shows, not the project name, which is already the heading
+   * directly below it. An empty string marks a pure title card as decorative.
+   */
+  alt: string;
+}
+
+export interface ProjectEntry {
   name: string;
-  tileName?: string;
-  pitch: string;
-  status: ProjectStatus;
-  tags: string[];
-  links?: ProjectLink[];
-  summary: string;
+  description: string;
+  links: ProjectLink[];
+  /**
+   * Only "Things you can use" entries carry one. Packages get no image on
+   * purpose: a generated card for a library would be furniture standing in
+   * for something with no appearance.
+   */
+  image?: ProjectImage;
 }
 
-export const projects: Project[] = [
-  {
-    slug: 'pocket',
-    name: 'Pocket',
-    tileName: 'Pocket',
-    pitch:
-      "The web home of Mozilla's article-discovery service. 2M+ daily page views at peak. Co-architected across six years.",
-    status: 'Shut down',
-    tags: ['Next.js', 'React', 'Redux', 'GraphQL'],
-    links: [{ label: 'Source', url: 'https://github.com/Pocket/web-client' }],
-    summary:
-      "The web home of Pocket, Mozilla's article-discovery service. A multi-surface editorial and personal-library platform that served more than 2 million daily page views at its peak.",
-  },
-  {
-    slug: 'crowd',
-    name: 'Crowd',
-    pitch:
-      'A location-based, ephemeral messaging platform where your identity exists only as long as your content does.',
-    status: 'Development',
-    tags: ['React Native', 'Expo', 'Fastify', 'PostgreSQL'],
-    links: [
-      { label: 'Source', url: 'https://github.com/anthony-liddle/crowd' },
-    ],
-    summary:
-      "Location-based ephemeral messaging. Messages live only within a radius and only for a limited time. When everything you've posted expires, your identity expires with it.",
-  },
-  {
-    slug: 'soundscape',
-    name: 'Soundscape',
-    pitch:
-      'A browser-native music sequencer and synthesizer, shipped as a zero-dependency npm package with a web-based composer.',
-    status: 'Active',
-    tags: ['TypeScript', 'Web Audio API', 'AudioWorklet'],
-    links: [
-      { label: 'Source', url: 'https://github.com/anthony-liddle/soundscape' },
-      { label: 'npm', url: 'https://npmjs.com/package/soundscape-engine' },
-      { label: 'Composer', url: 'https://soundscape-editor.vercel.app' },
-    ],
-    summary:
-      'A zero-dependency audio library (22KB) that does Web Audio scheduling, synthesis, and effects. Plus a React composer. Powers the music in two of my other projects.',
-  },
-  {
-    slug: 'forgetting-machine',
-    name: 'The Forgetting Machine',
-    pitch:
-      'Write a secret. Watch it dematerialize for 60 seconds. Nothing is saved, by design, not policy.',
-    status: 'Active',
-    tags: ['Vanilla TypeScript', 'Vite', 'Web Audio'],
-    links: [
-      { label: 'Live', url: 'https://forgetting-machine.com' },
-      {
-        label: 'Source',
-        url: 'https://github.com/anthony-liddle/forgetting-machine',
-      },
-    ],
-    summary:
-      "A small web experience where someone writes a secret, watches it dematerialize for 60 seconds with music, and then it's gone.",
-  },
-  {
-    slug: 'contact-your-reps',
-    name: 'Contact Your Reps',
-    pitch:
-      "A free, open-source tool for contacting US federal representatives, with a visualization of each House member's voting record alongside the issues you care about.",
-    status: 'Active',
-    tags: ['Next.js', 'TypeScript', 'Congress.gov API', 'AI pipeline'],
-    links: [
-      { label: 'Live', url: 'https://contact-your-reps.org' },
-      {
-        label: 'Source',
-        url: 'https://github.com/anthony-liddle/contact-your-reps',
-      },
-    ],
-    summary:
-      'A civic tool that surfaces your reps, shows their voting records on issues you care about, and helps you write them.',
-  },
-  {
-    slug: 'ro-sham-bo-exe',
-    name: 'RO-SHAM-BO.EXE',
-    pitch:
-      'A retro-terminal rock-paper-scissors game that pretends to watch you. The game is fair; the adversarial feeling is performance.',
-    status: 'Active',
-    tags: ['React', 'TypeScript', 'Web APIs', 'ASCII'],
-    links: [
-      {
-        label: 'Live',
-        url: 'https://anthony-liddle.github.io/rock-paper-scissors/',
-      },
-      { label: 'itch.io', url: 'https://sparklebeard.itch.io/ro-sham-bo-exe' },
-      {
-        label: 'Source',
-        url: 'https://github.com/anthony-liddle/rock-paper-scissors',
-      },
-    ],
-    summary:
-      'A retro-terminal rock-paper-scissors game that claims to watch your patterns, learn your strategy, and remember everything. None of that is true. The game is playing fair, the rest is performance.',
-  },
-  {
-    slug: 'ascii-roto',
-    name: 'ascii-roto',
-    pitch:
-      'A CLI that converts video files into ASCII animations. An idea I carried for a decade, built for the right project.',
-    status: 'Active',
-    tags: ['Node.js', 'TypeScript', 'CLI', 'ffmpeg'],
-    links: [
-      { label: 'Source', url: 'https://github.com/anthony-liddle/ascii-roto' },
-    ],
-    summary:
-      'Command-line tool that converts video files into ASCII animations. Built to generate the animations in RO-SHAM-BO.EXE, later extended with color for a future project.',
-  },
-];
+export interface ProjectSection {
+  title: string;
+  entries: ProjectEntry[];
+}
 
-export const featuredSlugs = [
-  'pocket',
-  'crowd',
-  'soundscape',
-  'forgetting-machine',
-  'contact-your-reps',
+const repo = (name: string) => `https://github.com/anthony-liddle/${name}`;
+const npm = (name: string) => `https://www.npmjs.com/package/${name}`;
+
+/**
+ * The /projects index: finished, running work, including the pieces that
+ * otherwise only surface inside a case study or on GitHub. Kept separate from
+ * `content/case-studies.ts`, which backs the written essays, so an entry can
+ * live here without an essay having been written about it.
+ */
+export const projectSections: ProjectSection[] = [
+  {
+    title: 'Things you can use',
+    entries: [
+      {
+        name: 'Out of Sorts',
+        description:
+          "A daily word game. Eight scrambled letters, and you lose the ones you don't use.",
+        image: {
+          src: 'https://out-of-sorts.vercel.app/og.png',
+          alt: 'Eight scrambled letter tiles over a pyramid of completed words, while small ghosts float away carrying the letters G, O, N, E',
+        },
+        links: [
+          {
+            label: 'out-of-sorts.vercel.app',
+            href: 'https://out-of-sorts.vercel.app',
+            primary: true,
+          },
+          { label: 'GitHub', href: repo('out-of-sorts') },
+        ],
+      },
+      {
+        name: 'Peach of a Word',
+        description:
+          'A daily word game I built as a gift. My partner plays it every morning, which is the metric that matters most to me.',
+        image: {
+          src: 'https://peachofaword.com/og.png',
+          alt: 'A smiling peach above letter tiles spelling serenade, under the tagline: a game about finding words in words',
+        },
+        links: [
+          {
+            label: 'peachofaword.com',
+            href: 'https://peachofaword.com',
+            primary: true,
+          },
+          { label: 'GitHub', href: repo('peach-of-a-word') },
+        ],
+      },
+      {
+        name: 'The Forgetting Machine',
+        description:
+          'Write something down and watch it come apart. It was never stored anywhere to begin with.',
+        // Pure title card: the name in serif on near-black, nothing else.
+        // Decorative by design; the heading below already carries the name.
+        image: {
+          src: 'https://forgetting-machine.com/og-image.png',
+          alt: '',
+        },
+        links: [
+          {
+            label: 'forgetting-machine.com',
+            href: 'https://forgetting-machine.com',
+            primary: true,
+          },
+          { label: 'GitHub', href: repo('forgetting-machine') },
+          { label: 'Case study', href: '/writing/forgetting-machine' },
+        ],
+      },
+      {
+        name: 'RO-SHAM-BO.EXE',
+        description:
+          "Rock paper scissors against something that acts like it's watching you. The coin flip is provably fair. The menace is theater.",
+        image: {
+          src: 'https://anthony-liddle.github.io/rock-paper-scissors/og-image.png',
+          alt: 'A green phosphor terminal boots ro-sham-bo.exe and prints a warning: opponent is aware',
+        },
+        links: [
+          {
+            label: 'ro-sham-bo.dev',
+            href: 'https://ro-sham-bo.dev',
+            primary: true,
+          },
+          { label: 'GitHub', href: repo('rock-paper-scissors') },
+          { label: 'Case study', href: '/writing/ro-sham-bo-exe' },
+        ],
+      },
+      {
+        name: 'Soundscape',
+        description:
+          'A sequencer and synthesizer that runs entirely in the browser. The audio in The Forgetting Machine was composed here.',
+        image: {
+          src: 'https://anthony-liddle.github.io/soundscape/og-image.png',
+          alt: 'A piano roll melody of glowing blue and purple notes on a dark grid, with a playhead beam lighting the sounding note amber',
+        },
+        links: [
+          {
+            label: 'soundscape-editor.vercel.app',
+            href: 'https://soundscape-editor.vercel.app',
+            primary: true,
+          },
+          { label: 'GitHub', href: repo('soundscape') },
+          { label: 'Case study', href: '/writing/soundscape' },
+        ],
+      },
+      {
+        name: 'Contact Your Reps',
+        description:
+          "Type a ZIP code, get your representatives and a message you can edit. It can't send anything for you, which is the point.",
+        // Headline, subline, and a button on a gradient. The words repeat
+        // what the entry text below already says, so decorative is honest.
+        image: {
+          src: 'https://contact-your-reps.org/opengraph-image',
+          alt: '',
+        },
+        links: [
+          {
+            label: 'contact-your-reps.org',
+            href: 'https://contact-your-reps.org',
+            primary: true,
+          },
+          { label: 'GitHub', href: repo('contact-your-reps') },
+          { label: 'Case study', href: '/writing/contact-your-reps' },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Packages and tools',
+    entries: [
+      {
+        name: 'soundscape-engine',
+        description:
+          'The audio engine behind the Soundscape sequencer. Zero dependencies.',
+        links: [
+          { label: 'npm', href: npm('soundscape-engine') },
+          { label: 'GitHub', href: repo('soundscape') },
+          { label: 'Case study', href: '/writing/soundscape' },
+        ],
+      },
+      {
+        name: 'letterboxd-rss',
+        description:
+          'Turns a Letterboxd RSS feed into typed diary entries. Letterboxd has no public API, so everyone rebuilds this. Built for the Lately page.',
+        links: [
+          { label: 'npm', href: npm('letterboxd-rss') },
+          { label: 'GitHub', href: repo('letterboxd-rss') },
+        ],
+      },
+      {
+        name: 'library-reads',
+        description:
+          'Turns a Libby export into typed entries, with covers and metadata from Open Library. Built for the Lately page.',
+        links: [
+          { label: 'npm', href: npm('library-reads') },
+          { label: 'GitHub', href: repo('library-reads') },
+        ],
+      },
+      {
+        name: 'listening-log',
+        description:
+          'Reads a hand-kept log of albums and enriches it against the Apple Music catalog, with Discogs as a fallback. Built for the Lately page.',
+        links: [
+          { label: 'npm', href: npm('listening-log') },
+          { label: 'GitHub', href: repo('listening-log') },
+        ],
+      },
+      {
+        name: 'apple-music-developer-token',
+        description:
+          'Signs Apple Music developer tokens. About a hundred lines that most tutorials hand-wave. Signs the tokens for listening-log.',
+        links: [
+          { label: 'npm', href: npm('apple-music-developer-token') },
+          { label: 'GitHub', href: repo('apple-music-developer-token') },
+        ],
+      },
+      {
+        name: 'ascii-roto',
+        description:
+          'Converts video into ASCII animation from the command line. Built for RO-SHAM-BO.EXE.',
+        links: [
+          { label: 'GitHub', href: repo('ascii-roto') },
+          { label: 'Case study', href: '/writing/ascii-roto' },
+        ],
+      },
+      {
+        name: 'discord-channel-change-bot',
+        description:
+          'Renames a Discord channel on a weekly schedule, rotating through themes and announcing each one. Built for a server I help run, generic enough to fork.',
+        links: [{ label: 'GitHub', href: repo('discord-channel-change-bot') }],
+      },
+    ],
+  },
 ];

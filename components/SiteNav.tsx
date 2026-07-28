@@ -23,8 +23,18 @@ export default function SiteNav() {
 
       <ul role="list" className="site-nav__list">
         <li>
-          <Link href="/work" className="nav-link">
-            Work
+          <Link href="/writing" className="nav-link">
+            Writing
+          </Link>
+        </li>
+        <li>
+          <Link href="/projects" className="nav-link">
+            Projects
+          </Link>
+        </li>
+        <li>
+          <Link href="/lately" className="nav-link">
+            Lately
           </Link>
         </li>
         <li>
