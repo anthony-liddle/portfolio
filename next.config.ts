@@ -49,6 +49,47 @@ const nextConfig: NextConfig = {
         pathname: '/image/thumb/**',
         search: '',
       },
+      // OG images for the /projects index, one pattern per project, each
+      // pinned to the exact file its site's og:image tag declares. Two live
+      // on GitHub Pages project paths rather than their own domains.
+      {
+        protocol: 'https',
+        hostname: 'out-of-sorts.vercel.app',
+        pathname: '/og.png',
+        search: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'peachofaword.com',
+        pathname: '/og.png',
+        search: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'forgetting-machine.com',
+        pathname: '/og-image.png',
+        search: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'anthony-liddle.github.io',
+        pathname: '/rock-paper-scissors/og-image.png',
+        search: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'anthony-liddle.github.io',
+        pathname: '/soundscape/og-image.png',
+        search: '',
+      },
+      // A generated Next.js route, not a static file. Served without its
+      // optional cache-buster query, so `search` is pinned to empty.
+      {
+        protocol: 'https',
+        hostname: 'contact-your-reps.org',
+        pathname: '/opengraph-image',
+        search: '',
+      },
     ],
   },
 };

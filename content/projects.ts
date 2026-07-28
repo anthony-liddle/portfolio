@@ -7,10 +7,26 @@ export interface ProjectLink {
   primary?: boolean;
 }
 
+export interface ProjectImage {
+  /** Absolute URL of the project's own OG image, served from its domain. */
+  src: string;
+  /**
+   * What the image shows, not the project name, which is already the heading
+   * directly below it. An empty string marks a pure title card as decorative.
+   */
+  alt: string;
+}
+
 export interface ProjectEntry {
   name: string;
   description: string;
   links: ProjectLink[];
+  /**
+   * Only "Things you can use" entries carry one. Packages get no image on
+   * purpose: a generated card for a library would be furniture standing in
+   * for something with no appearance.
+   */
+  image?: ProjectImage;
 }
 
 export interface ProjectSection {
@@ -35,6 +51,10 @@ export const projectSections: ProjectSection[] = [
         name: 'Out of Sorts',
         description:
           "A daily word game. Eight scrambled letters, and you lose the ones you don't use.",
+        image: {
+          src: 'https://out-of-sorts.vercel.app/og.png',
+          alt: 'Eight scrambled letter tiles over a pyramid of completed words, while small ghosts float away carrying the letters G, O, N, E',
+        },
         links: [
           {
             label: 'out-of-sorts.vercel.app',
@@ -48,6 +68,10 @@ export const projectSections: ProjectSection[] = [
         name: 'Peach of a Word',
         description:
           'A daily word game I built as a gift. My partner plays it every morning, which is the metric that matters most to me.',
+        image: {
+          src: 'https://peachofaword.com/og.png',
+          alt: 'A smiling peach above letter tiles spelling serenade, under the tagline: a game about finding words in words',
+        },
         links: [
           {
             label: 'peachofaword.com',
@@ -61,6 +85,12 @@ export const projectSections: ProjectSection[] = [
         name: 'The Forgetting Machine',
         description:
           'Write something down and watch it come apart. It was never stored anywhere to begin with.',
+        // Pure title card: the name in serif on near-black, nothing else.
+        // Decorative by design; the heading below already carries the name.
+        image: {
+          src: 'https://forgetting-machine.com/og-image.png',
+          alt: '',
+        },
         links: [
           {
             label: 'forgetting-machine.com',
@@ -75,6 +105,10 @@ export const projectSections: ProjectSection[] = [
         name: 'RO-SHAM-BO.EXE',
         description:
           "Rock paper scissors against something that acts like it's watching you. The coin flip is provably fair. The menace is theater.",
+        image: {
+          src: 'https://anthony-liddle.github.io/rock-paper-scissors/og-image.png',
+          alt: 'A green phosphor terminal boots ro-sham-bo.exe and prints a warning: opponent is aware',
+        },
         links: [
           {
             label: 'ro-sham-bo.dev',
@@ -89,6 +123,10 @@ export const projectSections: ProjectSection[] = [
         name: 'Soundscape',
         description:
           'A sequencer and synthesizer that runs entirely in the browser. The audio in The Forgetting Machine was composed here.',
+        image: {
+          src: 'https://anthony-liddle.github.io/soundscape/og-image.png',
+          alt: 'A piano roll melody of glowing blue and purple notes on a dark grid, with a playhead beam lighting the sounding note amber',
+        },
         links: [
           {
             label: 'soundscape-editor.vercel.app',
@@ -103,6 +141,12 @@ export const projectSections: ProjectSection[] = [
         name: 'Contact Your Reps',
         description:
           "Type a ZIP code, get your representatives and a message you can edit. It can't send anything for you, which is the point.",
+        // Headline, subline, and a button on a gradient. The words repeat
+        // what the entry text below already says, so decorative is honest.
+        image: {
+          src: 'https://contact-your-reps.org/opengraph-image',
+          alt: '',
+        },
         links: [
           {
             label: 'contact-your-reps.org',
