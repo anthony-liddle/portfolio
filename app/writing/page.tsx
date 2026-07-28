@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import WorkTile from '@/components/WorkTile';
 import { caseStudies, caseStudyOrder } from '@/content/case-studies';
+import { siteTitle } from '@/lib/site';
 
 const DESCRIPTION =
   "Essays about the things Anthony Liddle has built. Every one of them started somewhere personal, because none of them started as a technical problem. From Mozilla's Pocket to side projects in audio, games, and civic tech.";
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Writing',
   description: DESCRIPTION,
   openGraph: {
-    title: 'Writing — Anthony Liddle',
+    title: siteTitle('Writing'),
     description: DESCRIPTION,
   },
 };
