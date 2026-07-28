@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import WorkTile from '@/components/WorkTile';
 import { projects } from '@/content/projects';
 
@@ -48,6 +49,13 @@ export default function WorkPage() {
           ))}
         </div>
       </section>
+
+      <p className="made-footer">
+        <Link href="/made" className="lately-link">
+          More things I&rsquo;ve built, including the ones you can actually play
+          with.
+        </Link>
+      </p>
     </div>
   );
 }
