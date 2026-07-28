@@ -1,11 +1,12 @@
 import { ImageResponse } from 'next/og';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { siteTitle } from '@/lib/site';
 
 export const runtime = 'nodejs';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-export const alt = 'About — Anthony Liddle';
+export const alt = siteTitle('About');
 
 const W = 1200;
 const H = 630;

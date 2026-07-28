@@ -7,6 +7,7 @@ import {
   type ProjectEntry,
   type ProjectLink,
 } from '@/content/projects';
+import { siteTitle } from '@/lib/site';
 
 const DESCRIPTION =
   'An index of everything Anthony Liddle has built that is finished and live: word games, browser audio, civic tools, and npm packages.';
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
   title: 'Projects',
   description: DESCRIPTION,
   openGraph: {
-    title: 'Projects — Anthony Liddle',
+    title: siteTitle('Projects'),
     description: DESCRIPTION,
   },
 };

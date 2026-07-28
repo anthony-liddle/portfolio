@@ -1,4 +1,4 @@
-# Anthony Liddle — Portfolio
+# Anthony Liddle's portfolio
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue.svg)](https://www.typescriptlang.org/)
@@ -8,7 +8,7 @@ Personal portfolio and case study site for [anthonyliddle.dev](https://anthonyli
 
 ## Features
 
-- Editorial typographic design — Libre Baskerville + Inter
+- Editorial typographic design set in Libre Baskerville and Inter
 - Dark/light mode respecting system preference (defaults to dark)
 - MDX-powered case study pages with full prose styling
 - Strict TypeScript, WCAG AA accessibility, Lighthouse 95+ target
@@ -42,10 +42,10 @@ lib/cn.ts             classnames utility
 
 ## Tech stack
 
-- [Next.js 16](https://nextjs.org/) — App Router
-- [Tailwind CSS v4](https://tailwindcss.com/) — CSS-first config
-- [MDX](https://mdxjs.com/) — case study content
-- [next/font](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) — Libre Baskerville + Inter
+- [Next.js 16](https://nextjs.org/) with the App Router
+- [Tailwind CSS v4](https://tailwindcss.com/) using the CSS-first config
+- [MDX](https://mdxjs.com/) for the case study content
+- [next/font](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) loading Libre Baskerville and Inter
 
 ## Contributing
 

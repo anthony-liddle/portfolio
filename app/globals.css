@@ -9,7 +9,7 @@
   --font-mono:
     ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
 
-  /* Color palette — resolved against current mode vars */
+  /* Color palette, resolved against current mode vars */
   --color-bg: var(--bg);
   --color-text: var(--text);
   --color-muted: var(--muted);
@@ -234,7 +234,7 @@ a {
   font-weight: 500;
 }
 
-/* Non-link wordmark (home page — no href needed) */
+/* Non-link wordmark (the home page needs no href) */
 .nav-wordmark {
   color: var(--muted);
   font-family: var(--font-sans);

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Libre_Baskerville } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import SiteNav from '@/components/SiteNav';
+import { SITE_NAME, TITLE_TEMPLATE } from '@/lib/site';
 import './globals.css';
 
 const inter = Inter({
@@ -21,22 +22,22 @@ const libreBaskerville = Libre_Baskerville({
 export const metadata: Metadata = {
   metadataBase: new URL('https://anthonyliddle.dev'),
   title: {
-    default: 'Anthony Liddle',
-    template: '%s — Anthony Liddle',
+    default: SITE_NAME,
+    template: TITLE_TEMPLATE,
   },
   description:
     'Staff / Lead Frontend Engineer in Portland, OR. Building data-intensive web and mobile products at BreakAway Data. Previously at Microsoft and Mozilla.',
   openGraph: {
-    title: 'Anthony Liddle',
+    title: SITE_NAME,
     description:
       'Staff / Lead Frontend Engineer in Portland, OR. Building data-intensive web and mobile products at BreakAway Data. Previously at Microsoft and Mozilla.',
     url: 'https://anthonyliddle.dev',
-    siteName: 'Anthony Liddle',
+    siteName: SITE_NAME,
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Anthony Liddle',
+    title: SITE_NAME,
     description:
       'Staff / Lead Frontend Engineer in Portland, OR. Building data-intensive web and mobile products at BreakAway Data. Previously at Microsoft and Mozilla.',
   },
