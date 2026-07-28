@@ -942,6 +942,19 @@ a {
   font-weight: 400;
 }
 
+/* Same 1px border and 4px radius as .work-tile, so the screenshots read as
+   part of the existing tile family instead of a new treatment. The explicit
+   width/height attributes on the img reserve the 1200x630 box before load;
+   height: auto keeps the native ratio at any column width. */
+.made-entry__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+
 /* Inline text, not flex: the row wraps at the separator spaces on its own,
    which is what keeps the longest rows inside a 320px viewport. */
 .made-entry__links {

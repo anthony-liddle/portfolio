@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   projectSections,
@@ -86,8 +87,21 @@ export default function ProjectsPage() {
               </h2>
 
               <ul className="lately-entries">
-                {section.entries.map((entry) => (
+                {section.entries.map((entry, entryIndex) => (
                   <li key={entry.name}>
+                    {entry.image && (
+                      <Image
+                        src={entry.image.src}
+                        alt={entry.image.alt}
+                        width={1200}
+                        height={630}
+                        sizes="(max-width: 700px) calc(100vw - 4rem), 636px"
+                        className="made-entry__image"
+                        // Only the first image is above the fold; the rest
+                        // stay on next/image's default lazy loading.
+                        priority={entryIndex === 0}
+                      />
+                    )}
                     <h3 className="lately-entry__title made-entry__name">
                       {entry.name}
                     </h3>
