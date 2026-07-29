@@ -63,6 +63,7 @@ export const projectSections: ProjectSection[] = [
             primary: true,
           },
           { label: 'GitHub', href: repo('peach-of-a-word') },
+          { label: 'Case study', href: '/writing/peach-of-a-word' },
         ],
       },
       {

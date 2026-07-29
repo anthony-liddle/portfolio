@@ -58,6 +58,23 @@ export const caseStudies: CaseStudy[] = [
       'A zero-dependency audio library (22KB) that does Web Audio scheduling, synthesis, and effects. Plus a React composer. Powers the music in two of my other projects.',
   },
   {
+    slug: 'peach-of-a-word',
+    name: 'Peach of a Word',
+    pitch:
+      'A daily word game built as a gift for my partner, shaped around how she actually plays instead of how the original ran.',
+    status: 'Active',
+    tags: ['React', 'TypeScript', 'Vite'],
+    links: [
+      { label: 'Live', url: 'https://peachofaword.com' },
+      {
+        label: 'Source',
+        url: 'https://github.com/anthony-liddle/peach-of-a-word',
+      },
+    ],
+    summary:
+      'A remix of a Flash game my partner loved and can no longer play. Eight scrambled letters, and the eight-letter word they all came from. Untimed, offline, and rebuilt repeatedly around how she plays.',
+  },
+  {
     slug: 'forgetting-machine',
     name: 'The Forgetting Machine',
     pitch:
@@ -146,6 +163,7 @@ export const caseStudyOrder = [
   'crowd',
   'contact-your-reps',
   'soundscape',
+  'peach-of-a-word',
   'forgetting-machine',
   'ro-sham-bo-exe',
   'ascii-roto',
