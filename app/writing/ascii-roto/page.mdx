@@ -1,15 +1,11 @@
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'ascii-roto',
   description:
     'A command-line tool that converts video files into ASCII animations. Node.js + ffmpeg. Built to generate the hand gestures in RO-SHAM-BO.EXE.',
-  openGraph: {
-    title: siteTitle('ascii-roto'),
-    description:
-      'A command-line tool that converts video files into ASCII animations. Node.js + ffmpeg. Built to generate the hand gestures in RO-SHAM-BO.EXE.',
-  },
-};
+  path: '/writing/ascii-roto',
+});
 
 # ascii-roto
 
@@ -21,13 +17,13 @@ Active · [Source](https://github.com/anthony-liddle/ascii-roto)
 
 You give it a video file. It splits the video into frames, converts each frame into ASCII art, and exports the whole sequence as a JavaScript file you can import into a project and play back as an animation. The character set, density, and dimensions are configurable. The output is a flat array of strings, one per frame, ready to be played back as an animation.
 
-It exists because [RO-SHAM-BO.EXE](/writing/ro-sham-bo-exe/) needed visuals, and I'm not a graphic designer.
+It exists because [RO-SHAM-BO.EXE](/writing/ro-sham-bo-exe) needed visuals, and I'm not a graphic designer.
 
 ## Where It Came From
 
 I love lo-fi. Music, art, and especially tech. ASCII art has been used in games and computer interfaces for decades, and I grew up around enough of it to absorb it as an aesthetic before I started making things myself. Old MUDs (remember those?). Text-based adventure games. The kind of computer interfaces where the visual language was shaped entirely by what a fixed-width font could do.
 
-That taste runs through most of my work. RO-SHAM-BO.EXE's terminal aesthetic. The deliberate restraint of [The Forgetting Machine](/writing/forgetting-machine/). The quiet typography of this portfolio. There's a thread of "less is more, constraint creates meaning" that I keep pulling.
+That taste runs through most of my work. RO-SHAM-BO.EXE's terminal aesthetic. The deliberate restraint of [The Forgetting Machine](/writing/forgetting-machine). The quiet typography of this portfolio. There's a thread of "less is more, constraint creates meaning" that I keep pulling.
 
 ASCII rotoscoping fits that thread perfectly. Rotoscoping (the animation technique of tracing over filmed footage frame by frame) goes back almost a century. Wizards is one of my favorite cartoons, and rotoscoping plays heavily into it. Combine the technique with ASCII, and you get something that respects both mediums: graphics that don't betray the constraint of the text grid, motion that reads as filmed because it was.
 

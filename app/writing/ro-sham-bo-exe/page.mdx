@@ -1,15 +1,11 @@
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'RO-SHAM-BO.EXE',
   description:
     'A retro-terminal rock-paper-scissors game that pretends to watch you. The game is fair. Everything else is performance. React + TypeScript.',
-  openGraph: {
-    title: siteTitle('RO-SHAM-BO.EXE'),
-    description:
-      'A retro-terminal rock-paper-scissors game that pretends to watch you. The game is fair. Everything else is performance. React + TypeScript.',
-  },
-};
+  path: '/writing/ro-sham-bo-exe',
+});
 
 # RO-SHAM-BO.EXE
 

@@ -7,19 +7,16 @@ import {
   type ProjectEntry,
   type ProjectLink,
 } from '@/content/projects';
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
 const DESCRIPTION =
   'An index of everything Anthony Liddle has built that is finished and live: word games, browser audio, civic tools, and npm packages.';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Projects',
   description: DESCRIPTION,
-  openGraph: {
-    title: siteTitle('Projects'),
-    description: DESCRIPTION,
-  },
-};
+  path: '/projects',
+});
 
 /**
  * Every entry carries a "GitHub" link, so the visible text alone leaves screen

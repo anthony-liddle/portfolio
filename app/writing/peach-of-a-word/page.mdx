@@ -1,0 +1,121 @@
+import { pageMetadata } from '@/lib/site';
+
+export const metadata = pageMetadata({
+  title: 'Peach of a Word',
+  description:
+    'A remix of a Flash game my partner loved and can no longer play. Eight scrambled letters, and the eight-letter word they all came from. Untimed, offline, and rebuilt repeatedly around how she plays.',
+  path: '/writing/peach-of-a-word',
+});
+
+# Peach of a Word
+
+**A word game I built for my partner, Bea. A remix of a Flash game she loved and can no longer play, shaped around how she actually plays instead of how the original ran.**
+
+Active · [Live site](https://peachofaword.com) · [Source](https://github.com/anthony-liddle/peach-of-a-word)
+
+## Where It Came From
+
+Bea does the full NYT games ritual every morning. Wordle, the Mini, Connections, Spelling Bee, usually with coffee. In Spelling Bee she doesn't stop until she reaches Genius. Often she goes to Queen Bee, which means finding every word the puzzle will take. She is a completionist and a savorer.
+
+Bea found 8 Letters in Search of a Word around 2007. It was made by East of the Web, a site that mostly published short stories with a few Flash games sitting alongside them. You get eight scrambled letters, you make words from them, and the eight-letter word that uses all of them is the one you're really after. Set against a timer, you raced against a sense of urgency and it was more about how fast you can type instead of how many words you can actually find. We played it together sometimes, though together is generous. She drove. Her brain works with language in a way that still astonishes me after twenty-two years.
+
+Flash has been dead since the end of 2020, and a lot of small games people loved went with it. 8 Letters was one of them.
+
+She started asking me for a copy years ago. I always said yes. Every couple of years I would make a new folder and sketch out the framework, and then life would intervene the way it always does. Sometimes I got further than others. I was building it from a place of love, so setting it aside came with a pang of guilt every time. But her ask was never an immediate request. It was a long term commitment, like marriage itself.
+
+Our anniversary was coming up. Eighteen years married, twenty-two together. I decided it was finally time to make good on it.
+
+The ask was specific. A copy. The thing she remembered, not my idea of an improvement on it.
+
+That put the whole project on one tension, and I will be honest that it never fully went away. I am an engineer. When I look at an old game I see the rules I would change. The original ran on a sixty-second clock, and a clock makes a certain kind of sense, and I could already feel myself wanting to redesign around it. But she did not ask for my redesign. She asked for the game she loved.
+
+What broke the tension was not a design idea. It was paying attention to her.
+
+The original ran on that sixty-second clock, so she never actually got to sit with a puzzle. The game didn't allow for it. When she found it in 2007 that was fine. It became a hyperfocus for a while, at a time when we had more room, before marriage, before kids, before every hour had something already attached to it. A game that wants one uninterrupted minute is a reasonable thing to request when you have plenty of them.
+
+You would think a clock suits a life with less time in it. Sixty seconds is nothing. A blip. You can always find sixty seconds. But an uninterrupted minute is a different unit than a minute, and now it is close to a luxury.
+
+So I took the clock out. Not softened, not made optional. Gone. She asked for a copy and in the end I didn't make her that copy, because the clock was the thing the original was built around and without it this isn't the same game. I made the call that the version she would love most is not the one that copies the rules most faithfully, it's the one built around the reason she loved it. That was a gamble against the only instruction she ever gave me.
+
+What it bought her is a puzzle she can pick at while the coffee steeps, in the pickup line at school, standing in line at the pharmacy. The letters stay in the back of her mind all day, and she can set a word down whenever one arrives.
+
+## Key Decisions and Tradeoffs
+
+**The source word is the emotional center.** Bea is a linguist. So finding the eight-letter word does not just complete the rack, it opens a small card with the word's definition and etymology. In the first prototype, that reveal was the moment that landed hardest, which told me the bet was right. The thing she was proudest of in the original, cracking the long word, is now the thing the whole game is built to celebrate.
+
+What I did not expect is that she usually gets it first. She looks at the rack and the word is just there, leaping out to her before she has found anything else. So the game's biggest moment fires almost immediately and she keeps playing anyway, which is its own kind of answer about what she is actually there for.
+
+**Off the page is a ladder you climb, not a consolation prize.** This one came straight from watching her play, and it is the decision I am most glad I got to fix. Words you find that are real but not in the common set were originally tagged "bonus." Bea kept hitting words she knew were common, like ulna, getting them marked bonus, and reading that as a demotion. Her confusion was not about the mechanics. It was about the word. "Bonus" was smuggling a judgment about quality into what was really just a question of whether a word made the day's set. The fix was linguistic, not technical. I reframed the off-set words as a rarity ladder you climb, Uncommon to Rare to Mythic, so landing off the page is a grade you earn rather than a prize you settle for. Nothing in the engine changed. The sting left anyway, because the sting was in the language.
+
+**The goal is a climb, not a gate.** The first version measured you against a set of common words, and you were done when you found all of them. That sounds fine until you watch someone hit the wall it builds. Bea finished a rack with seventy-eight words, every rarity rung, the source word cracked first, and the game still told her she was at twenty-one of twenty-three. Two ordinary words she had not stumbled on were holding the door shut, and none of her harder finds counted toward it. The number was accurate and it felt awful, because it counted the two things she was missing instead of the many things she had done.
+
+So I tore the goal out and rebuilt it. Now every word you find moves you up a ladder of named tiers, and the rarer the word, the more it moves you. Finding everything is still there, but it sits on top as a separate peak, the way Queen Bee sits above a good Spelling Bee score, reachable and rare and never required for the day to feel good. The set stopped being a gate you finish and became a climb you are always making progress on. It is the same lesson as the rarity ladder, one layer up. The frustration was never in the mechanics. It was in what the game chose to count.
+
+**Everything is baked. No backend, nothing phones home.** The daily puzzle is a pure function of the date and a word list committed into the repo. The definitions come from Wiktionary, pulled once by a script I ran by hand and then committed, so the build itself never touches the network and the game has no server to depend on. This is partly a values thing, the same respect-for-attention, leave-no-trace instinct that runs through most of what I build. It is also just the right shape for a gift. It will keep working as long as the static files are hosted, with nothing to maintain and nobody watching what she types.
+
+**A second skin, because the details are the gift.** There is a soft, kawaii-style theme alongside the letterpress default, because that is closer to what Bea actually likes. In that theme the source word is marked with a small drawn peach. The first time she noticed it was a peach and not just a generic fruit, she squealed. The smallest, most specific detail in the whole project is the one that landed hardest. That is the entire argument for building for one person, proven by a piece of fruit.
+
+**Tappable definitions, because she asked for them.** Late in the build Bea asked whether she could tap any word she had found and see what it meant, the way the source word opens its card. She was right that it belonged. She is a linguist playing a word game, and the definitions were already sitting in the baked data. The reveal stopped being a special case reserved for the eight-letter word, and every word on the board got the same surface.
+
+**The time she overruled me.** I made what I called an executive decision and stripped the per-length word counts out of the results, because two counters were saying almost the same thing and it read as clutter. Clean, I thought. Then Bea played it and asked for them back. She used those counts to see how close she was to finishing, length by length, and I had taken her map away in the name of tidiness. So I put them back, and did them properly, each row counting toward the day's set so it reads as real distance to the finish. I designed for clean. She plays for the climb. She was right, and the game is hers, so that settles it.
+
+## Eighty Percent, Twice
+
+The first time I pulled definitions, the run covered eighty percent of the words and I almost wrote that number down. Then I looked at what was missing. It was words like audience and password. Real absence does not sort itself into common words like that, so the number was not measuring absence at all, it was measuring my own fetch getting throttled and dropping words quietly. I added backoff and a retry and ran it again. Ninety-seven percent.
+
+The same number came back later for the opposite reason. When I swapped in the bigger dictionary and re-baked, coverage landed at eighty percent again, and this time it was real. What was missing was the obscure tail, words with no Wiktionary entry to find. The work is not distrusting numbers. It is knowing which kind you are looking at.
+
+## The Great Aunt at the Reunion
+
+Bea was showing the game to family, and one of her great aunts wanted to play and couldn't comfortably see it. Not would-prefer-it-bigger. Could not read it.
+
+So I measured instead of guessing. The letters in the tiles were about a quarter of the tile they sat in. Sixteen different text styles were rendering under fourteen pixels. Two labels failed contrast because I had faded them with opacity, which destroyed the contrast I was aiming for. And on a phone, if you turned your system font size up, the board ran off the edge of the screen with no way to scroll to it, because I had hidden horizontal overflow months earlier to stop a decoration from causing a scrollbar. The content did not spill off the screen. It vanished.
+
+It took a few days of iteration to fix. The part I keep thinking about is that the fix was the same move as everything else here: watch how someone actually plays, believe what you see, change the thing. I had been doing that for Bea for months. Since it has started as a project for one, it hadn't occurred to me to do it for anyone else.
+
+## The Name It Earned
+
+For most of its life this game wore the original's name, 8 Letters in Search of a Word. That was honest since the original goal was a copy. But somewhere across the rebuild, the untimed play, the rarity ladder, the source-word crown, the peach, it stopped being a copy and became its own thing, and the borrowed name started to feel both wrong and slightly risky to keep.
+
+Bea picked the new name. Peach of a Word. The peach is the mark on the source word in her theme, and it's what I call her. "A peach of a" is an old phrase for a fine example of a thing, which is also what the eight-letter word is in every rack. The person the whole game was built around is the one who named it.
+
+We have an ongoing argument about whose game it is. I call it hers. She corrects me and says it's mine, because I built it. I push back. She pushes back. Neither of us wins, and I have come to think that's because we're both a little wrong. It wouldn't be this game without her. So it's our game.
+
+## How It Got Built
+
+I want to be honest about how this was made, because the honest version is both more and less than it looks. The code was largely written by an AI, Claude Code, and I am not going to pretend otherwise. But the design was mine, all of it. I wrote the design document and rewrote it constantly. The prompts were not one-liners, they were specifications: here is the model, here is the tradeoff, here is what must not break, here is how to test it. When the dictionary was wrong, I ran the investigation. When the goal model walled Bea off, I decided to tear it out and determined what to put in its place. When two numbers disagreed, I found out why. AI was not the designer. I was in every decision, and most of them were harder than the code.
+
+There is a version of this story where the tool did the work, and I want to be precise about why that isn't this one. The building took about six weeks. The thinking took nineteen years. She found the game in 2007. I have been a developer for most of the time since, and I have started this project and abandoned it more times than I can count. What the tool changed was how fast I could turn a decision into something she could play. An AI agent did not make a single one of those decisions.
+
+I have conflicts about this. I feel them every day at work, and they follow me home into the things I build for myself. Not about whether the tool is powerful, it obviously is. It's about what it does in most hands. A hammer in a skilled carpenter's hands and a hammer in anyone else's build different houses, and right now most of what gets made with these tools looks like it was made fast by someone who did not care much. The slop has spread into everything. Advertisements, social posts, entire websites. They all feel the same, and the sameness is the tell.
+
+That is the part I actually worry about. Not whether I used the tool, but whether the thing that came out the other side feels like a person made it.
+
+I still have unresolved questions and feelings, and building something for someone I love does not settle them. But this was made for someone I love, with love, whatever else it was made with. The thinking was mine. The typing mostly was not.
+
+## Numbers
+
+- 544 daily puzzles in the calendar, about eighteen months of them, each crown a clean base word so the answer is never a plural or a past tense.
+- 430,172 words in the validation boundary, so a real word she types is almost never rejected.
+- 29,407 unique words can be formed across all the daily racks.
+- Every crown and every common word a rack can spell has a definition. Across the full formable list it is about eighty percent. The rest have no usable Wiktionary entry, and the game says so plainly instead of pretending.
+- 5,852 of the words a player can technically reach have no definition at all. That number went up, not down, because the bigger dictionary dragged in a long tail of obscure ones. Every word that actually matters still has one.
+- Zero backend services. One static site.
+
+## What's Next?
+
+The faithful copy, the original with its clock, does not exist. I always meant to build it. I'm no longer sure she wants it. She's been playing the untimed version every day and has never once asked when I'll be building a timed version. So the honest next step is not to build it, it's to ask her if she misses it.
+
+After that, mobile, and the platform choice turns on audio. The sound in this game will come from [Soundscape](/writing/soundscape), the audio engine I am proudest of building, which runs for free on the web. Getting it onto her phone as a real app means building a native bridge for it, which I haven't done. So the audio and the mobile question are one question, not two.
+
+Bea asked for a theme that leaned into the peach. That one landed, and then some. The peach is the mark on the source word, the default look, the icon on the tab, the thing in the share, and eventually the name. She still has a list. She noticed the cute theme was still borrowing letterpress words, because a type case is not a peach thing, so now it picks words into a basket instead. She wants a peach in the celebration when you finish a board. That one is still open. The list never gets shorter, and that is the correct outcome. The person I built it for keeps finding things she wants, which means she is still in it.
+
+Bea still hits words the dictionary refuses that she knows are real. udon was the first one. I want every one of those to be a one-line fix, so the word list slowly bends toward the person playing it instead of the other way around.
+
+I also didn't build this for anyone but her, and then it went out anyway. I sent the link to a few friends. Someone I used to work with started playing every morning and sending me scores, and told me she was addicted to it, that every update landed like a small yes. Watching it work on someone it wasn't built for has been the best surprise of the whole thing.
+
+But the thing I keep coming back to is what already happened. I built this around her pride in cracking the eight-letter word, and she got the source word on her first try, then started finding multiple valid eight-letter words in a single rack, more than the one the puzzle was built around. She cleared the full set so fast that I had to go back and add a proper win state, because I hadn't pictured the set getting finished that quickly. You build something for one person, set the bar where you think she is, and she turns out to be standing well past it.
+
+She plays it every morning now, with her coffee, next to the Mini and the Bee. And she sends me her results, most days, until one morning she stopped to ask if she was bothering me, if I was about to tell her to knock it off with the daily peaches. I told her the truth, that it makes me happy every time she sends one.
+
+She asked me for a copy of the game she loved. What she got is a little different from that, and a lot more like her.

@@ -1,15 +1,11 @@
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Contact Your Reps',
   description:
     'A free, open-source civic tool for contacting US federal representatives. Includes a voting-record visualization for every House member.',
-  openGraph: {
-    title: siteTitle('Contact Your Reps'),
-    description:
-      'A free, open-source civic tool for contacting US federal representatives. Includes a voting-record visualization for every House member.',
-  },
-};
+  path: '/writing/contact-your-reps',
+});
 
 # Contact Your Reps
 
