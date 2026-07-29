@@ -1,15 +1,11 @@
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Soundscape',
   description:
     'A browser-native music sequencer and synthesizer, shipped as a zero-dependency npm package. Powers the music in two of my other projects.',
-  openGraph: {
-    title: siteTitle('Soundscape'),
-    description:
-      'A browser-native music sequencer and synthesizer, shipped as a zero-dependency npm package. Powers the music in two of my other projects.',
-  },
-};
+  path: '/writing/soundscape',
+});
 
 # Soundscape
 

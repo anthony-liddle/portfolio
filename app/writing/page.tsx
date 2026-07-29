@@ -1,19 +1,16 @@
 import type { Metadata } from 'next';
 import WorkTile from '@/components/WorkTile';
 import { caseStudies, caseStudyOrder } from '@/content/case-studies';
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
 const DESCRIPTION =
   "Essays about the things Anthony Liddle has built. Every one of them started somewhere personal, because none of them started as a technical problem. From Mozilla's Pocket to side projects in audio, games, and civic tech.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Writing',
   description: DESCRIPTION,
-  openGraph: {
-    title: siteTitle('Writing'),
-    description: DESCRIPTION,
-  },
-};
+  path: '/writing',
+});
 
 /**
  * Resolved at module scope so a slug typo in `caseStudyOrder` fails the build

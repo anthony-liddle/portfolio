@@ -2,22 +2,18 @@ import type { Metadata } from 'next';
 import WatchingSection from '@/components/WatchingSection';
 import ReadingSection from '@/components/ReadingSection';
 import ListeningSection from '@/components/ListeningSection';
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
 // Statically generate at build time, then refresh daily (ISR). The literal is
 // required: the segment revalidate value must be statically analyzable.
 export const revalidate = 86400;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Lately',
   description:
     'A snapshot of what Anthony Liddle has been watching, reading, and listening to.',
-  openGraph: {
-    title: siteTitle('Lately'),
-    description:
-      'A snapshot of what Anthony Liddle has been watching, reading, and listening to.',
-  },
-};
+  path: '/lately',
+});
 
 export default function LatelyPage() {
   return (

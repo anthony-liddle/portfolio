@@ -1,15 +1,11 @@
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'ascii-roto',
   description:
     'A command-line tool that converts video files into ASCII animations. Node.js + ffmpeg. Built to generate the hand gestures in RO-SHAM-BO.EXE.',
-  openGraph: {
-    title: siteTitle('ascii-roto'),
-    description:
-      'A command-line tool that converts video files into ASCII animations. Node.js + ffmpeg. Built to generate the hand gestures in RO-SHAM-BO.EXE.',
-  },
-};
+  path: '/writing/ascii-roto',
+});
 
 # ascii-roto
 

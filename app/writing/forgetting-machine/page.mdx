@@ -1,15 +1,11 @@
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'The Forgetting Machine',
   description:
     'Write a secret. Watch it dematerialize over 60 seconds. Nothing is saved, by design, not policy. A small web experience built in vanilla TypeScript.',
-  openGraph: {
-    title: siteTitle('The Forgetting Machine'),
-    description:
-      'Write a secret. Watch it dematerialize over 60 seconds. Nothing is saved, by design, not policy. A small web experience built in vanilla TypeScript.',
-  },
-};
+  path: '/writing/forgetting-machine',
+});
 
 # The Forgetting Machine
 

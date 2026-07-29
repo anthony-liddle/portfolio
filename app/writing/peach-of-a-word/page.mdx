@@ -1,15 +1,11 @@
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Peach of a Word',
   description:
     'A remix of a Flash game my partner loved and can no longer play. Eight scrambled letters, and the eight-letter word they all came from. Untimed, offline, and rebuilt repeatedly around how she plays.',
-  openGraph: {
-    title: siteTitle('Peach of a Word'),
-    description:
-      'A remix of a Flash game my partner loved and can no longer play. Eight scrambled letters, and the eight-letter word they all came from. Untimed, offline, and rebuilt repeatedly around how she plays.',
-  },
-};
+  path: '/writing/peach-of-a-word',
+});
 
 # Peach of a Word
 

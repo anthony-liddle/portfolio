@@ -1,15 +1,11 @@
-import { siteTitle } from '@/lib/site';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Pocket',
   description:
     "The web home of Pocket, Mozilla's article-discovery service. 2M+ daily page views at peak. Co-architected across six years, two full rewrites.",
-  openGraph: {
-    title: siteTitle('Pocket'),
-    description:
-      "The web home of Pocket, Mozilla's article-discovery service. 2M+ daily page views at peak. Co-architected across six years, two full rewrites.",
-  },
-};
+  path: '/writing/pocket',
+});
 
 # Pocket
 
