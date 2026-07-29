@@ -46,24 +46,8 @@ const npm = (name: string) => `https://www.npmjs.com/package/${name}`;
 export const projectSections: ProjectSection[] = [
   {
     title: 'Things you can use',
+    // Deliberate order, not alphabetical. Changing it changes the page.
     entries: [
-      {
-        name: 'Out of Sorts',
-        description:
-          "A daily word game. Eight scrambled letters, and you lose the ones you don't use.",
-        image: {
-          src: 'https://out-of-sorts.vercel.app/og.png',
-          alt: 'Eight scrambled letter tiles over a pyramid of completed words, while small ghosts float away carrying the letters G, O, N, E',
-        },
-        links: [
-          {
-            label: 'out-of-sorts.vercel.app',
-            href: 'https://out-of-sorts.vercel.app',
-            primary: true,
-          },
-          { label: 'GitHub', href: repo('out-of-sorts') },
-        ],
-      },
       {
         name: 'Peach of a Word',
         description:
@@ -79,6 +63,61 @@ export const projectSections: ProjectSection[] = [
             primary: true,
           },
           { label: 'GitHub', href: repo('peach-of-a-word') },
+        ],
+      },
+      {
+        name: 'Contact Your Reps',
+        description:
+          "Type a ZIP code, get your representatives and a message you can edit. It can't send anything for you, which is the point.",
+        // Headline, subline, and a button on a gradient. The words repeat
+        // what the entry text below already says, so decorative is honest.
+        image: {
+          src: 'https://contact-your-reps.org/opengraph-image',
+          alt: '',
+        },
+        links: [
+          {
+            label: 'contact-your-reps.org',
+            href: 'https://contact-your-reps.org',
+            primary: true,
+          },
+          { label: 'GitHub', href: repo('contact-your-reps') },
+          { label: 'Case study', href: '/writing/contact-your-reps' },
+        ],
+      },
+      {
+        name: 'RO-SHAM-BO.EXE',
+        description:
+          "Rock paper scissors against something that acts like it's watching you. The coin flip is provably fair. The menace is theater.",
+        image: {
+          src: 'https://anthony-liddle.github.io/rock-paper-scissors/og-image.png',
+          alt: 'A green phosphor terminal boots ro-sham-bo.exe and prints a warning: opponent is aware',
+        },
+        links: [
+          {
+            label: 'ro-sham-bo.dev',
+            href: 'https://ro-sham-bo.dev',
+            primary: true,
+          },
+          { label: 'GitHub', href: repo('rock-paper-scissors') },
+          { label: 'Case study', href: '/writing/ro-sham-bo-exe' },
+        ],
+      },
+      {
+        name: 'Out of Sorts',
+        description:
+          "A daily word game. Eight scrambled letters, and you lose the ones you don't use.",
+        image: {
+          src: 'https://out-of-sorts.vercel.app/og.png',
+          alt: 'Eight scrambled letter tiles over a pyramid of completed words, while small ghosts float away carrying the letters G, O, N, E',
+        },
+        links: [
+          {
+            label: 'out-of-sorts.vercel.app',
+            href: 'https://out-of-sorts.vercel.app',
+            primary: true,
+          },
+          { label: 'GitHub', href: repo('out-of-sorts') },
         ],
       },
       {
@@ -102,24 +141,6 @@ export const projectSections: ProjectSection[] = [
         ],
       },
       {
-        name: 'RO-SHAM-BO.EXE',
-        description:
-          "Rock paper scissors against something that acts like it's watching you. The coin flip is provably fair. The menace is theater.",
-        image: {
-          src: 'https://anthony-liddle.github.io/rock-paper-scissors/og-image.png',
-          alt: 'A green phosphor terminal boots ro-sham-bo.exe and prints a warning: opponent is aware',
-        },
-        links: [
-          {
-            label: 'ro-sham-bo.dev',
-            href: 'https://ro-sham-bo.dev',
-            primary: true,
-          },
-          { label: 'GitHub', href: repo('rock-paper-scissors') },
-          { label: 'Case study', href: '/writing/ro-sham-bo-exe' },
-        ],
-      },
-      {
         name: 'Soundscape',
         description:
           'A sequencer and synthesizer that runs entirely in the browser. The audio in The Forgetting Machine was composed here.',
@@ -135,26 +156,6 @@ export const projectSections: ProjectSection[] = [
           },
           { label: 'GitHub', href: repo('soundscape') },
           { label: 'Case study', href: '/writing/soundscape' },
-        ],
-      },
-      {
-        name: 'Contact Your Reps',
-        description:
-          "Type a ZIP code, get your representatives and a message you can edit. It can't send anything for you, which is the point.",
-        // Headline, subline, and a button on a gradient. The words repeat
-        // what the entry text below already says, so decorative is honest.
-        image: {
-          src: 'https://contact-your-reps.org/opengraph-image',
-          alt: '',
-        },
-        links: [
-          {
-            label: 'contact-your-reps.org',
-            href: 'https://contact-your-reps.org',
-            primary: true,
-          },
-          { label: 'GitHub', href: repo('contact-your-reps') },
-          { label: 'Case study', href: '/writing/contact-your-reps' },
         ],
       },
     ],
