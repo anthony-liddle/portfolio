@@ -153,17 +153,20 @@ export const featuredSlugs = [
 ];
 
 /**
- * Display order for the /writing index. Deliberate rather than alphabetical or
- * chronological: the largest and most widely read study leads, then the rest
- * run roughly from most to least involved. Kept separate from the `caseStudies`
- * array so reordering the page never means editing the data.
+ * Display order for the /writing index. Intentional and pair-based, not a
+ * ranking: the two-column grid renders these as four thematic rows, so each
+ * adjacent pair belongs together (love and loss, the two political projects,
+ * the audio engine beside the piece whose audio was composed in it, the game
+ * beside the tool built to make its visuals). Do not sort this alphabetically
+ * or chronologically. Kept separate from the `caseStudies` array so reordering
+ * the page never means editing the data.
  */
 export const caseStudyOrder = [
   'pocket',
-  'crowd',
-  'contact-your-reps',
-  'soundscape',
   'peach-of-a-word',
+  'contact-your-reps',
+  'crowd',
+  'soundscape',
   'forgetting-machine',
   'ro-sham-bo-exe',
   'ascii-roto',
