@@ -28,10 +28,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       // Letterboxd film posters. The `?v=` hash varies per poster, so `search`
       // is omitted to allow any query string on this trusted, path-restricted host.
+      // The prefix stops at `/resized/` rather than `/resized/film-poster/`
+      // because posters sourced from TMDB are served under `/resized/sm/upload/`
+      // instead, and those 400ed against the narrower pattern.
       {
         protocol: 'https',
         hostname: 'a.ltrbxd.com',
-        pathname: '/resized/film-poster/**',
+        pathname: '/resized/**',
       },
       // Open Library book covers. No query string, so pin `search` to empty.
       {
