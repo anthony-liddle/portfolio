@@ -4,7 +4,7 @@ import { pageMetadata } from '@/lib/site';
 export const metadata: Metadata = pageMetadata({
   title: 'About',
   description:
-    'A bit about Anthony Liddle, Staff / Lead Frontend Engineer in Portland, OR. Building things at BreakAway Data, and on my own time.',
+    'A bit about Anthony Liddle, a full stack engineer in Portland, OR. Building things at BreakAway Data, and on my own time.',
   path: '/about',
 });
 
@@ -15,10 +15,10 @@ export default function AboutPage() {
 
       <div className="about-body">
         <p>
-          I&rsquo;m a Staff / Lead Frontend Engineer based in Portland, OR.
-          Fifteen years of experience, at BreakAway Data, Microsoft, Mozilla,
-          McAfee, and agencies before that. I&rsquo;ve spent most of that time
-          on data-intensive products: analytics platforms, editorial surfaces,
+          I&rsquo;m a full stack engineer based in Portland, OR. Fifteen years
+          of experience, at BreakAway Data, Microsoft, Mozilla, McAfee, and
+          agencies before that. I&rsquo;ve spent most of that time on
+          data-intensive products: analytics platforms, editorial surfaces,
           live-capture systems, personalization. The data is complicated. The
           user-facing surface needs to feel simple. I&rsquo;ve spent my career
           connecting the two.
