@@ -22,7 +22,7 @@ export const caseStudies: CaseStudy[] = [
     name: 'Pocket',
     tileName: 'Pocket',
     pitch:
-      "The web home of Mozilla's article-discovery service. 2M+ daily page views at peak. Co-architected across six years.",
+      "Mozilla's article-discovery service. 2M+ daily page views at peak. Co-architected across six years, two full rewrites.",
     status: 'Shut down',
     tags: ['Next.js', 'React', 'Redux', 'GraphQL'],
     links: [{ label: 'Source', url: 'https://github.com/Pocket/web-client' }],
@@ -33,9 +33,9 @@ export const caseStudies: CaseStudy[] = [
     slug: 'crowd',
     name: 'Crowd',
     pitch:
-      'A location-based, ephemeral messaging platform where your identity exists only as long as your content does.',
+      'Location-based ephemeral messaging for protest organizing. Full backend: Fastify, Drizzle, rotating device identities, proximity-gated groups.',
     status: 'Development',
-    tags: ['React Native', 'Expo', 'Fastify', 'PostgreSQL'],
+    tags: ['React Native', 'Expo', 'Fastify', 'Drizzle', 'PostgreSQL'],
     links: [
       { label: 'Source', url: 'https://github.com/anthony-liddle/crowd' },
     ],
@@ -97,7 +97,13 @@ export const caseStudies: CaseStudy[] = [
     pitch:
       "A free, open-source tool for contacting US federal representatives, with a visualization of each House member's voting record alongside the issues you care about.",
     status: 'Active',
-    tags: ['Next.js', 'TypeScript', 'Congress.gov API', 'AI pipeline'],
+    tags: [
+      'Next.js',
+      'TypeScript',
+      'Congress.gov API',
+      'Vercel Blob cache',
+      'AI pipeline',
+    ],
     links: [
       { label: 'Live', url: 'https://contact-your-reps.org' },
       {
@@ -144,12 +150,19 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 
+/**
+ * The six tiles shown on the home page, distinct from `caseStudyOrder` below,
+ * which governs the full /writing index. Six rather than five so the
+ * two-column grid fills three even rows instead of stranding one tile on a
+ * row of its own.
+ */
 export const featuredSlugs = [
   'pocket',
   'crowd',
+  'contact-your-reps',
+  'peach-of-a-word',
   'soundscape',
   'forgetting-machine',
-  'contact-your-reps',
 ];
 
 /**

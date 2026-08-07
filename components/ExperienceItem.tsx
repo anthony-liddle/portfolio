@@ -2,14 +2,14 @@ interface ExperienceItemProps {
   company: string;
   role: string;
   period: string;
-  description: string;
+  bullets: string[];
 }
 
 export default function ExperienceItem({
   company,
   role,
   period,
-  description,
+  bullets,
 }: ExperienceItemProps) {
   return (
     <article className="experience-item">
@@ -22,7 +22,15 @@ export default function ExperienceItem({
           {period}
         </time>
       </header>
-      <p className="experience-item__description">{description}</p>
+      {/* role="list" is load-bearing: Safari/VoiceOver drops list semantics
+          when list-style is none, which the bullet styling requires. */}
+      <ul className="experience-item__bullets" role="list">
+        {bullets.map((bullet) => (
+          <li key={bullet} className="experience-item__bullet">
+            {bullet}
+          </li>
+        ))}
+      </ul>
     </article>
   );
 }

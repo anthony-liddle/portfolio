@@ -5,7 +5,7 @@ import { caseStudies, featuredSlugs } from '@/content/case-studies';
 
 export const metadata: Metadata = {
   title: 'Anthony Liddle',
-  description: 'Staff / Lead Frontend Engineer in Portland, OR',
+  description: 'Full stack engineer in Portland, OR',
 };
 
 const featuredProjects = featuredSlugs.map((slug) =>
@@ -17,36 +17,59 @@ const experience = [
     company: 'BreakAway Data',
     role: 'Lead Frontend Engineer',
     period: '2025–present',
-    description:
-      'Leading frontend across web, mobile, and enterprise surfaces at a sports performance platform serving athletes and coaches. Built the NWSL Sporting Platform from scratch as the sole frontend engineer, delivering a complete enterprise engagement in under three months. Built the mobile feed system from GraphQL schema through to a high-performance FlashList implementation with masonry layout, skeleton states, and impression analytics. Architected the sharing infrastructure that powers viral user acquisition: dynamic OG image generation, SSR metadata, share URL routing, Branch.io deep linking, and iOS App Clip support. Led the single-day migration of the entire monorepo from Apollo v3 to v4 and Tailwind v3 to v4. Modernized the frontend CI pipeline with parallel test sharding and Docker BuildKit caching.',
+    bullets: [
+      'The person the team defers to on architecture across the platform: web, React Native mobile, backend services, and enterprise applications.',
+      'Designed the GraphQL schema and built real-time multi-user data entry on subscriptions, with an IndexedDB queue that syncs when the network returns. Coaches keep their data through a dropped connection mid-game.',
+      'Moved a heavy account merge off the GraphQL request path onto a pg-boss worker queue, out of an interactive transaction that had been running identity deletes, per-play rewrites, and object storage operations inline.',
+      'Built the NWSL Sporting Platform alone, schema through UI: player registration, matchday dashboards, media release forms, and server-rendered PDF exports. Three months.',
+      'Built the sharing infrastructure end to end: dynamic OG image generation, SSR metadata, canonical share URLs, Branch.io deep linking on both platforms, and iOS App Clip support.',
+      'Built the mobile feed from GraphQL schema through the client: Apollo pagination, masonry layout, skeleton states, impression and click analytics, and the performance work to keep it smooth.',
+      'Extracted shared packages to replace logic that had drifted into six hand-maintained copies. Led the monorepo modernization: npm to pnpm, Apollo Client v3 to v4, Tailwind v3 to v4, E2E test sharding across parallel CI runners, and Docker BuildKit caching.',
+      'Covered the NFL Flag Championships solo while the rest of the team worked the event on site. Triaged live field reports, fixed what was mine, routed the rest, and shipped to production continuously for three days.',
+    ],
   },
   {
     company: 'Microsoft',
     role: 'UI Engineer',
     period: '2024–2025',
-    description:
-      "Developed and maintained a React component library used by engineers across Microsoft. Built and enhanced documentation portals and demo sites in React and Next.js to Microsoft's internal accessibility standards. Led implementation of Microsoft authentication and full-text search on the docs site.",
+    bullets: [
+      'Built and maintained a React component library used by engineers across Microsoft, held to the internal accessibility bar.',
+      "Led the authentication work for the component library's documentation site, wiring identity into a site that had been open.",
+      'Shipped full-text search for that site so engineers could find the component they needed.',
+    ],
   },
   {
     company: 'Mozilla / Pocket',
     role: 'Staff Software Engineer',
     period: '2017–2024',
-    description:
-      "Employee 24 at Pocket, stayed through the Mozilla acquisition. Co-architected both generations of Pocket's web client across six years, serving 2M+ daily page views at peak. Architected the cross-platform analytics instrumentation layer that reduced errors by 70% and cut experiments' time-to-significance. Co-founded Pocket's accessibility working group.",
+    bullets: [
+      "Employee #24, stayed through the Mozilla acquisition. Co-architected two generations of Pocket's web client over six years, serving 2M+ daily page views at peak.",
+      'Rebuilt the cross-platform analytics instrumentation and data pipeline. I was tired of debugging Snowplow failures, so I sorted through thousands of logs, found the real causes, and rewrote it. Event errors dropped 70%.',
+      "Led the full rebuild of Pocket's Chrome extension for Manifest V3, finished ahead of schedule. Support incidents dropped by half.",
+      'Founded the frontend accessibility working group and wrote the guidelines covering color blindness, screen readers, and keyboard navigation across every application. Then made it a default, reviewed in PRs and covered by regression tests.',
+      'Defined the hiring requirements, wrote the take-home test, ran every frontend interview, and wrote the onboarding docs. Tripled the team and mentored an engineer through a promotion.',
+      'Pitched Listen, an audio narration feature, four separate times over several years before it shipped. Coordinated it across legal, design, and publishing myself. Over a thousand people a day used it.',
+    ],
   },
   {
     company: 'McAfee / Intel Security',
     role: 'UI Cloud Developer',
     period: '2015–2017',
-    description:
-      'Designed and developed frontend architecture for enterprise cloud security applications using AngularJS, React, D3, KeyLines, and Highcharts. Architected an enterprise application for corporate malware researchers whose design decisions influenced frontend standards across McAfee.',
+    bullets: [
+      'Rebuilt an API pipeline connecting several external data sources to a Node.js server, with 90% unit test coverage.',
+      'Designed the frontend architecture for enterprise cloud security applications using AngularJS, React, D3, KeyLines, and Highcharts. Those decisions influenced frontend standards across McAfee.',
+      'Built an application for corporate malware researchers to evaluate files and network activity.',
+    ],
   },
   {
     company: 'Level Studios',
     role: 'Senior Creative Engineer',
     period: '2012–2015',
-    description:
-      'Architectural recommendations and technical leadership across multiple offices. Early adopter of browser APIs including the Web Audio API and early mobile ad platform integrations. Mentored associate and senior developers.',
+    bullets: [
+      "Built web experiences for Apple, the agency's only client, and served as project lead across multiple offices.",
+      'Worked at the edge of what browsers could do at the time: the Web Audio API when it was new, and early mobile ad platform integrations.',
+      'Made architectural recommendations, ran technical training, and mentored associate and senior developers through code review.',
+    ],
   },
 ];
 
@@ -59,12 +82,14 @@ export default function HomePage() {
           Anthony Liddle
         </h1>
         <p className="home-hero__paragraph">
-          I&rsquo;m Anthony Liddle, a Staff / Lead Frontend Engineer in
-          Portland, OR. I currently lead frontend at BreakAway Data, a sports
-          performance platform. Fifteen years building data-intensive web and
-          mobile products, most recently at Microsoft and Mozilla. At Mozilla I
-          co-architected two generations of Pocket&rsquo;s web client over six
-          years, helping serve 2M+ daily page views at peak.
+          I&rsquo;m Anthony Liddle, a full stack engineer in Portland, OR. I
+          currently lead frontend at BreakAway Data, a sports performance
+          platform, and work across the stack: GraphQL schema and API design,
+          Postgres, worker queues, and the CI that ships it. Fifteen years
+          building data-intensive web and mobile products, most recently at
+          Microsoft and Mozilla. At Mozilla I co-architected two generations of
+          Pocket&rsquo;s web client over six years, helping serve 2M+ daily page
+          views at peak.
         </p>
         <p className="home-hero__paragraph">
           At Pocket I founded the frontend team&rsquo;s accessibility practice,

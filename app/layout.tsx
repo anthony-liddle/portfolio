@@ -26,11 +26,11 @@ export const metadata: Metadata = {
     template: TITLE_TEMPLATE,
   },
   description:
-    'Staff / Lead Frontend Engineer in Portland, OR. Building data-intensive web and mobile products at BreakAway Data. Previously at Microsoft and Mozilla.',
+    'Full stack engineer in Portland, OR. Building data-intensive web and mobile products at BreakAway Data. Previously at Microsoft and Mozilla.',
   openGraph: {
     title: SITE_NAME,
     description:
-      'Staff / Lead Frontend Engineer in Portland, OR. Building data-intensive web and mobile products at BreakAway Data. Previously at Microsoft and Mozilla.',
+      'Full stack engineer in Portland, OR. Building data-intensive web and mobile products at BreakAway Data. Previously at Microsoft and Mozilla.',
     url: 'https://anthonyliddle.dev',
     siteName: SITE_NAME,
     type: 'website',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: SITE_NAME,
     description:
-      'Staff / Lead Frontend Engineer in Portland, OR. Building data-intensive web and mobile products at BreakAway Data. Previously at Microsoft and Mozilla.',
+      'Full stack engineer in Portland, OR. Building data-intensive web and mobile products at BreakAway Data. Previously at Microsoft and Mozilla.',
   },
 };
 
