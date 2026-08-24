@@ -1,23 +1,27 @@
 import { getDiary, type DiaryEntry } from 'letterboxd-rss';
+import {
+  logSectionDegraded,
+  logSectionOutcome,
+} from '@/lib/lately-diagnostics';
 
 const LETTERBOXD_USERNAME = 'sparklebeard';
 
 /** Public profile, used for the "View more on Letterboxd" link. */
 export const LETTERBOXD_PROFILE_URL = `https://letterboxd.com/${LETTERBOXD_USERNAME}/`;
 
-const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
-
 /**
- * Route the package's internal request through Next's data cache. This is what
- * makes the page statically generated at build time and refreshed on a daily
- * cadence (ISR). No AbortSignal is forwarded: a fetch carrying a signal is
- * never cached by Next, which would silently flip the route to dynamic.
+ * The diary feed is fetched once per build and never revalidated at runtime.
+ *
+ * Deliberately no `next.revalidate`: the lowest revalidate across any fetch in
+ * a route sets that route's revalidation frequency, so a value here would drag
+ * /lately back into ISR regardless of its `export const revalidate = false`.
+ * Freshness comes from the daily redeploy instead.
+ *
+ * No AbortSignal is forwarded either: a fetch carrying a signal is never cached
+ * by Next, which would silently flip the route to dynamic.
  */
-const revalidatingFetch: typeof fetch = (input, init) =>
-  fetch(input, {
-    ...init,
-    next: { revalidate: ONE_DAY_IN_SECONDS, tags: ['letterboxd-diary'] },
-  });
+const buildTimeFetch: typeof fetch = (input, init) =>
+  fetch(input, { ...init, cache: 'force-cache' });
 
 /**
  * Most recent diary entries, newest first. Degrades to an empty array on any
@@ -30,15 +34,21 @@ const revalidatingFetch: typeof fetch = (input, init) =>
  * getDiary returns a bare array and signals trouble by throwing, so the catch
  * below is the whole error surface. A feed either parses or it does not; there
  * is no soft-failure middle ground to report.
+ *
+ * This wrapper keeps the quiet [] on failure that the other two gave up. Its
+ * source is someone else's server rather than a file in this repo, and an
+ * outage at Letterboxd should not be able to block a deploy.
  */
 export async function getRecentlyWatched(limit = 3): Promise<DiaryEntry[]> {
   try {
     const entries = await getDiary(LETTERBOXD_USERNAME, {
-      fetch: revalidatingFetch,
+      fetch: buildTimeFetch,
     });
-    return entries.slice(0, limit);
+    const recent = entries.slice(0, limit);
+    logSectionOutcome('Watching', recent.length);
+    return recent;
   } catch (error) {
-    console.error('Failed to load Letterboxd diary:', error);
+    logSectionDegraded('Watching', error);
     return [];
   }
 }
