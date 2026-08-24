@@ -1,0 +1,32 @@
+name: daily-redeploy
+
+# /lately is prerendered at build time and never revalidates, because two of its
+# three sections read files from content/ that ship with the repo but not into
+# the serverless function. A build is therefore the only context where that data
+# exists, which makes a redeploy the refresh mechanism.
+#
+# Daily at 05:17 UTC. An off-hour, off-minute slot: cron runners are heavily
+# contended on the hour, and GitHub delays scheduled jobs under load.
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  # Kept so the refresh can be triggered by hand without waiting a day, which is
+  # also the fastest way to confirm the hook still works after rotating it.
+  workflow_dispatch:
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel deploy hook
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "VERCEL_DEPLOY_HOOK_URL is not set" >&2
+            exit 1
+          fi
+          # --fail turns a non-2xx into a non-zero exit. Without it curl reports
+          # success on a 404 and the refresh fails silently, which is the exact
+          # failure mode this whole change exists to eliminate.
+          curl --fail --silent --show-error --request POST "$DEPLOY_HOOK_URL"

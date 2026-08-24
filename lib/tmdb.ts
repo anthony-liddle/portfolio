@@ -1,5 +1,4 @@
 const TMDB_API_BASE = 'https://api.themoviedb.org/3';
-const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
 
 /** The director(s) of a film, plus the TMDB id of the matched movie. */
 export interface DirectorLookup {
@@ -42,8 +41,11 @@ interface TmdbCreditsResponse {
  * token is read from `TMDB_READ_ACCESS_TOKEN` and sent as a Bearer header; it is
  * never placed in a URL or an error message, so it cannot leak through logs.
  *
- * Both requests opt into Next's data cache with a 24 hour revalidate, so TMDB is
- * hit at most once per film per day and warm builds reuse the cached result.
+ * Both requests opt into Next's data cache without a revalidate, so they run at
+ * build time only. A revalidate here would set the revalidation frequency of the
+ * whole /lately route and drag it back into ISR, which is the one thing this
+ * page must not do: its sibling sections read files that do not exist inside the
+ * serverless function.
  */
 export async function getDirectorsForFilm(
   title: string,
@@ -64,7 +66,7 @@ export async function getDirectorsForFilm(
 
     const searchResponse = await fetch(searchUrl, {
       headers,
-      next: { revalidate: ONE_DAY_IN_SECONDS },
+      cache: 'force-cache',
     });
     if (!searchResponse.ok) return null;
 
@@ -82,7 +84,7 @@ export async function getDirectorsForFilm(
 
     const creditsResponse = await fetch(
       `${TMDB_API_BASE}/movie/${top.id}/credits`,
-      { headers, next: { revalidate: ONE_DAY_IN_SECONDS } },
+      { headers, cache: 'force-cache' },
     );
     if (!creditsResponse.ok) return null;
 
