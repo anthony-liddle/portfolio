@@ -24,4 +24,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm typecheck
+
+      # /lately prerenders its real content at build time, so the build needs
+      # the same credentials the deploy gets. Without them this job used to go
+      # green while silently rendering an empty Listening section, which made
+      # the check partly decorative: the section it was least able to validate
+      # was the one that broke in production.
       - run: pnpm build
+        env:
+          APPLE_MUSIC_KEY_ID: ${{ secrets.APPLE_MUSIC_KEY_ID }}
+          APPLE_MUSIC_TEAM_ID: ${{ secrets.APPLE_MUSIC_TEAM_ID }}
+          APPLE_MUSIC_PRIVATE_KEY_BASE64: ${{ secrets.APPLE_MUSIC_PRIVATE_KEY_BASE64 }}
+          DISCOGS_USER_TOKEN: ${{ secrets.DISCOGS_USER_TOKEN }}
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
