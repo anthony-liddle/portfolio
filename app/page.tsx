@@ -108,11 +108,11 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* Featured Work */}
-      <section aria-labelledby="work-heading" style={{ marginTop: '5rem' }}>
+      {/* Featured Writing */}
+      <section aria-labelledby="writing-heading" style={{ marginTop: '5rem' }}>
         <hr className="section-rule" />
-        <h2 id="work-heading" className="home-section-heading">
-          Featured Work
+        <h2 id="writing-heading" className="home-section-heading">
+          Featured Writing
         </h2>
         <div className="work-grid" role="list">
           {featuredProjects.map((project) => (
