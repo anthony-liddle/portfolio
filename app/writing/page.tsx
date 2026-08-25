@@ -1,7 +1,19 @@
 import type { Metadata } from 'next';
-import WorkTile from '@/components/WorkTile';
+import Link from 'next/link';
 import { caseStudies, caseStudyOrder } from '@/content/case-studies';
+import { readingTimeLabel } from '@/lib/reading-time';
 import { pageMetadata } from '@/lib/site';
+
+/**
+ * Reading times are read off disk from the MDX sources, which exist on the
+ * builder but not inside a serverless function. Pinning the route static keeps
+ * that read at build time, where it belongs, and stops a future change from
+ * quietly reintroducing the /lately failure mode. This is a hard constraint
+ * rather than a hint: under `force-static`, `cookies()`, `headers()`, and
+ * `searchParams` return empty instead of throwing, so anything added here that
+ * needs request data has to move to its own route.
+ */
+export const dynamic = 'force-static';
 
 const DESCRIPTION =
   "Essays about the things Anthony Liddle has built. Every one of them started somewhere personal, because none of them started as a technical problem. From Mozilla's Pocket to side projects in audio, games, and civic tech.";
@@ -36,13 +48,21 @@ export default function WritingPage() {
         somewhere personal, because none of them started as a technical problem.
       </p>
 
-      <div className="work-grid" role="list">
+      {/* Explicit role because `list-style: none` drops list semantics in
+          Safari/VoiceOver. Same reason `.work-tile__tags` carries it. */}
+      <ul className="essay-list" role="list">
         {orderedCaseStudies.map((study) => (
-          <div key={study.slug} role="listitem">
-            <WorkTile project={study} />
-          </div>
+          <li key={study.slug} className="essay-list__item">
+            <Link href={`/writing/${study.slug}`} className="essay-list__link">
+              <h2 className="essay-list__title">{study.name}</h2>
+              <p className="essay-list__description">
+                {study.essayPitch ?? study.pitch}
+              </p>
+              <p className="essay-list__meta">{readingTimeLabel(study.slug)}</p>
+            </Link>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }
