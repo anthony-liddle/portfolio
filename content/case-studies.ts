@@ -10,6 +10,14 @@ export interface CaseStudy {
   name: string;
   tileName?: string;
   pitch: string;
+  /**
+   * Used only by the /writing index, which needs an essay description rather
+   * than a project description. A different fact from `pitch`, not an
+   * override of it: `pitch` describes what the thing is, `essayPitch`
+   * describes what the piece of writing is about. Falls back to `pitch` when
+   * absent.
+   */
+  essayPitch?: string;
   status: CaseStudyStatus;
   tags: string[];
   links?: CaseStudyLink[];
@@ -23,6 +31,8 @@ export const caseStudies: CaseStudy[] = [
     tileName: 'Pocket',
     pitch:
       "Mozilla's article-discovery service. 2M+ daily page views at peak. Co-architected across six years, two full rewrites.",
+    essayPitch:
+      'Six and a half years on a product I loved, two rebuilds, and a layoff I did not choose.',
     status: 'Shut down',
     tags: ['Next.js', 'React', 'Redux', 'GraphQL'],
     links: [{ label: 'Source', url: 'https://github.com/Pocket/web-client' }],
@@ -34,6 +44,8 @@ export const caseStudies: CaseStudy[] = [
     name: 'Crowd',
     pitch:
       'Location-based ephemeral messaging for protest organizing. Full backend: Fastify, Drizzle, rotating device identities, proximity-gated groups.',
+    essayPitch:
+      'An idea I carried since 2015, and what it means to design for people who are taking a risk by showing up.',
     status: 'Development',
     tags: ['React Native', 'Expo', 'Fastify', 'Drizzle', 'PostgreSQL'],
     links: [
@@ -47,6 +59,8 @@ export const caseStudies: CaseStudy[] = [
     name: 'Soundscape',
     pitch:
       'A browser-native music sequencer and synthesizer, shipped as a zero-dependency npm package with a web-based composer.',
+    essayPitch:
+      'Twelve years of audio engineering, and the class that made me start building instruments instead of using them.',
     status: 'Active',
     tags: ['TypeScript', 'Web Audio API', 'AudioWorklet'],
     links: [
@@ -62,6 +76,8 @@ export const caseStudies: CaseStudy[] = [
     name: 'Peach of a Word',
     pitch:
       'A daily word game built as a gift for my partner, shaped around how she actually plays instead of how the original ran.',
+    essayPitch:
+      'A dead Flash game, a promise to my partner, and what it took to rebuild it for exactly one player.',
     status: 'Active',
     tags: ['React', 'TypeScript', 'Vite'],
     links: [
@@ -79,6 +95,8 @@ export const caseStudies: CaseStudy[] = [
     name: 'The Forgetting Machine',
     pitch:
       'Write a secret. Watch it dematerialize for 60 seconds. Nothing is saved, by design, not policy.',
+    essayPitch:
+      'A song fading out on Highway 101 at midnight, twenty years ago, rebuilt as something you can use.',
     status: 'Active',
     tags: ['Vanilla TypeScript', 'Vite', 'Web Audio'],
     links: [
@@ -96,6 +114,8 @@ export const caseStudies: CaseStudy[] = [
     name: 'Contact Your Reps',
     pitch:
       "A free, open-source tool for contacting US federal representatives, with a visualization of each House member's voting record alongside the issues you care about.",
+    essayPitch:
+      'What I built while cycling through anger about the state of this country.',
     status: 'Active',
     tags: [
       'Next.js',
@@ -119,6 +139,8 @@ export const caseStudies: CaseStudy[] = [
     name: 'RO-SHAM-BO.EXE',
     pitch:
       'A retro-terminal rock-paper-scissors game that pretends to watch you. The game is fair; the adversarial feeling is performance.',
+    essayPitch:
+      'A horror game built the week after a layoff, where the menace is an argument about surveillance.',
     status: 'Active',
     tags: ['React', 'TypeScript', 'Web APIs', 'ASCII'],
     links: [
@@ -140,6 +162,8 @@ export const caseStudies: CaseStudy[] = [
     name: 'ascii-roto',
     pitch:
       'A CLI that converts video files into ASCII animations. An idea I carried for a decade, built for the right project.',
+    essayPitch:
+      'An idea I carried for a decade, built because another project finally needed it.',
     status: 'Active',
     tags: ['Node.js', 'TypeScript', 'CLI', 'ffmpeg'],
     links: [
