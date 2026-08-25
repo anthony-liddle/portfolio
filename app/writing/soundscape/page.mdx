@@ -37,9 +37,9 @@ That's what Soundscape is. Take a tone configuration and a schedule, play it bac
 
 I didn't seriously consider Tone.js, the obvious existing alternative. Partly that was an exercise in what I could actually build; I wanted to know if I could write a scheduler and a synth voice and an effects chain from scratch, and I wanted the tool I ended up with to be one I understood end to end. Partly it was about overhead. Tone.js is great, but it's significantly larger than what I needed. By writing it myself, I knew I could keep the engine small, keep the API shaped exactly to my use cases, and skip every feature I knew I'd never reach for.
 
-There's also something to be said for trusting your own work when you've been pulling on a thread for over a decade. By the time I started Soundscape, I'd written Web Audio code many different times. I knew what the API could do. The decision to build my own wasn't naive; it was informed by the experiments that came before.
+There's also something to be said for trusting your own work when you've been pulling on a thread for over a decade. By the time I started Soundscape, I'd written Web Audio code many different times. I knew what the API could do.
 
-This isn't a case for never using libraries. It's a case for knowing when you're the right person to build the thing yourself, because you've been building close to it for long enough that the work is more interesting than the dependency would be.
+I'm not against libraries. I built this one myself because I'd been building close to it long enough that the work was more interesting than the dependency.
 
 ## Key Decisions and Tradeoffs
 
@@ -49,7 +49,7 @@ This isn't a case for never using libraries. It's a case for knowing when you're
 
 The fix is something called AudioWorklet, which is a way to run code on the dedicated audio thread that the browser doesn't throttle. The scheduler ticks about every three milliseconds regardless of whether the tab is focused, and the music keeps playing cleanly even if you're somewhere else.
 
-I didn't know about AudioWorklet when I started this project. Someone recommended it, I learned it, and once I understood what it did, I rewrote the scheduler. I would have shipped a worse version of this tool without that conversation. I'm including that detail because the case study should reflect what actually happened, and what happened was: I built it one way, learned about a better way, and rebuilt it. That's the work.
+I didn't know about AudioWorklet when I started this project. Someone recommended it, I learned it, and once I understood what it did, I rewrote the scheduler. I would have shipped a worse version of this tool without that conversation. I'm including that detail because the case study should reflect what actually happened, and what happened was: I built it one way, learned about a better way, and rebuilt it.
 
 **The engine and the editor used to be one package.** They started together, in a single npm package. Partway through the build, I realized that anyone who wanted to play back a Soundscape composition didn't need a piano roll UI bundled with the engine. So I split them. The engine is a tiny library; the editor is a separate web app that imports the engine and adds the composition tools on top.
 
@@ -69,7 +69,7 @@ This is the call I'm proudest of as a musician building a tool. If you've ever f
 
 A Soundscape composition is just data. You can save it, version it, hand-edit it if you want to. That's a different kind of portability than runtime portability, but it's worth having.
 
-This ended up less like a side project and more like infrastructure I'll reuse; small, focused, and built to survive outside the project that created it.
+The engine has ended up providing sound for several other projects of mine. A friend started writing their own songs in it and sending me the exported JSON so I can load them into the composer and listen.
 
 ## Stack
 
