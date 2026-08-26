@@ -18,7 +18,13 @@ export interface CaseStudy {
    * absent.
    */
   essayPitch?: string;
-  status: CaseStudyStatus;
+  /**
+   * Absent on entries that are an argument rather than a project. Only the
+   * home page tiles render it, and nothing there is required to be a project,
+   * so an essay with no shipped artifact leaves it off instead of claiming a
+   * status it does not have.
+   */
+  status?: CaseStudyStatus;
   tags: string[];
   links?: CaseStudyLink[];
   summary: string;
@@ -172,6 +178,19 @@ export const caseStudies: CaseStudy[] = [
     summary:
       'Command-line tool that converts video files into ASCII animations. Built to generate the animations in RO-SHAM-BO.EXE, later extended with color for a future project.',
   },
+  {
+    slug: 'bottleneck',
+    name: 'The Bottleneck Was Never the Code',
+    pitch:
+      "An argument about where an organization's throughput actually gets stuck. One tournament week as the only engineer at a desk, ninety-six merged pull requests, and the pipeline I built after.",
+    essayPitch:
+      'One week as the only engineer not at the tournament, and what I built after.',
+    // No status and no links: this is an essay, not a shipped project. Empty
+    // rather than a placeholder stack, for the same reason.
+    tags: [],
+    summary:
+      'An essay rather than a project writeup. What a week of covering a national tournament alone taught me about where throughput is really bounded, and the agent pipeline that came out of it.',
+  },
 ];
 
 /**
@@ -191,12 +210,15 @@ export const featuredSlugs = [
 
 /**
  * Display order for the /writing index. Intentional and pair-based, not a
- * ranking: the two-column grid renders these as four thematic rows, so each
- * adjacent pair belongs together (love and loss, the two political projects,
- * the audio engine beside the piece whose audio was composed in it, the game
- * beside the tool built to make its visuals). Do not sort this alphabetically
- * or chronologically. Kept separate from the `caseStudies` array so reordering
- * the page never means editing the data.
+ * ranking: adjacent entries belong together thematically (love and loss, the
+ * two political projects, the audio engine beside the piece whose audio was
+ * composed in it, the game beside the tool built to make its visuals). The
+ * list renders single-column, so adjacency is semantic rather than visual.
+ * Do not sort this alphabetically or chronologically. Kept separate from the
+ * `caseStudies` array so reordering the page never means editing the data.
+ *
+ * `bottleneck` sits last on purpose: it is the only entry with nothing to go
+ * look at, and its closing line reads as the close of the whole page.
  */
 export const caseStudyOrder = [
   'pocket',
@@ -207,4 +229,5 @@ export const caseStudyOrder = [
   'forgetting-machine',
   'ro-sham-bo-exe',
   'ascii-roto',
+  'bottleneck',
 ];

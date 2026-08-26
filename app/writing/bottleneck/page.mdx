@@ -1,0 +1,220 @@
+import { pageMetadata } from '@/lib/site';
+
+export const metadata = pageMetadata({
+  title: 'The Bottleneck Was Never the Code',
+  description:
+    'One week covering a national tournament alone, ninety-six merged pull requests, and why the most useful thing I built that week was a glossary.',
+  path: '/writing/bottleneck',
+});
+
+# The Bottleneck Was Never the Code
+
+**One week in July I was the only engineer not onsite for the tournament. I merged ninety-six pull requests and the most useful thing I built was a glossary.**
+
+## The Week
+
+Last July my company provided gameplay stats for the NFL Flag Championships in Indianapolis. Everyone went. Statters on the sidelines, product people in the stands, leadership working the field. Eleven of us in a Slack channel spun up four days earlier for "all QA requests, feedback and logistics."
+
+I stayed home in Oregon. Three dedicated engineers at the company, and I was the only one who would be in front of a computer that week.
+
+Thursday I was up before six. Everyone else in the house was asleep. Summer, no school. I made coffee with the laptop open on the counter and moved tickets forward while the press steeped, then took it to the couch and stayed there. A command center in relative comfort. My best yet cozy impression of *The Pitt*: one continuous shift, real time, triage as it arrives.
+
+The reports came in the way you'd expect from people standing on a field with a phone.
+
+> Field 6 did not mark halftime so drive 7 and onward are marked as first half but should be second
+
+> when app is syncing, it queues button actions with no visual
+
+> Pirate Bay then scored the next play but the app marked it as a 45 yard pass when it was ~14
+
+> the OT button highlighted at the bottom made me very nervous I fat fingered and accidentally went to OT
+
+That last one is my favorite bug report of the week. Nothing was broken. He was just standing on a sideline, one thumb away from putting a youth football game into overtime, and he wanted me to know how that felt.
+
+At 9:24am I posted a summary of every ticket I'd opened, grouped by status, and started editing it in place as things changed. By the end of the day it had 38 total tickets, all opened since 5:30am, current as of 5:20pm. I closed 22 of them.
+
+> I'm calling it for the day.\
+> 22 tickets completed 💪\
+> I'll catch y'all tomorrow.
+
+The team was done at 2pm my time. I kept going until 5:18, trying to get ahead because I knew what tomorrow would look like.
+
+## The Actual Bottleneck
+
+Here is the thing I didn't understand until later.
+
+Ninety-six pull requests merged that week. A teammate pulled the repo insights the following Wednesday and posted:
+
+> Lets give @Anthony some :high-five: i just did the math... i.e. looked at github insights for merged prs in the last week... we all left last Wednesay. from then to today, _**96 prs were merged**_. (lets call maybe 5-8 of them the rest of us)...
+>
+> thats awesome.
+
+I'd hit seventy by Friday afternoon. I know that precisely, because I exhausted our code review tool's monthly quota and had to start triggering it by hand on every PR. My throughput broke a piece of tooling that assumed a human rate.
+
+So throughput was not the constraint. The constraint was that eleven people could see problems and none of them could easily see whether those problems were being handled. Someone standing on field 6 had no idea whether their halftime issue was fixed, filed, or lost. The only way to find out was to ask me.
+
+The status of a hundred and twenty-seven tickets lived in exactly one place, and that place was my head.
+
+The running Slack message was my first attempt to get it out of there, and it got unwieldy fast. Friday morning at 7:36 I moved everything into a Slack canvas, and announced it at 7:50 with one sentence:
+
+> Alright y'all, managing that slack message yesterday got unwieldy, so today I moved everything into a Slack Canvas. Check out all tickets opened during the event there as well as their current status.
+
+Nobody replied. That's fine. It wasn't a message that needed replies. This was mostly for me.
+
+Under the ticket tables I added a glossary, because managing the statuses was cumbersome, and I didn't want people to misunderstand them:
+
+> **Ready to Merge means the work is complete and waiting on a release, not that it is unfinished.** The fix is written and reviewed; it ships with the next release. **Ready for Product Review means it has landed and is ready for verification.** Neither status means the work is still outstanding.
+
+And a provenance stamp:
+
+> **Final snapshot, this board is no longer being updated.** 127 tickets carrying the NFL Flag Championships label, created since 5:30am PDT on 7/23. Every status verified against Linear at 8:00am PDT Friday 7/31. Duplicates are not listed.
+
+I wrote a translation layer for non-engineers reading engineering state, and then I told them exactly how much to trust it and when it went stale. At 7am, on the second day of a national tournament, while continuing to close tickets.
+
+By the following Friday the board held 127 tickets. Thirty-nine on Thursday, thirty-nine on Friday, twelve over the weekend, then twenty-two on the Monday team day. Thirteen of those twenty-two are stamped between 7:07 and 7:10am: a four-minute burst filing everything I'd watched happen over the weekend and hadn't had a place to put yet.
+
+## I Was the Pipeline
+
+Look at what I actually did for five days.
+
+A report came in from a sideline. I decided whether it was a real bug, a duplicate of something already filed, or someone misreading the app under pressure. If it was real I traced it, fixed it, wrote the test, opened the PR, answered the review, watched CI, merged it. Then I updated the board so eleven people would know where it stood.
+
+Triage, classify, investigate, build, verify, land, report. Every phase by hand, for five days, because I was the only one in front of a computer.
+
+That is not a metaphor for the pipeline. It is the pipeline, run by a person.
+
+And the thing that made it expensive was not any individual step. It was that all of it had to route through me, and the parts that only needed judgment were mixed in with the parts that needed nothing but attention.
+
+## What I Built After
+
+There was a second version of the same problem that had been annoying me for months, and it took the tournament to make me see it.
+
+I'd correct the coding agent on something on a Tuesday, watch it do the right thing for the rest of the session, and correct the identical thing the following Tuesday. It doesn't matter how well you explained it. The transcript scrolls away and the correction goes with it.
+
+In both cases I was the only copy. During the tournament, the status of every ticket existed in one place, which was me, and eleven people had to query me to read it. With the agent, my judgment about how the work should be done existed in one place, which was also me, and I had to re-supply it every session because nothing kept it.
+
+Different contents, same failure. Status in one case, judgment in the other, and a single point of failure either way.
+
+So: one command, a ticket id. The agent reads the ticket, works out which phase the work is actually in, and runs forward as far as it gets. Thin ticket gets investigated. Investigated ticket gets built, tested, reviewed against itself, opened as a PR. Open PR gets its review comments triaged and its CI failures classified until the checks go green.
+
+The shape is: each run reconstructs where the work stands by reading the ticket and the repository, rather than remembering where it left off. It can investigate, implement, test, open a PR, and answer review feedback. It stops twice, and everything it does leaves an artifact behind.
+
+Seventeen skills. Two gates where it stops for a judgment. And a grader that reads the wreckage afterward and tells me which rule is missing.
+
+There are three other places a human touches it. Signing a commit is an interruption, not a decision. Reviewing the diff and merging happen after the pipeline has finished. The gates are the two points where the run cannot continue without something only I can supply.
+
+Every piece of it is something the canvas taught me. The canvas got the ticket status out of my head; the skill files get the judgment out of my head. The glossary translated engineering state for people who would otherwise misread it; the classification rules translate CI state for a machine that would otherwise misread it. The provenance stamp said how much to trust the board; the run log instruction says how much to trust the run.
+
+**State lives in the ticket and the CI, not in the agent.** The obvious build is a long-lived process that holds its place and resumes. I went the other way: every invocation re-reads the ticket, the comments, the PR, and the checks, and derives its position from what it finds. It re-reads at the cost of tokens.
+
+What this buys me is that the command is safe to fire at any moment from any terminal, including one where another session already pushed to the branch. It cannot be wrong about where it is, because it never claims to know. Anything an agent believes about the codebase between sessions is a belief that can rot. Ticket status and CI results can be wrong too, but they can be re-read and checked by anyone. An agent's memory between sessions isn't even that.
+
+**Gate on what you can't take back and on who's watching.** The instinct is to gate on expense, and it's wrong. A twenty-minute mobile end-to-end build costs real time and real compute, and it runs without me, because if it produces garbage I throw the garbage away.
+
+The two things I stop for cost nothing to produce and can't be undone once they land. A product decision made silently by default is something you learn about three weeks later from someone annoyed. A reply on a code review posts publicly, under my name, to colleagues who read it as me.
+
+So the pipeline stops when investigation surfaces a question a machine shouldn't answer alone, and before posting anything that will appear to be from me. Everything else runs unattended.
+
+I don't merge automatically and I don't think that should be handled by anyone other than an attending engineer. It's the one (mostly) irreversible action in the flow, and keeping it manual is what makes everything upstream safe to run without me.
+
+**An artifact should tell you how much to trust it.** This is the canvas provenance stamp again.
+
+Every run writes a log: corrections I made, retries, flakes, outcome, friction tags. The instruction is explicit that a log which flatters the run is worse than no log at all, because the entire purpose is finding recurring failure modes, and a generous narrator rounds down exactly the fields that matter most.
+
+An agent that runs unattended and leaves behind a tidy summary has made things worse rather than better. There's now more work happening and less visibility into it. The summary is the problem, not the work.
+
+**A correction that lives in a conversation will be made again next week.** A separate skill reads the accumulated logs and ranks failure modes by turns lost times frequency, then sorts each one into a missing rule, a rule that exists and got ignored, or an environment problem no amount of prose will fix.
+
+That third category is the one people skip. If your credentials wedge once a week, writing a paragraph telling the model how to feel about a wedged credential is a way of not fixing it.
+
+Survivors go to a skill that routes each rule to the cheapest layer that can enforce it. A lint rule if the code can catch it. A phase file if it's about how the pipeline behaves. A repo rules file after that. Enforcement beats instruction, and narrow context beats global context.
+
+This is the part the canvas couldn't do. A canvas shows you today. The grader notices that the same thing has gone wrong nine times.
+
+## What Kept Being Wrong
+
+**A test that passes is not the same as a test that protects.** An agent writing tests for its own fix will produce tests that pass, because passing is what it's optimizing for, and the two are indistinguishable until you try to break one.
+
+So every regression test has to be proven to fail first: stash the source change, keep the test, run it, confirm it fails with an assertion matching the bug, restore, run again. Across thirty-four builds it has rewritten thirty-nine tests that turned out to protect nothing.
+
+The best instance is one where it caught itself twice in a row:
+
+> my own test made the identical omission, which is why it passed. And my FIRST attempt to strengthen it also failed. I added the margin to the assertion but left out one of the two constants, leaving 37pt of slack that still swallowed the 16pt error. Only re-running the mutation caught that.
+
+On another ticket the proof found dead code. On another it deleted a test rather than shipping it, with the log recording: "Dropped one test of my own that passed with and without the fix."
+
+The adversarial review that runs before the PR opens has produced 243 findings across twenty-nine runs, 201 of them fixed before the PR existed. On one ticket it overturned a conclusion that had already survived my own verification pass, and on another it caught that the investigation's own placement advice would have re-upserted admin edits on every deploy.
+
+**The most dangerous thing an agent produces is not broken code.** Broken code fails loudly. The dangerous thing is a sentence in a PR description that a reviewer accepts because it sounds like it was checked.
+
+The automated reviewer caught a regression that contradicted a claim the pipeline had written into its own PR description: that a particular screen is always a descendant of the layout mounting a particular hook. True for one navigation group. False for another, which reaches the same screen by three other routes, none of which mount it. A whole class of user would have watched frozen scores.
+
+The tooling had printed every one of those routes in its own output. It read past them.
+
+The glossary existed so people wouldn't misread true state. This was the opposite failure and the worse one: state described clearly, confidently, and wrongly. Making things legible only helps if what you're making legible is true.
+
+**Most of what goes red has nothing to do with you.** Across the corpus, CI failures were classified. 7% were caused by the diff in front of me. More than a third were already failing on main. Over half were flakes.
+
+Seven percent. That's the entire argument for classifying before fixing, because it means the overwhelming majority of red checks were costing time for reasons unrelated to the change. An agent that treats every red check as its own fault will burn a day chasing someone else's problem, and it will do it cheerfully, because investigation is exactly what it's good at.
+
+So every failure gets sorted first, and the classification has to be proven rather than asserted. Pre-existing means verified against main. Flake means it matches a row in a table that lives in the repo next to the CI, not in a prompt where it would go stale. The same failure twice is not a flake.
+
+But flake is the category with the weakest falsification pressure, and the logs record the pipeline getting it wrong:
+
+> Two misclassifications during triage, both corrected with data, but both stated to the user before they were adequately evidenced. 1. Called it "infra, not my diff" off a single same-window comparison. 2. Over-corrected to "specific to my branch" off a snapshot that happened to contain only already-completed fast runs.
+
+The guardrail that fires most often is the one with a recorded accuracy problem, and I know that only because the log was instructed to say so.
+
+**Filing a ticket about the work is not doing the work.** Left alone, an agent will file a follow-up for everything it notices on the way past. It feels responsible. It's the opposite, because each one costs another session, another investigation, another PR, and more total time than absorbing it would have.
+
+So deferring requires naming which of five conditions applies, and it has to decide rather than ask, because a question in the final report of an unattended run means the work is neither done nor tracked. Across the corpus it absorbed sixty-two items and deferred twenty. Three to one.
+
+It fires in both directions, and the refusals are the more interesting half:
+
+> a genuinely missing test-utils primitive. Without it the screen in question cannot be reached by any spec at all, so the ticket's acceptance criteria were unmeetable. Did the work rather than filing a follow-up.
+
+## The Voice Guide
+
+Before drafting a single PR reply, the pipeline reads a voice guide built from 1,260 of my own code review comments. All written by me. All from before any of this tooling existed.
+
+It isn't style advice. It's measurements. My average inline comment runs about 108 characters. I open with "good catch" more than anything else. I use "we" for problems and "you" almost never. Across all 1,260 comments I have never once used an em dash.
+
+Without that file, replies land in a register I'd call formal engineering memo. Accurate, and completely unlike me. With it they read like me on a normal Tuesday, and I can approve a batch of eight in the time it used to take to write one.
+
+You already have a corpus. Your review history, your commit messages, years of PR descriptions. Mining it into measured findings costs an afternoon and it's the highest-value thing I've done with these tools. Generic instructions to "write casually" produce a stranger being casual.
+
+## What I Actually Think
+
+The code moves through a coding agent. I'm not going to be coy about that.
+
+But every rule in those seventeen files is a piece of judgment I had to have first. Prove the test fails. Classify before fixing. Do the work instead of filing a ticket about the work. Don't post in my voice without knowing what my voice is. None of it came from the model. It came from watching it do the reasonable-looking wrong thing and deciding the correction should outlive the conversation.
+
+That's the honest version of leverage. Not that the machine knows how to do the work. That once you've decided how the work should be done, you only decide it once.
+
+I have conflicts about the broader trajectory and building something careful doesn't resolve them. A tool this powerful in most hands is producing work that looks fast and uncared-for, and the sameness is the tell. What I can say about mine is that the gates are where I put them on purpose, the logs are instructed to record my corrections rather than hide them, and nothing goes out under my name that I haven't read.
+
+## What I'd Do Differently
+
+The run logs are self-reported by the thing being graded. Honesty is instructed, not enforced, and the fields I care about most are the ones a generous narrator rounds down. Deriving what I can from git and the CLI instead of from the model's own account is the obvious fix and I haven't done it.
+
+The credential pre-warm is a workaround wearing a rule's clothing. My own grader would classify it as an environment problem and route it to a script. I routed it to prose because prose was faster, which is the exact rationalization the grader exists to catch. It is also, by a distance, the most expensive recurring problem in the corpus: signing stalls and their near-relatives account for twenty-five friction tags, more than any other family. Twenty-five is not a papercut.
+
+The friction tags are free text, and it shows. A hundred and twenty-nine of them appear exactly once, which is eighty-nine percent of the vocabulary and most of the instances. Two families are split across near-duplicate spellings that a human can see are the same thing and a script cannot. So the mechanism I built to find recurring failure modes can rank its top eight and is blind past that.
+
+One field, `reinvestigated`, is false in all thirty-four records that carry it. It has never once been true. I have been collecting a number that measures nothing for three weeks.
+
+The two record types don't share a schema either. Build records carry test and finding counts; land records carry review scores and CI classifications. Neither has the other's fields, which means almost every average in this essay has a different denominator.
+
+Seventeen coupled skills is too many. Some of that coupling is real. Some of it is that I kept adding a step where a step had failed, which is how a pipeline becomes a pile.
+
+Right now I still have findings, and not trends.
+
+## The Part I Keep Coming Back To
+
+I merged ninety-six pull requests that week and the thing I'm proudest of is a glossary.
+
+Not because the code didn't matter. The halftime bug on field 6 was real and people were standing there waiting for it. But the code was the part I already knew how to do. What that week taught me is that an organization's throughput isn't bounded by how fast its engineers work. It's bounded by how much of the truth is stuck inside one person, and how honest the artifacts are that let everyone else see it.
+
+Agents move that boundary, but only in one direction, and only if you build them for it. An agent that runs unattended and leaves behind a flattering summary has made the problem worse: now there's more work happening and less visibility into it. An agent that fails loudly, records its corrections, and writes down what it wasn't sure about is doing the same job the canvas was.
+
+Seventeen skills, and every rule inside them is a mistake I decided to stop explaining.

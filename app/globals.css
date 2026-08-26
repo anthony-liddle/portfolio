@@ -270,6 +270,16 @@ a {
   .work-grid {
     grid-template-columns: 1fr;
   }
+
+  /* At 320px the content box is 256px, and 3rem leaves the longest single
+     word in an essay title wider than that: "Soundscape" measures ~306px,
+     "Bottleneck" ~274px. Neither breaks, and nothing clips, so the page
+     scrolls sideways (WCAG 1.4.10). Scaling the heading is the fix rather
+     than `overflow-wrap: break-word`, which would hyphenlessly split a serif
+     title mid-word. 2.25rem puts the worst case at ~230px, with headroom. */
+  .prose h1 {
+    font-size: 2.25rem;
+  }
 }
 
 .work-tile {
