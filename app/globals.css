@@ -270,16 +270,6 @@ a {
   .work-grid {
     grid-template-columns: 1fr;
   }
-
-  /* At 320px the content box is 256px, and 3rem leaves the longest single
-     word in an essay title wider than that: "Soundscape" measures ~306px,
-     "Bottleneck" ~274px. Neither breaks, and nothing clips, so the page
-     scrolls sideways (WCAG 1.4.10). Scaling the heading is the fix rather
-     than `overflow-wrap: break-word`, which would hyphenlessly split a serif
-     title mid-word. 2.25rem puts the worst case at ~230px, with headroom. */
-  .prose h1 {
-    font-size: 2.25rem;
-  }
 }
 
 .work-tile {
@@ -480,6 +470,22 @@ a {
   font-size: 3rem;
   line-height: 1.1;
   margin-bottom: 1.25rem;
+}
+
+/* Must stay after the rule above: a media query adds no specificity, so an
+   identical `.prose h1` selector in the earlier `max-width: 640px` block lost
+   to this one on source order and the override silently did nothing.
+
+   At 320px the content box is 256px and 3rem overflows it. Measured against
+   the shipped variable face instantiated at wght 700: "Soundscape" 304px,
+   "Bottleneck" 274px, "Forgetting" 264px. Nothing breaks and nothing clips,
+   so the page scrolls sideways (WCAG 1.4.10). Scaling the heading beats
+   `overflow-wrap: break-word`, which would split a serif title mid-word.
+   2.25rem puts the worst case at 228px. 2.5rem would leave only 2px. */
+@media (max-width: 640px) {
+  .prose h1 {
+    font-size: 2.25rem;
+  }
 }
 
 .prose h2 {
