@@ -18,7 +18,10 @@ export default function WorkTile({ project }: WorkTileProps) {
       <article>
         <header className="work-tile__header">
           <h3 className="work-tile__title">{displayName}</h3>
-          <StatusTag status={project.status} />
+          {/* Optional: entries that are an essay rather than a project carry
+              no status. Featured tiles are all projects today, so this guard
+              is a type obligation rather than a live branch. */}
+          {project.status ? <StatusTag status={project.status} /> : null}
         </header>
 
         <p className="work-tile__pitch">{project.pitch}</p>
