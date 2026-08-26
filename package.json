@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "reflow": "node scripts/reflow.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"
@@ -38,6 +39,7 @@
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "lint-staged": "^17.3.0",
+    "playwright": "^1.62.1",
     "prettier": "^3.9.6",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4",

@@ -37,3 +37,22 @@ jobs:
           APPLE_MUSIC_PRIVATE_KEY_BASE64: ${{ secrets.APPLE_MUSIC_PRIVATE_KEY_BASE64 }}
           DISCOGS_USER_TOKEN: ${{ secrets.DISCOGS_USER_TOKEN }}
           TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+
+      # Reflow (WCAG 1.4.10) at 320px, in a real browser, over every HTML
+      # route. Four separate horizontal-scroll bugs shipped before this
+      # existed, each found by hand and after release. Chromium is cached
+      # because downloading it every run costs more than the check does.
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      # Runs unconditionally rather than only on a cache miss: the cache holds
+      # the browser binary, but `--with-deps` also installs OS shared libraries
+      # that live outside that path, so a cache hit would otherwise leave
+      # chromium present and unable to start. Playwright skips the download
+      # itself when the binary is already there, so a warm run is just apt.
+      - run: pnpm exec playwright install --with-deps chromium
+
+      - run: pnpm reflow
