@@ -46,6 +46,19 @@ export const caseStudies: CaseStudy[] = [
       "The web home of Pocket, Mozilla's article-discovery service. A multi-surface editorial and personal-library platform that served more than 2 million daily page views at its peak.",
   },
   {
+    slug: 'bottleneck',
+    name: 'The Bottleneck Was Never the Code',
+    pitch:
+      "An argument about where an organization's throughput actually gets stuck. One tournament week as the only engineer at a desk, ninety-six merged pull requests, and the pipeline I built after.",
+    essayPitch:
+      'One week as the only engineer not at the tournament, and what I built after.',
+    // No status and no links: this is an essay, not a shipped project. Empty
+    // rather than a placeholder stack, for the same reason.
+    tags: [],
+    summary:
+      'An essay rather than a project writeup. What a week of covering a national tournament alone taught me about where throughput is really bounded, and the agent pipeline that came out of it.',
+  },
+  {
     slug: 'crowd',
     name: 'Crowd',
     pitch:
@@ -178,19 +191,6 @@ export const caseStudies: CaseStudy[] = [
     summary:
       'Command-line tool that converts video files into ASCII animations. Built to generate the animations in RO-SHAM-BO.EXE, later extended with color for a future project.',
   },
-  {
-    slug: 'bottleneck',
-    name: 'The Bottleneck Was Never the Code',
-    pitch:
-      "An argument about where an organization's throughput actually gets stuck. One tournament week as the only engineer at a desk, ninety-six merged pull requests, and the pipeline I built after.",
-    essayPitch:
-      'One week as the only engineer not at the tournament, and what I built after.',
-    // No status and no links: this is an essay, not a shipped project. Empty
-    // rather than a placeholder stack, for the same reason.
-    tags: [],
-    summary:
-      'An essay rather than a project writeup. What a week of covering a national tournament alone taught me about where throughput is really bounded, and the agent pipeline that came out of it.',
-  },
 ];
 
 /**
@@ -209,19 +209,26 @@ export const featuredSlugs = [
 ];
 
 /**
- * Display order for the /writing index. Intentional and pair-based, not a
- * ranking: adjacent entries belong together thematically (love and loss, the
- * two political projects, the audio engine beside the piece whose audio was
- * composed in it, the game beside the tool built to make its visuals). The
- * list renders single-column, so adjacency is semantic rather than visual.
- * Do not sort this alphabetically or chronologically. Kept separate from the
- * `caseStudies` array so reordering the page never means editing the data.
+ * Display order for the /writing index. Intentional, not a ranking and not
+ * chronological. Do not sort this alphabetically or by date. Kept separate
+ * from the `caseStudies` array so reordering the page never means editing the
+ * data.
  *
- * `bottleneck` sits last on purpose: it is the only entry with nothing to go
- * look at, and its closing line reads as the close of the whole page.
+ * Several adjacent entries pair thematically (the two political projects, the
+ * audio engine beside the piece whose audio was composed in it, the game
+ * beside the tool built to make its visuals). That pairing is semantic only.
+ * The list renders single-column, so adjacency is invisible to a reader and
+ * must not outrank a placement decision.
+ *
+ * `bottleneck` sits second, directly after `pocket`. It is the newest essay
+ * and the one closest to what I am working on now, and the list gives no other
+ * signal of recency, so a trailing slot reads as least important rather than
+ * most recent. This deliberately splits the `pocket` and `peach-of-a-word`
+ * pairing; do not restore that adjacency by moving `bottleneck` back down.
  */
 export const caseStudyOrder = [
   'pocket',
+  'bottleneck',
   'peach-of-a-word',
   'contact-your-reps',
   'crowd',
@@ -229,5 +236,4 @@ export const caseStudyOrder = [
   'forgetting-machine',
   'ro-sham-bo-exe',
   'ascii-roto',
-  'bottleneck',
 ];
