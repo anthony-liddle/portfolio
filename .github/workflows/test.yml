@@ -43,7 +43,7 @@ jobs:
       # existed, each found by hand and after release. Chromium is cached
       # because downloading it every run costs more than the check does.
       - name: Cache Playwright browsers
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
