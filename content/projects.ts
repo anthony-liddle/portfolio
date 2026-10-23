@@ -182,7 +182,7 @@ export const projectSections: ProjectSection[] = [
       {
         name: 'react-data-table',
         description:
-          'A React table for admin and reporting screens, extracted from a production app. A shared link opens the table with the same sort and columns.',
+          'A React table for admin and reporting screens. A shared link opens the table with the same sort and columns.',
         links: [
           {
             label: 'Storybook',
