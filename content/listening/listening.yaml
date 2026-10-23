@@ -17,6 +17,21 @@
 #   format: vinyl
 #   playedAt: 2026-05-28
 
+- title: 'Stranger Fruit'
+  artist: 'Zeal & Ardor'
+  format: digital
+  playedAt: 2026-10-12
+
+- title: 'Tidal'
+  artist: 'Fiona Apple'
+  format: cd
+  playedAt: 2026-10-11
+
+- title: 'Relationship of Command'
+  artist: 'At the Drive-In'
+  format: digital
+  playedAt: 2026-10-10    
+
 - title: 'Becoming X'
   artist: 'Sneaker Pimps'
   format: digital
