@@ -959,5 +959,196 @@
       ]
     },
     "matchQuality": "exact"
+  },
+  "title-author:e90eaec7879df09e": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "title-author:e90eaec7879df09e",
+    "data": {
+      "olid": "OL20294727W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/8953474-L.jpg",
+      "pageCount": 368,
+      "publishYear": 2015,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781483023878": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "isbn:9781483023878",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:327a55de8c2e2f3a": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "title-author:327a55de8c2e2f3a",
+    "data": {
+      "olid": "OL42458393W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/14853611-L.jpg",
+      "pageCount": 435,
+      "publishYear": 2025,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781668117323": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "isbn:9781668117323",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:aa90599048337097": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "title-author:aa90599048337097",
+    "data": {
+      "olid": "OL21722153W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/15233520-L.jpg",
+      "pageCount": 352,
+      "publishYear": 2020,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781797112152": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "isbn:9781797112152",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:61d6cf6bcaa6214b": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "title-author:61d6cf6bcaa6214b",
+    "data": {
+      "olid": "OL19628916W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/12271222-L.jpg",
+      "pageCount": 280,
+      "publishYear": 2021,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781250227867": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "isbn:9781250227867",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:125554b5afd0224e": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "title-author:125554b5afd0224e",
+    "data": {
+      "olid": "OL17897265W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/11658715-L.jpg",
+      "pageCount": 1,
+      "publishYear": 2019,
+      "format": "audiobook"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780062969569": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "isbn:9780062969569",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:d5410f2c7634d558": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "title-author:d5410f2c7634d558",
+    "data": {
+      "olid": "OL24784738W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/11542890-L.jpg",
+      "pageCount": 352,
+      "publishYear": 2021,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9780593152676": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "isbn:9780593152676",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:801240e79a23e231": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "title-author:801240e79a23e231",
+    "data": {
+      "olid": "OL22165007W",
+      "pageCount": 400,
+      "publishYear": 2020
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781984888181": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "isbn:9781984888181",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:0c17c8fd487a7ed3": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "title-author:0c17c8fd487a7ed3",
+    "data": {
+      "olid": "OL25453693W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/12824287-L.jpg",
+      "pageCount": 304,
+      "publishYear": 2022,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781250840394": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "isbn:9781250840394",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "title-author:f51f2a3bcbd5e9cc": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "title-author:f51f2a3bcbd5e9cc",
+    "data": {
+      "olid": "OL19761156W",
+      "coverUrl": "https://covers.openlibrary.org/b/id/9338610-L.jpg",
+      "pageCount": 224,
+      "publishYear": 2019,
+      "format": "physical"
+    },
+    "matchQuality": "fuzzy"
+  },
+  "isbn:9781478995845": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "isbn:9781478995845",
+    "data": {},
+    "notFound": true,
+    "matchQuality": "unmatched"
+  },
+  "isbn:9780062699237": {
+    "fetchedAt": "2026-10-23",
+    "lookupKey": "isbn:9780062699237",
+    "data": {
+      "publishYear": 2018,
+      "olid": "OL17933495W",
+      "subjects": [
+        "Fiction",
+        "Science Fiction",
+        "Fiction, science fiction, action & adventure",
+        "Fiction, science fiction, space opera",
+        "Extraterrestrial beings",
+        "Interplanetary voyages",
+        "Space flight",
+        "Space vehicles",
+        "Space Opera",
+        "Action & Adventure",
+        "Alien Contact"
+      ]
+    },
+    "matchQuality": "exact"
   }
 }
