@@ -1,5 +1,8 @@
 export interface ProjectLink {
-  /** Visible text. Live sites use their bare domain, tools use "npm"/"GitHub". */
+  /**
+   * Visible text. Live sites use their bare domain, tools use "npm"/"GitHub",
+   * and a package's hosted docs use "Storybook".
+   */
   label: string;
   /** Absolute URL, or a leading-slash path for an internal /writing case study. */
   href: string;
@@ -163,6 +166,8 @@ export const projectSections: ProjectSection[] = [
   },
   {
     title: 'Packages and tools',
+    // soundscape-engine stays first so it sits directly under Soundscape,
+    // which closes the section above for exactly that reason.
     entries: [
       {
         name: 'soundscape-engine',
@@ -172,6 +177,19 @@ export const projectSections: ProjectSection[] = [
           { label: 'npm', href: npm('soundscape-engine') },
           { label: 'GitHub', href: repo('soundscape') },
           { label: 'Case study', href: '/writing/soundscape' },
+        ],
+      },
+      {
+        name: 'react-data-table',
+        description:
+          'A React table for admin and reporting screens, extracted from a production app. A shared link opens the table with the same sort and columns.',
+        links: [
+          {
+            label: 'Storybook',
+            href: 'https://anthony-liddle.github.io/react-data-table/',
+          },
+          { label: 'npm', href: npm('@anthony-liddle/react-data-table') },
+          { label: 'GitHub', href: repo('react-data-table') },
         ],
       },
       {

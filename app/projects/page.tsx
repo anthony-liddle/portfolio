@@ -71,9 +71,9 @@ export default function ProjectsPage() {
       <h1 className="lately-heading">Projects</h1>
       <p className="lately-intro">
         A piano roll, a chart of how the House votes, two word games, a terminal
-        that talks back, a page that forgets what you tell it, and the packages
-        some of them run on. Everything here is finished and running, so open
-        it, install it, or fork it.
+        that talks back, a page that forgets what you tell it, and the packages.
+        Everything here is finished and running, so open it, install it, or fork
+        it.
       </p>
 
       <div className="lately-sections">
