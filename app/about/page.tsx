@@ -4,7 +4,7 @@ import { pageMetadata } from '@/lib/site';
 export const metadata: Metadata = pageMetadata({
   title: 'About',
   description:
-    'A bit about Anthony Liddle, a full stack engineer in Portland, OR. Building things at BreakAway Data, and on my own time.',
+    'A bit about Anthony Liddle, a design engineer in Portland, OR. Building things at BreakAway Data, and on my own time.',
   path: '/about',
 });
 
@@ -15,22 +15,22 @@ export default function AboutPage() {
 
       <div className="about-body">
         <p>
-          I&rsquo;m a full stack engineer based in Portland, OR. Fifteen years
-          of experience, at BreakAway Data, Microsoft, Mozilla, McAfee, and
-          agencies before that. I&rsquo;ve spent most of that time on
-          data-intensive products: analytics platforms, editorial surfaces,
-          live-capture systems, personalization. The data is complicated. The
-          user-facing surface needs to feel simple. I&rsquo;ve spent my career
-          connecting the two.
+          I&rsquo;ve been building software for fifteen years, at BreakAway
+          Data, Microsoft, Mozilla, McAfee, and agencies before that, and every
+          one of those jobs put me on the interface. Most of those products were
+          data-intensive. Analytics platforms, editorial surfaces, live-capture
+          systems, personalization. My part was turning that data into screens a
+          person could read and act on, and lately it includes more of the
+          backend under them. I live and work in Portland, OR.
         </p>
 
         <p>
-          I care about the parts of engineering that decide whether a tool is
-          something you want to use, or something you have to use.
-          Accessibility. Performance. Code that the next engineer to touch it
-          will thank you for, not curse at. Those choices stack up. They become
-          the defaults a team works from, and a team&rsquo;s defaults are the
-          experience the user gets.
+          Whether a tool is something you want to use or something you have to
+          use comes down to details: how it looks, how it answers a tap, whether
+          it works with a screen reader, how fast it loads, and whether the next
+          engineer can change it without cursing your name. Those choices stack
+          up. They become the defaults a team works from, and a team&rsquo;s
+          defaults are the experience the user gets.
         </p>
 
         <p>

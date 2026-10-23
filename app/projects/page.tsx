@@ -10,7 +10,7 @@ import {
 import { pageMetadata } from '@/lib/site';
 
 const DESCRIPTION =
-  'An index of everything Anthony Liddle has built that is finished and live: word games, browser audio, civic tools, and npm packages.';
+  'An index of everything Anthony Liddle has built that is finished and live: word games, a browser synthesizer with a piano roll, a voting-record chart, and npm packages.';
 
 export const metadata: Metadata = pageMetadata({
   title: 'Projects',
@@ -70,8 +70,10 @@ export default function ProjectsPage() {
     <div className="page-container">
       <h1 className="lately-heading">Projects</h1>
       <p className="lately-intro">
-        Everything here is finished and running. Open it, install it, or fork
-        it.
+        A piano roll, a chart of how the House votes, two word games, a terminal
+        that talks back, a page that forgets what you tell it, and the packages
+        some of them run on. Everything here is finished and running, so open
+        it, install it, or fork it.
       </p>
 
       <div className="lately-sections">
