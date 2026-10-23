@@ -77,7 +77,7 @@ export function homeOgImage(): ImageResponse {
             marginTop: 24,
           }}
         >
-          Full Stack Engineer
+          Design Engineer
         </div>
         <div
           style={{

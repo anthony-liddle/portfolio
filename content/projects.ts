@@ -89,7 +89,7 @@ export const projectSections: ProjectSection[] = [
       {
         name: 'RO-SHAM-BO.EXE',
         description:
-          "Rock paper scissors against something that acts like it's watching you. The coin flip is provably fair. The menace is theater.",
+          "Rock paper scissors against something that acts like it's watching you. Its throws are provably fair. The menace is theater.",
         image: {
           src: 'https://anthony-liddle.github.io/rock-paper-scissors/og-image.png',
           alt: 'A green phosphor terminal boots ro-sham-bo.exe and prints a warning: opponent is aware',
